@@ -9,7 +9,7 @@ using TheWeekendGolfer.Web.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PlayerController : Controller
     {
         GolfDbContext _context;
@@ -20,8 +20,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         // GET: Player
-        [HttpGet("[action]")]
-        public IEnumerable<Player> Index()
+        public IEnumerable<Player> GetAllPlayers()
         {
             IEnumerable<Player> players = _context.Players.Select(p=>p).ToList();
 
@@ -34,7 +33,7 @@ namespace TheWeekendGolfer.Web.Controllers
             return View();
         }
 
-        // GET: Player/Create
+        //GET: Player/Create
         public ActionResult Create()
         {
             return View();
@@ -43,7 +42,7 @@ namespace TheWeekendGolfer.Web.Controllers
         // POST: Player/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(PlayerViewModel player)
+        public ActionResult Create([FromQuery]PlayerViewModel player)
         {
             try
             {
@@ -51,16 +50,17 @@ namespace TheWeekendGolfer.Web.Controllers
                     new Player {
                        FirstName = player.FirstName,
                        LastName = player.LastName,
-                       Handicap = player.Handicap
+                       Handicap = player.Handicap,
+                       Modified = DateTime.UtcNow
                     });
 
                 _context.SaveChanges();
                 Guid id = _context.Players.LastOrDefault().Id;
-                return RedirectToAction(nameof(Details),id);
+                return Ok();
             }
             catch
             {
-                return View();
+                return BadRequest();
             }
         }
 
@@ -79,7 +79,7 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction();
             }
             catch
             {
@@ -102,7 +102,7 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction();
             }
             catch
             {

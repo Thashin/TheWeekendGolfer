@@ -26,7 +26,7 @@ namespace TheWeekendGolfer.Web.Data
             }
 
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string resourceName = "TheWeekendGolfer.Web.Domain.SeedData.SlopeRatings.csv";
+            string resourceName = "TheWeekendGolfer.Data.GolfDB.SeedData.SlopeRatings.csv";
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
@@ -34,8 +34,8 @@ namespace TheWeekendGolfer.Web.Data
                     CsvReader csvReader = new CsvReader(reader);
                     csvReader.Configuration.HeaderValidated = null;
                     csvReader.Configuration.MissingFieldFound = null;
-                    IEnumerable<Course> courses = csvReader.GetRecords<Course>();
-                    context.Courses.AddRange(courses);
+                    IEnumerable<Course> courses = csvReader.GetRecords<Course>().ToList();
+                    context.AddRange(courses);
                     context.SaveChanges();
                 }
             }

@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TheWeekendGolfer.Web.Data.GolfDb.Migrations
+namespace TheWeekendGolfer.Data.GolfDB.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,13 +12,14 @@ namespace TheWeekendGolfer.Web.Data.GolfDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Holes = table.Column<string>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
+                    Holes = table.Column<string>(nullable: true),
+                    TeeName = table.Column<string>(nullable: true),
                     Par = table.Column<int>(nullable: false),
                     ScratchRating = table.Column<decimal>(nullable: false),
                     Slope = table.Column<decimal>(nullable: false),
-                    TeeName = table.Column<string>(nullable: true)
+                    Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,8 +32,10 @@ namespace TheWeekendGolfer.Web.Data.GolfDb.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
                     Handicap = table.Column<decimal>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    Created = table.Column<DateTime>(nullable: false),
+                    Modified = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,8 +47,9 @@ namespace TheWeekendGolfer.Web.Data.GolfDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     CourseId = table.Column<Guid>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
+                    Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,9 +67,10 @@ namespace TheWeekendGolfer.Web.Data.GolfDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    GolfRoundId = table.Column<Guid>(nullable: true),
                     PlayerId = table.Column<Guid>(nullable: true),
-                    Value = table.Column<int>(nullable: false)
+                    Value = table.Column<int>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    GolfRoundId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {

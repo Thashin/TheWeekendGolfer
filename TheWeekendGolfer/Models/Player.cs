@@ -15,8 +15,8 @@ namespace TheWeekendGolfer.Web.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public Decimal? Handicap { get; set; }
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Created { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime Created { get; set; } = DateTime.Now;
         public DateTime Modified { get; set; }
     }
 }

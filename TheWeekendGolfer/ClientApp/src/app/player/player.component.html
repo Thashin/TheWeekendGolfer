@@ -1,0 +1,40 @@
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<button (click)="toggleAddModal()">Add a Player</button>
+
+<div modal="showAddModal" close="toggleAddModal()">
+  <div class="modal-header">
+    <h4>Modal Dialog</h4>
+  </div>
+  <div class="modal-body">
+    <input id="FirstName" placeholder="First Name"/>
+    <input id="LastName" placeholder="Last Name" />
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="toggleAddModal()">Okay</button>
+    <button class="btn" (click)="toggleAddModal()">Cancel</button>
+  </div>
+</div>
+
+<p *ngIf="!forecasts"><em>Loading...</em></p>
+
+<table class='table' *ngIf="forecasts">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Temp. (C)</th>
+      <th>Temp. (F)</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ forecast.dateFormatted }}</td>
+      <td>{{ forecast.temperatureC }}</td>
+      <td>{{ forecast.temperatureF }}</td>
+      <td>{{ forecast.summary }}</td>
+    </tr>
+  </tbody>
+</table>

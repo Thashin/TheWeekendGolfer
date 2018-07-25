@@ -13,7 +13,7 @@ namespace TheWeekendGolfer.Web.Models
         public Guid Id { get; set; }
         public Player Player { get; set; }
         public int Value { get; set; }
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Created { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime Created { get; set; } = DateTime.Now;
     }
 }

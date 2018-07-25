@@ -14,7 +14,7 @@ namespace TheWeekendGolfer.Web.Models
         public DateTime Date { get; set; }
         public Course Course { get; set; }
         public IEnumerable<Score> Scores { get; set; }
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Created { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime Created { get; set; } = DateTime.Now;
     }
 }

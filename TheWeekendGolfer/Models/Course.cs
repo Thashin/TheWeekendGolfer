@@ -18,7 +18,7 @@ namespace TheWeekendGolfer.Web.Models
         public int Par { get; set; }
         public Decimal ScratchRating { get; set; }
         public Decimal Slope { get; set; }
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime Created { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime Created { get; set; } = DateTime.Now;
     }
 }
