@@ -36,7 +36,7 @@ namespace TheWeekendGolfer.Data
             }
             catch
             {
-                throw new Exception("Could not retrieve all GolfRounds");
+                throw new Exception("Could not retrieve all Golf Rounds");
             }
         }
 
@@ -50,7 +50,7 @@ namespace TheWeekendGolfer.Data
             }
             catch
             {
-                throw new Exception("Could not add GolfRound for " + GolfRound.Id.ToString());
+                throw new Exception("Could not add Golf Round for " + GolfRound.Id.ToString());
             }
         }
 
@@ -64,7 +64,7 @@ namespace TheWeekendGolfer.Data
             }
             catch
             {
-                throw new Exception("Could not update GolfRound for " + GolfRound.Id.ToString());
+                throw new Exception("Could not update Golf Round for " + GolfRound.Id.ToString());
             }
         }
 
@@ -78,7 +78,7 @@ namespace TheWeekendGolfer.Data
             }
             catch
             {
-                throw new Exception("Could not delete GolfRound for " + GolfRound.Id.ToString());
+                throw new Exception("Could not delete Golf Round for " + GolfRound.Id.ToString());
             }
         }
 
