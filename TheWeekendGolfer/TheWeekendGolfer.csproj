@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\services\courses.service.ts" />
     <None Remove="Data\GolfDB\SeedData\SlopeRatings.csv" />
   </ItemGroup>
 
@@ -35,6 +36,10 @@
 
   <ItemGroup>
     <Folder Include="Data\GolfDB\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\courses.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
