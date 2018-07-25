@@ -27,6 +27,8 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\services\courses.service.ts" />
+    <None Remove="ClientApp\src\app\services\golfRound.service.ts" />
+    <None Remove="ClientApp\src\app\services\player.service.ts" />
     <None Remove="ClientApp\src\app\services\scores.service.ts" />
     <None Remove="Data\GolfDB\SeedData\SlopeRatings.csv" />
   </ItemGroup>
@@ -40,6 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\golfRound.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\scores.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\courses.service.ts" />
   </ItemGroup>
