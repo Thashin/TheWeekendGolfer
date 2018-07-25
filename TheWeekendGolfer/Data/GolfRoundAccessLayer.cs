@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheWeekendGolfer.Web.Data;
+using TheWeekendGolfer.Web.Models;
 
 namespace TheWeekendGolfer.Data
 {
@@ -13,6 +14,72 @@ namespace TheWeekendGolfer.Data
         public GolfRoundAccessLayer(GolfDbContext context)
         {
             _context = context;
+        }
+
+        public GolfRound GetGolfRound(Guid id)
+        {
+            try
+            {
+                return (GolfRound)_context.GolfRounds.Select(s => s.Id.Equals(id));
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Golf Round for " + id.ToString());
+            }
+        }
+
+        public IEnumerable<GolfRound> GetAllGolfRounds()
+        {
+            try
+            {
+                return _context.GolfRounds.Select(s => s);
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all GolfRounds");
+            }
+        }
+
+        public Boolean AddGolfRound(GolfRound GolfRound)
+        {
+            try
+            {
+                _context.GolfRounds.Add(GolfRound);
+
+                return true;
+            }
+            catch
+            {
+                throw new Exception("Could not add GolfRound for " + GolfRound.Id.ToString());
+            }
+        }
+
+        public Boolean UpdateGolfRound(GolfRound GolfRound)
+        {
+            try
+            {
+                _context.GolfRounds.Update(GolfRound);
+
+                return true;
+            }
+            catch
+            {
+                throw new Exception("Could not update GolfRound for " + GolfRound.Id.ToString());
+            }
+        }
+
+        public Boolean DeleteGolfRound(GolfRound GolfRound)
+        {
+            try
+            {
+                _context.GolfRounds.Remove(GolfRound);
+
+                return true;
+            }
+            catch
+            {
+                throw new Exception("Could not delete GolfRound for " + GolfRound.Id.ToString());
+            }
         }
 
     }
