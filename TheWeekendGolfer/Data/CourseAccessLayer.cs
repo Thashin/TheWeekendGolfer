@@ -40,45 +40,45 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddCourse(Course Course)
+        public Boolean AddCourse(Course course)
         {
             try
             {
-                _context.Courses.Add(Course);
-
+                _context.Courses.Add(course);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not add Course for " + Course.Id.ToString());
+                throw new Exception("Could not add Course for " + course.Id.ToString());
             }
         }
 
-        public Boolean UpdateCourse(Course Course)
+        public Boolean UpdateCourse(Course course)
         {
             try
             {
-                _context.Courses.Update(Course);
-
+                _context.Courses.Update(course);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not update Course for " + Course.Id.ToString());
+                throw new Exception("Could not update Course for " + course.Id.ToString());
             }
         }
 
-        public Boolean DeleteCourse(Course Course)
+        public Boolean DeleteCourse(Course course)
         {
             try
             {
-                _context.Courses.Remove(Course);
-
+                _context.Courses.Remove(course);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not delete Course for " + Course.Id.ToString());
+                throw new Exception("Could not delete Course for " + course.Id.ToString());
             }
         }
     }

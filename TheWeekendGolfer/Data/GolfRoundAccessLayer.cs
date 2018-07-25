@@ -40,45 +40,45 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddGolfRound(GolfRound GolfRound)
+        public Boolean AddGolfRound(GolfRound golfRound)
         {
             try
             {
-                _context.GolfRounds.Add(GolfRound);
-
+                _context.GolfRounds.Add(golfRound);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not add Golf Round for " + GolfRound.Id.ToString());
+                throw new Exception("Could not add Golf Round for " + golfRound.Id.ToString());
             }
         }
 
-        public Boolean UpdateGolfRound(GolfRound GolfRound)
+        public Boolean UpdateGolfRound(GolfRound golfRound)
         {
             try
             {
-                _context.GolfRounds.Update(GolfRound);
-
+                _context.GolfRounds.Update(golfRound);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not update Golf Round for " + GolfRound.Id.ToString());
+                throw new Exception("Could not update Golf Round for " + golfRound.Id.ToString());
             }
         }
 
-        public Boolean DeleteGolfRound(GolfRound GolfRound)
+        public Boolean DeleteGolfRound(GolfRound golfRound)
         {
             try
             {
-                _context.GolfRounds.Remove(GolfRound);
-
+                _context.GolfRounds.Remove(golfRound);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not delete Golf Round for " + GolfRound.Id.ToString());
+                throw new Exception("Could not delete Golf Round for " + golfRound.Id.ToString());
             }
         }
 

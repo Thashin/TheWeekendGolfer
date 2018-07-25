@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
 
@@ -12,51 +13,19 @@ namespace TheWeekendGolfer.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class PlayerController : Controller
     {
-        GolfDbContext _context;
+        PlayerAccessLayer _playerAccessLayer;
 
-        public PlayerController(GolfDbContext context)
+        public PlayerController(PlayerAccessLayer playerAccessLayer)
         {
-            _context = context;
+            _playerAccessLayer = playerAccessLayer;
         }
 
-        // GET: Player
-        public IEnumerable<Player> GetAllPlayers()
-        {
-            IEnumerable<Player> players = _context.Players.Select(p=>p).ToList();
-
-            return players;
-        }
-
-        // GET: Player/Details/5
-        public ActionResult Details(Guid id)
-        {
-            return View();
-        }
-
-        //GET: Player/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Player/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([FromQuery]PlayerViewModel player)
+        [HttpGet]
+        public IActionResult GetAllPlayers()
         {
             try
             {
-                _context.Players.Add(
-                    new Player {
-                       FirstName = player.FirstName,
-                       LastName = player.LastName,
-                       Handicap = player.Handicap,
-                       Modified = DateTime.UtcNow
-                    });
-
-                _context.SaveChanges();
-                Guid id = _context.Players.LastOrDefault().Id;
-                return Ok();
+                return Ok(_playerAccessLayer.GetAllPlayers());
             }
             catch
             {
@@ -64,50 +33,56 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-        // GET: Player/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        // GET: Player/Details/5
+        public ActionResult Details(Guid id)
         {
-            return View();
+            try
+            {
+                return Ok(_playerAccessLayer.GetPlayer(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
+
+        // POST: Player/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([FromQuery]Player player)
+        {
+            if (_playerAccessLayer.AddPlayer(player))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
         // POST: Player/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Player player)
         {
-            try
+            if (_playerAccessLayer.UpdatePlayer(player))
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction();
+                return Ok();
             }
-            catch
+            else
             {
-                return View();
+                return BadRequest();
             }
         }
 
-        // GET: Player/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //[HttpDelete]
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: Player/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction();
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

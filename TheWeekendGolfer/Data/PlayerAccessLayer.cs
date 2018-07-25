@@ -40,45 +40,46 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddPlayer(Player Player)
+        public Boolean AddPlayer(Player player)
         {
             try
             {
-                _context.Players.Add(Player);
-
+                player.Modified = DateTime.Now;
+                _context.Players.Add(player);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not add Player for " + Player.Id.ToString());
+                throw new Exception("Could not add Player for " + player.Id.ToString());
             }
         }
 
-        public Boolean UpdatePlayer(Player Player)
+        public Boolean UpdatePlayer(Player player)
         {
             try
             {
-                _context.Players.Update(Player);
-
+                _context.Players.Update(player);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not update Player for " + Player.Id.ToString());
+                throw new Exception("Could not update Player for " + player.Id.ToString());
             }
         }
 
-        public Boolean DeletePlayer(Player Player)
+        public Boolean DeletePlayer(Player player)
         {
             try
             {
-                _context.Players.Remove(Player);
-
+                _context.Players.Remove(player);
+                _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not delete Player for " + Player.Id.ToString());
+                throw new Exception("Could not delete Player for " + player.Id.ToString());
             }
         }
     }

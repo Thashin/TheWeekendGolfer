@@ -45,7 +45,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Scores.Add(score);
-
+                _context.SaveChanges();
                 return true;
             }
             catch
@@ -59,7 +59,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Scores.Update(score);
-
+                _context.SaveChanges();
                 return true;
             }
             catch
@@ -73,7 +73,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Scores.Remove(score);
-
+                _context.SaveChanges();
                 return true;
             }
             catch
