@@ -9,7 +9,7 @@ using TheWeekendGolfer.Web.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]")]
     public class PlayerController : Controller
     {
         GolfDbContext _context;
@@ -20,9 +20,12 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         // GET: Player
-        public ActionResult Index()
+        [HttpGet("[action]")]
+        public IEnumerable<Player> Index()
         {
-            return View();
+            IEnumerable<Player> players = _context.Players.Select(p=>p).ToList();
+
+            return players;
         }
 
         // GET: Player/Details/5
