@@ -20,7 +20,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllGolfRounds()
+        public IActionResult Index()
         {
             try
             {

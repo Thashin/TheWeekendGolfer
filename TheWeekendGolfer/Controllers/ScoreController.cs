@@ -21,7 +21,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllScores()
+        public IActionResult Index()
         {
             try
             {
