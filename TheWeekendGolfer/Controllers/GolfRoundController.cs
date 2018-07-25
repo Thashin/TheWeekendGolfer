@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
 using TheWeekendGolfer.Web.Models.GolfRoundViewModels;
@@ -11,27 +12,69 @@ namespace TheWeekendGolfer.Web.Controllers
 {
     public class GolfRoundController : Controller
     {
-        GolfDbContext _context;
+        GolfRoundAccessLayer _golfRoundAccessLayer;
 
-        public GolfRoundController(GolfDbContext context)
+        public GolfRoundController(GolfRoundAccessLayer playerAccessLayer)
         {
-            _context = context;
+            _golfRoundAccessLayer = playerAccessLayer;
         }
-        public IActionResult Index()
+
+        [HttpGet]
+        public IActionResult GetAllGolfRounds()
         {
-            GolfRoundViewModel golfRound = new GolfRoundViewModel
+            try
             {
-                Courses = _context.Courses.Select(c => c.Name),
-                Players = _context.Players.Select(p => p.FirstName + " " + p.LastName)
-            };
-            return View(golfRound);
+                return Ok(_golfRoundAccessLayer.GetAllGolfRounds());
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
-        [ValidateAntiForgeryToken]
-        [HttpPost]
-        public IActionResult Add(GolfRound golfRound)
+        [HttpGet]
+        // GET: GolfRound/Details/5
+        public ActionResult Details(Guid id)
         {
-            return View();
+            try
+            {
+                return Ok(_golfRoundAccessLayer.GetGolfRound(id));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: GolfRound/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([FromQuery]GolfRound player)
+        {
+            if (_golfRoundAccessLayer.AddGolfRound(player))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+
+        // POST: GolfRound/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(GolfRound player)
+        {
+            if (_golfRoundAccessLayer.UpdateGolfRound(player))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
