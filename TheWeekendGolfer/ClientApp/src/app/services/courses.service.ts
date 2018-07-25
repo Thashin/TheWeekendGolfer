@@ -21,7 +21,7 @@ export class CoursesService {
       .catch(this.errorHandler);
   }
 
-  getCourseById(id: number) {
+  getCourseById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Course/Details/" + id)
       .map((response: Response) => response.json())
       .catch(this.errorHandler)
