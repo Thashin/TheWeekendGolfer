@@ -49,8 +49,8 @@ namespace TheWeekendGolfer.Web.Controllers
 
         // POST: Player/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([FromQuery]Player player)
+   //     [ValidateAntiForgeryToken]
+        public ActionResult Create([FromBody]Player player)
         {
             if (_playerAccessLayer.AddPlayer(player))
             {

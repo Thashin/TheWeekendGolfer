@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -13,6 +13,9 @@ import { PlayerComponent } from './player/player.component';
 import { CourseComponent } from './course/course.component';
 import { CourseService } from './services/course.service';
 import { PlayerService } from './services/player.service';
+import { GolfRoundService } from './services/golfRound.service';
+import { GolfRoundComponent } from './golfRound/golfRound.component';
+import { AddPlayerComponent } from './player/add-player.component';
 
 @NgModule({
   declarations: [
@@ -22,21 +25,26 @@ import { PlayerService } from './services/player.service';
     CounterComponent,
     FetchDataComponent,
     PlayerComponent,
-    CourseComponent
+    CourseComponent,
+    GolfRoundComponent,
+    AddPlayerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'courses', component: CourseComponent },  
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'players', component: PlayerComponent },
+      { path: 'add-player', component: AddPlayerComponent },
+      { path: 'golf-rounds', component: GolfRoundComponent },
     ])
   ],
-  providers: [CourseService, PlayerService],
+  providers: [CourseService, PlayerService, GolfRoundService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

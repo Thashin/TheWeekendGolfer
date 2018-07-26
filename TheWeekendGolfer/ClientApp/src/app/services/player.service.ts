@@ -1,10 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { Player } from '../models/player.model';
 
 @Injectable()
 export class PlayerService {
@@ -26,9 +27,19 @@ export class PlayerService {
       .catch(this.errorHandler)
   }
 
-  addPlayer(player) {
-    return this._http.post(this.theWeekendGolferUrl + 'api/Player/Create', player)
-      .map((response: Response) => response.json())
+  createPlayer(player: Player) {
+    let options = {
+      headers: new HttpHeaders(
+        { 'Content-Type': 'application/json; charset=utf-8' }
+      )
+    };
+    const body = JSON.stringify(
+      {
+        'FirstName': player.firstName,
+        'LastName': player.lastName,
+        'Handicap': String(player.handicap)
+      });
+    return this._http.post(this.theWeekendGolferUrl + 'api/Player/Create', body, options)
       .catch(this.errorHandler)
   }
 

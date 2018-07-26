@@ -17,7 +17,6 @@ export class GolfRoundService {
 
   getGolfRounds() {
     return this._http.get(this.theWeekendGolferUrl + 'api/GolfRound/Index')
-      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
 

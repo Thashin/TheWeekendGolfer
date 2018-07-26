@@ -28,8 +28,13 @@
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/golf-rounds"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Golf Rounds
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/players"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Player
+                <span class='glyphicon glyphicon-th-list'></span> Players
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>

@@ -1,0 +1,18 @@
+<div class="col-md-6">
+  <h2 class="text-center">Add User</h2>
+  <form [formGroup]="createPlayerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input formControlName="lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+    </div>
+    <div class="form-group">
+      <label for="handicap">Handicap:</label>
+      <input type="number" formControlName="handicap" placeholder="Handicap" name="handicap" class="form-control" id="handicap">
+    </div>
+    <button class="btn btn-success">Create Player</button>
+  </form>
+</div>

@@ -2,6 +2,12 @@
 
 <p>This component demonstrates fetching Employee data from the server.</p>
 
+<button [routerLinkActive]='["link-active"]'>
+  <a [routerLink]='["/add-player"]'>
+    <span class='glyphicon glyphicon-add'></span> Add Player
+  </a>
+</button>
+
 <p *ngIf="!players"><em>Loading...</em></p>
 
 <table class='table' *ngIf="players">

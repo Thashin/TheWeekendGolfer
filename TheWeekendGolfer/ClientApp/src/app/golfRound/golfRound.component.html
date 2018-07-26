@@ -1,0 +1,24 @@
+<h1>Employee Data</h1>
+
+<p>This component demonstrates fetching Employee data from the server.</p>
+
+<p *ngIf="!golfRounda"><em>Loading...</em></p>
+
+<table class='table' *ngIf="golfRounds">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Course</th>
+      <th>Player 1</th>
+      <th>Player 2</th>
+      <th>Player 3</th>
+      <th>Player 4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let golfRound of golfRounds">
+      <td>{{ golfRound.date }}</td>
+      <td>{{ golfRound.course }}</td>
+    </tr>
+  </tbody>
+</table>
