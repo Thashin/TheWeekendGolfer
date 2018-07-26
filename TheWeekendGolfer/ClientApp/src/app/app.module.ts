@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PlayerComponent } from './player/player.component';
+import { CourseComponent } from './course/course.component';
+import { CourseService } from './services/course.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { PlayerComponent } from './player/player.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    PlayerComponent
+    PlayerComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,11 +30,12 @@ import { PlayerComponent } from './player/player.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
+      { path: 'courses', component: CourseComponent },  
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'player', component: PlayerComponent },
     ])
   ],
-  providers: [],
+  providers: [CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

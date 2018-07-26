@@ -1,0 +1,30 @@
+<h1>Employee Data</h1>
+
+<p>This component demonstrates fetching Employee data from the server.</p>
+
+<p *ngIf="!courses"><em>Loading...</em></p>
+
+<table class='table' *ngIf="courses">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th>Holes</th>
+      <th>Tee Name</th>
+      <th>Par</th>
+      <th>Scratch Rating</th>
+      <th>Slope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let course of courses">
+      <td>{{ course.name }}</td>
+      <td>{{ course.location }}</td>
+      <td>{{ course.holes }}</td>
+      <td>{{ course.teeName }}</td>
+      <td>{{ course.par }}</td>
+      <td>{{ course.scratchRating }}</td>
+      <td>{{ course.slope }}</td>
+    </tr>
+  </tbody>
+</table> 

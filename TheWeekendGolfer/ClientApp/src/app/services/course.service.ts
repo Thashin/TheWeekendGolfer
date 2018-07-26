@@ -1,29 +1,30 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { Course } from '../models/course.model';
+
+
 
 @Injectable()
-export class CoursesService {
+export class CourseService {
   theWeekendGolferUrl: string = "";
 
-  constructor(private _http: Http, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.theWeekendGolferUrl = baseUrl;
   }
 
 
-  getCourses() {
+  getCourses(){
     return this._http.get(this.theWeekendGolferUrl + 'api/Course/Index')
-      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
 
   getCourseById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Course/Details/" + id)
-      .map((response: Response) => response.json())
       .catch(this.errorHandler)
   }
 
@@ -32,4 +33,6 @@ export class CoursesService {
     console.log(error);
     return Observable.throw(error);
   }
+
+ 
 }  

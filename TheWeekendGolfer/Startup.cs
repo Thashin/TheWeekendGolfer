@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
 
 namespace TheWeekendGolfer
@@ -26,6 +27,11 @@ namespace TheWeekendGolfer
 
             services.AddDbContext<GolfDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<CourseAccessLayer>();
+            services.AddScoped<GolfRoundAccessLayer>();
+            services.AddScoped<PlayerAccessLayer>();
+            services.AddScoped<ScoreAccessLayer>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
