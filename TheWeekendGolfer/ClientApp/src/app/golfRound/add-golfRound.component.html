@@ -7,9 +7,15 @@
     </div>
     <div class="form-group">
       <label for="course">Course:</label>
-      <select formControlName="course" placeholder="Course" name="course" class="form-control" id="course">
-        <p *ngIf="!courseNames"><em>Loading...</em></p>
+      <select (change)="getCourseHoles($event.target.value)" formControlName="course" placeholder="Course" name="course" class="form-control" id="course">
+        <option *ngIf="!courseNames"><em>Loading...</em></option>
         <option [value]="course" *ngFor="let course of courseNames">{{course}}</option>
+      </select>
+    </div>    <div class="form-group">
+      <label for="holes">Holes:</label>
+      <select formControlName="holes" placeholder="Holes" name="holes" class="form-control" id="holes">
+        <option *ngIf="!holesNames"><em>Loading...</em></option>
+        <option [value]="holes" *ngFor="let holes of holesNames">{{holes}}</option>
       </select>
     </div>
     <div class="form-group">

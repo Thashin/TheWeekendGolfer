@@ -52,6 +52,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<string> GetCourseHoles(string courseName)
+        {
+            try
+            {
+                return _context.Courses.Where(c => c.Name.Equals(courseName)).Select(c => c.Holes);
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all course names");
+            }
+        }
+
         public Boolean AddCourse(Course course)
         {
             try

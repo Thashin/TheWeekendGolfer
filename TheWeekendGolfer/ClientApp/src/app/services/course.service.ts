@@ -27,6 +27,11 @@ export class CourseService {
       .catch(this.errorHandler);
   }
 
+  getCourseHoles(courseName:string) {
+    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseHoles?CourseName='+courseName)
+      .catch(this.errorHandler);
+  }
+
   getCourseById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Course/Details/" + id)
       .catch(this.errorHandler)

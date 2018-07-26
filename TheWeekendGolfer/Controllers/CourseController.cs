@@ -45,6 +45,19 @@ namespace TheWeekendGolfer.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetCourseHoles(string courseName)
+        {
+            try
+            {
+                return Ok(_courseAccessLayer.GetCourseHoles(courseName));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
         // GET: Course/Details/5
         public ActionResult Details(Guid id)
         {
