@@ -12,6 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PlayerComponent } from './player/player.component';
 import { CourseComponent } from './course/course.component';
 import { CourseService } from './services/course.service';
+import { PlayerService } from './services/player.service';
 
 @NgModule({
   declarations: [
@@ -32,10 +33,10 @@ import { CourseService } from './services/course.service';
       { path: 'counter', component: CounterComponent },
       { path: 'courses', component: CourseComponent },  
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'player', component: PlayerComponent },
+      { path: 'players', component: PlayerComponent },
     ])
   ],
-  providers: [CourseService],
+  providers: [CourseService, PlayerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

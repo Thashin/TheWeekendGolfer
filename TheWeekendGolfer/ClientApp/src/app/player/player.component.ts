@@ -8,7 +8,6 @@ import { Player } from '../models/player.model'
   templateUrl: './player.component.html'
 })
 
-
 export class PlayerComponent {
   public players: Player[];
 
