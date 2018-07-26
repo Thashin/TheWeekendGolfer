@@ -10,6 +10,7 @@ using TheWeekendGolfer.Web.Models.GolfRoundViewModels;
 
 namespace TheWeekendGolfer.Web.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class GolfRoundController : Controller
     {
         GolfRoundAccessLayer _golfRoundAccessLayer;

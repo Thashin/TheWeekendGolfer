@@ -26,7 +26,7 @@ export class GolfRoundService {
       .catch(this.errorHandler)
   }
 
-  addGolfRound(golfRound) {
+  createGolfRound(golfRound) {
     return this._http.post(this.theWeekendGolferUrl + 'api/GolfRound/Create', golfRound)
       .map((response: Response) => response.json())
       .catch(this.errorHandler)

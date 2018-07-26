@@ -16,6 +16,7 @@ import { PlayerService } from './services/player.service';
 import { GolfRoundService } from './services/golfRound.service';
 import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
+import { AddGolfRoundComponent } from './golfRound/add-golfRound.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AddPlayerComponent } from './player/add-player.component';
     PlayerComponent,
     CourseComponent,
     GolfRoundComponent,
+    AddGolfRoundComponent,
     AddPlayerComponent
   ],
   imports: [
@@ -42,9 +44,10 @@ import { AddPlayerComponent } from './player/add-player.component';
       { path: 'players', component: PlayerComponent },
       { path: 'add-player', component: AddPlayerComponent },
       { path: 'golf-rounds', component: GolfRoundComponent },
+      { path: 'add-golf-round', component: AddGolfRoundComponent },
     ])
   ],
-  providers: [CourseService, PlayerService, GolfRoundService],
+  providers: [CourseService, PlayerService, GolfRoundService, CourseComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

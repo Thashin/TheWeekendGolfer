@@ -7,6 +7,7 @@ using TheWeekendGolfer.Data;
 
 namespace TheWeekendGolfer.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class CourseController : Controller
     {
         CourseAccessLayer _courseAccessLayer;
@@ -23,6 +24,19 @@ namespace TheWeekendGolfer.Controllers
             try
             {
                 return Ok(_courseAccessLayer.GetAllCourses());
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetCourseNames()
+        {
+            try
+            {
+                return Ok(_courseAccessLayer.GetCourseNames());
             }
             catch
             {

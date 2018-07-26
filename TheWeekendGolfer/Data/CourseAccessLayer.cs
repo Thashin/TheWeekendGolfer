@@ -40,6 +40,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<string> GetCourseNames()
+        {
+            try
+            {
+                return _context.Courses.GroupBy(c=>c.Name).Select(c=>c.First().Name);
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all course names");
+            }
+        }
+
         public Boolean AddCourse(Course course)
         {
             try

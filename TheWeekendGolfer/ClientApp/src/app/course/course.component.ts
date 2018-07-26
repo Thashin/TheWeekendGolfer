@@ -21,5 +21,9 @@ export class CourseComponent {
     )
   }
 
+  public getCourseNames() {
+    return this._courseService.getCourseNames();
+  }
+
 }
 

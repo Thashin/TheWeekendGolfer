@@ -1,7 +1,11 @@
 <h1>Employee Data</h1>
 
 <p>This component demonstrates fetching Employee data from the server.</p>
-
+<button [routerLinkActive]='["link-active"]'>
+  <a [routerLink]='["/add-golf-round"]'>
+    <span class='glyphicon glyphicon-add'></span> Add Golf Round
+  </a>
+</button>
 <p *ngIf="!golfRounda"><em>Loading...</em></p>
 
 <table class='table' *ngIf="golfRounds">

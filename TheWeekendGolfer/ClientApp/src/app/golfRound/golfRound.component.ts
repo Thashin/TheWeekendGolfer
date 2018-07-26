@@ -11,12 +11,12 @@ import { GolfRound } from '../models/golfRound.model'
 export class GolfRoundComponent {
   public golfRounds: GolfRound[];
 
-  constructor(public http: HttpClient, private _router: Router, private _courseService: GolfRoundService) {
+  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService) {
     this.getGolfRounds();
   }
 
   getGolfRounds() {
-    this._courseService.getGolfRounds().subscribe(
+    this._golfRoundService.getGolfRounds().subscribe(
       data => this.golfRounds = data
     )
   }

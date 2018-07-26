@@ -22,6 +22,11 @@ export class CourseService {
       .catch(this.errorHandler);
   }
 
+  getCourseNames() {
+    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseNames')
+      .catch(this.errorHandler);
+  }
+
   getCourseById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Course/Details/" + id)
       .catch(this.errorHandler)
