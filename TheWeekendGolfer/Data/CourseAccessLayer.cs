@@ -64,6 +64,20 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<string> GetCourseTees(string courseName)
+        {
+            try
+            {
+                return _context.Courses.Where(c => c.Name.Equals(courseName)).
+                                        GroupBy(c => c.TeeName).
+                                        Select(c=>c.First().TeeName);
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all course names");
+            }
+        }
+
         public Boolean AddCourse(Course course)
         {
             try
