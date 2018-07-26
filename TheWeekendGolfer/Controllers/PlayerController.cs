@@ -21,6 +21,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         [HttpGet]
+        [Route("/api/Player/Index")]
         public IActionResult Index()
         {
             try

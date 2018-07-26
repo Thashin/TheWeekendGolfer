@@ -28,6 +28,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\course\course.component.ts" />
     <None Remove="ClientApp\src\app\models\course.model.ts" />
+    <None Remove="ClientApp\src\app\models\player.model.ts" />
     <None Remove="ClientApp\src\app\services\course.service.ts" />
     <None Remove="ClientApp\src\app\services\golfRound.service.ts" />
     <None Remove="ClientApp\src\app\services\player.service.ts" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\course.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\player.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\golfRound.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\scores.service.ts" />

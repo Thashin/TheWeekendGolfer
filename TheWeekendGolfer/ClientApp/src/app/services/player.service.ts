@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
@@ -10,14 +10,13 @@ import 'rxjs/add/observable/throw';
 export class PlayerService {
   theWeekendGolferUrl: string = "";
 
-  constructor(private _http: Http, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.theWeekendGolferUrl = baseUrl;
   }
 
 
   getPlayers() {
     return this._http.get(this.theWeekendGolferUrl + 'api/Player/Index')
-      .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
 

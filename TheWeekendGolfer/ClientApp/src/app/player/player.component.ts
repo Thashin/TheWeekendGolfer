@@ -1,32 +1,24 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { PlayerService } from '../services/player.service'
+import { Player } from '../models/player.model'
 
 @Component({
-  selector: 'app-player',
   templateUrl: './player.component.html'
 })
+
+
 export class PlayerComponent {
-  public forecasts: WeatherForecast[];
-  public showAddModal: Boolean = false;
+  public players: Player[];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+  constructor(public http: HttpClient, private _router: Router, private _courseService: PlayerService) {
+    this.getPlayers();
   }
 
-  public toggleAddModal() {
-    this.showAddModal = !this.showAddModal;
+  getPlayers() {
+    this._courseService.getPlayers().subscribe(
+      data => this.players = data
+    )
   }
-
-  public addPlayer() {
-
-  }
-}
-
-interface WeatherForecast {
-  dateFormatted: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
 }
