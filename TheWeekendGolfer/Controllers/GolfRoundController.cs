@@ -14,10 +14,12 @@ namespace TheWeekendGolfer.Web.Controllers
     public class GolfRoundController : Controller
     {
         GolfRoundAccessLayer _golfRoundAccessLayer;
+        ScoreAccessLayer _scoreAccessLayer;
 
-        public GolfRoundController(GolfRoundAccessLayer playerAccessLayer)
+        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer)
         {
-            _golfRoundAccessLayer = playerAccessLayer;
+            _golfRoundAccessLayer = golfRoundAccessLayer;
+            _scoreAccessLayer = scoreAccessLayer;
         }
 
         [HttpGet]
@@ -49,14 +51,16 @@ namespace TheWeekendGolfer.Web.Controllers
 
         // POST: GolfRound/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([FromQuery]GolfRound player)
+     //   [ValidateAntiForgeryToken]
+        public ActionResult Create([FromBody]AddGolfRound golfRound)
         {
-            if (_golfRoundAccessLayer.AddGolfRound(player))
+            try
             {
-                return Ok();
+                Guid golfRoundId = _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
+                _scoreAccessLayer.AddScores
+                return Ok(golfRoundId);
             }
-            else
+            catch
             {
                 return BadRequest();
             }
@@ -66,9 +70,9 @@ namespace TheWeekendGolfer.Web.Controllers
         // POST: GolfRound/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(GolfRound player)
+        public ActionResult Edit(GolfRound golfRound)
         {
-            if (_golfRoundAccessLayer.UpdateGolfRound(player))
+            if (_golfRoundAccessLayer.UpdateGolfRound(golfRound))
             {
                 return Ok();
             }

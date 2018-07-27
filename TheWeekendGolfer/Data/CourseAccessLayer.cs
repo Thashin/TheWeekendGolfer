@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
 
@@ -52,13 +51,13 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<string> GetCourseHoles(string courseName,string courseTee)
+        public IEnumerable<Course> GetCourseHoles(string courseName,string courseTee)
         {
             try
             {
-                return _context.Courses.Where(c => c.Name.Equals(courseName)&&
+                return _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
-                                       .Select(c => c.Holes);
+                                       .Select(c => c) ;
             }
             catch
             {

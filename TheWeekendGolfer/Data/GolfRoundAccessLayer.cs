@@ -40,13 +40,13 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddGolfRound(GolfRound golfRound)
+        public Guid AddGolfRound(GolfRound golfRound)
         {
             try
             {
                 _context.GolfRounds.Add(golfRound);
                 _context.SaveChanges();
-                return true;
+                return _context.GolfRounds.Last().Id;
             }
             catch
             {

@@ -11,8 +11,9 @@ namespace TheWeekendGolfer.Web.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public Player Player { get; set; }
+        public Guid PlayerId { get; set; }
         public int Value { get; set; }
+        public Guid GolfRoundId { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Created { get; set; } = DateTime.Now;
     }

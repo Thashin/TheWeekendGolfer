@@ -27,6 +27,26 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GolfRounds",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    CourseId = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GolfRounds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GolfRounds_Course_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
@@ -43,34 +63,14 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GolfRounds",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false),
-                    CourseId = table.Column<Guid>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GolfRounds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GolfRounds_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Scores",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    PlayerId = table.Column<Guid>(nullable: true),
+                    PlayerId = table.Column<Guid>(nullable: false),
                     Value = table.Column<int>(nullable: false),
-                    Created = table.Column<DateTime>(nullable: false),
-                    GolfRoundId = table.Column<Guid>(nullable: true)
+                    GolfRoundId = table.Column<Guid>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -88,27 +88,12 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GolfRounds_CourseId",
-                table: "GolfRounds",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Scores_GolfRoundId",
-                table: "Scores",
-                column: "GolfRoundId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Scores_PlayerId",
-                table: "Scores",
-                column: "PlayerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Scores");
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "GolfRounds");
@@ -117,7 +102,7 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 name: "Players");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Scores");
         }
     }
 }

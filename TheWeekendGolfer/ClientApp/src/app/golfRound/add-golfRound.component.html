@@ -15,7 +15,7 @@
 
     <div class="form-group">
       <label for="tee">Tee:</label>
-      <select (change)="getCourseHoles($event.target.value)" formControlName="tee" placeholder="Tee" name="tee" class="form-control" id="tee">
+      <select (change)="getCourseHoles($event.target.value)"  formControlName="tee" placeholder="Tee" name="tee" class="form-control" id="tee">
         <option *ngIf="!tees"><em>Loading...</em></option>
         <option [value]="tee" *ngFor="let tee of tees">{{tee}}</option>
       </select>
@@ -24,21 +24,24 @@
       <label for="holes">Holes:</label>
       <select formControlName="holes" placeholder="Holes" name="holes" class="form-control" id="holes">
         <option *ngIf="!holesNames"><em>Loading...</em></option>
-        <option [value]="holes" *ngFor="let holes of holesNames">{{holes}}</option>
+        <option [value]="holes.id" *ngFor="let holes of holesNames">{{holes.holes}}</option>
       </select>
     </div>
     <div class="form-group">
       <label for="scores">Scores:</label>
-      <div formArrayName="scores"
-           *ngFor="let score of createGolfRoundForm.get('scores').controls; let i = index;">
+     <div formArrayName="scores"
+     *ngFor="let score of createGolfRoundForm.get('scores').controls; let i = index;">
 
-        <div *ngIf="i<4" [formGroupName]="i">
-          <input formControlName="Player" placeholder="Player Name">
-          <input type="number" formControlName="Score" placeholder="Score">
-          <button (click)="addScore()" class="btn glyphicon-plus">Add Score</button>
-        </div>
-      </div>
+  <div *ngIf="i<4" [formGroupName]="i">
+      <select (change)="addPlayer($event.target.value)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
+        <option *ngIf="!allPlayers"><em>Loading...</em></option>
+        <option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{playerlastName}} </option>
+      </select>
+  <input type="number" formControlName="value" class="form-control" placeholder="Score">
+  <button (click)="addScore()" class="btn glyphicon-plus">Add Score</button>
+    </div>
+    </div>
     </div>
       <button class="btn btn-success">Create Golf Round</button>
-  </form>
-</div>
+</form>
+  </div>

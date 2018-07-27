@@ -9,6 +9,7 @@ namespace TheWeekendGolfer.Web.Models
 {
     public class Course
     {
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Location { get; set; }

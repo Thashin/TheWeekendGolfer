@@ -49,8 +49,8 @@ namespace TheWeekendGolfer.Web.Controllers
 
         // POST: Score/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([FromQuery]Score score)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Create([FromBody]Score score)
         {
             if (_scoreAccessLayer.AddScore(score))
             {

@@ -1,10 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { GolfRound } from '../models/golfRound.model';
+import { Course } from '../models/course.model';
+import { Score } from '../models/score.model';
 
 @Injectable()
 export class GolfRoundService {
@@ -26,9 +29,18 @@ export class GolfRoundService {
       .catch(this.errorHandler)
   }
 
-  createGolfRound(golfRound) {
-    return this._http.post(this.theWeekendGolferUrl + 'api/GolfRound/Create', golfRound)
-      .map((response: Response) => response.json())
+  createGolfRound(golfRound: GolfRound) {
+    let options = {
+      headers: new HttpHeaders(
+        { 'Content-Type': 'application/json; charset=utf-8' }
+      )
+    };
+    const body = JSON.stringify(
+      {
+        'Date': golfRound.date,
+        'CourseId': golfRound.courseId
+      });
+    return this._http.post(this.theWeekendGolferUrl + 'api/GolfRound/Create', body, options)
       .catch(this.errorHandler)
   }
 

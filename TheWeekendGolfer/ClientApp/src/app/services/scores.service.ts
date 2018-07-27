@@ -1,10 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { Score } from '../models/score.model';
 
 @Injectable()
 export class ScoreService {
@@ -27,10 +28,24 @@ export class ScoreService {
       .catch(this.errorHandler)
   }
 
-  addScore(score) {
-    return this._http.post(this.theWeekendGolferUrl + 'api/Score/Create', score)
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler)
+  addScores(scores: Score[]) {
+    let options = {
+      headers: new HttpHeaders(
+        { 'Content-Type': 'application/json; charset=utf-8' }
+      )
+    };
+
+    for (let score of scores) {
+
+      const body = JSON.stringify(
+        {
+          'PlayerId': score.playerId,
+          'Value': score.value,
+          'GolfRoundId':score.golfRoundId
+        });
+      return this._http.post(this.theWeekendGolferUrl + 'api/Score/Create', body,options)
+        .catch(this.errorHandler)
+    }
   }
 
   updateScore(score) {

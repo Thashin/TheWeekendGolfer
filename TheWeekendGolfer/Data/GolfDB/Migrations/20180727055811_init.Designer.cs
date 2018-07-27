@@ -10,7 +10,7 @@ using TheWeekendGolfer.Web.Data;
 namespace TheWeekendGolfer.Data.GolfDB.Migrations
 {
     [DbContext(typeof(GolfDbContext))]
-    [Migration("20180725034157_init")]
+    [Migration("20180727055811_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CourseId");
+                    b.Property<Guid>("CourseId");
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd();
@@ -61,8 +61,6 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<DateTime>("Date");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.ToTable("GolfRounds");
                 });
@@ -96,37 +94,15 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("GolfRoundId");
+                    b.Property<Guid>("GolfRoundId");
 
-                    b.Property<Guid?>("PlayerId");
+                    b.Property<Guid>("PlayerId");
 
                     b.Property<int>("Value");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GolfRoundId");
-
-                    b.HasIndex("PlayerId");
-
                     b.ToTable("Scores");
-                });
-
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.GolfRound", b =>
-                {
-                    b.HasOne("TheWeekendGolfer.Web.Models.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
-                });
-
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.Score", b =>
-                {
-                    b.HasOne("TheWeekendGolfer.Web.Models.GolfRound")
-                        .WithMany("Scores")
-                        .HasForeignKey("GolfRoundId");
-
-                    b.HasOne("TheWeekendGolfer.Web.Models.Player", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId");
                 });
 #pragma warning restore 612, 618
         }

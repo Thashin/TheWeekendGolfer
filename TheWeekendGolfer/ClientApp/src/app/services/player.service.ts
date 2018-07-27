@@ -21,6 +21,7 @@ export class PlayerService {
       .catch(this.errorHandler);
   }
 
+
   getPlayerById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Player/Details/" + id)
       .map((response: Response) => response.json())

@@ -33,6 +33,8 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
+
+
         [HttpGet]
         // GET: Player/Details/5
         public ActionResult Details(Guid id)

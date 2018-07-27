@@ -6,6 +6,11 @@ import { GolfRound } from '../models/golfRound.model'
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Course } from '../models/course.model';
 import { CourseService } from '../services/course.service';
+import { PlayerService } from '../services/player.service';
+import { Score } from '../models/score.model';
+import { Player } from '../models/player.model';
+import { forEach } from '@angular/router/src/utils/collection';
+import { ScoreService } from '../services/scores.service';
 
 @Component({
   templateUrl: './add-golfRound.component.html'
@@ -14,13 +19,17 @@ import { CourseService } from '../services/course.service';
 export class AddGolfRoundComponent implements OnInit {
 
   public courseNames: string[];
-  public holesNames: string[];
-  public tees: string[];
+  public holesNames: Course[];
+  public tees: string[][];
   public scores: FormArray;
+  public allPlayers: Player[];
+  public currentPlayers: Player[];
   public courseName: string;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService) {
     this.getCourseNames();
+    this.getPlayers();
+
   }
 
   getCourseNames() {
@@ -35,13 +44,19 @@ export class AddGolfRoundComponent implements OnInit {
 
 
   getCourseHoles(teeName: string) {
-    this._courseService.getCourseHoles(this.courseName,teeName).subscribe(data => this.holesNames = data);
+    this._courseService.getCourseHoles(this.courseName, teeName).subscribe(data => this.holesNames = data);
+    console.log(this.holesNames);
+  }
+
+  getPlayers() {
+    this._playerService.getPlayers().subscribe(data => this.allPlayers = data);
   }
 
   createGolfRoundForm: FormGroup;
 
 
   ngOnInit() {
+    this.currentPlayers = [];
     this.createGolfRoundForm = this.formBuilder.group({
       id: [],
       date: ['', Validators.required],
@@ -53,23 +68,48 @@ export class AddGolfRoundComponent implements OnInit {
 
   }
 
+  addPlayer(player: Player) {
+    this.currentPlayers.push(player);
+    
+  }
+
   createScore(): FormGroup{
     return this.formBuilder.group({
-      Player: '',
-      Score: ''
+      player:'',
+      value: ''
     });
   }
 
   addScore(): void {
     this.scores = <FormArray>this.createGolfRoundForm.get('scores');
-    console.log(this.scores);
-    console.log(this.createScore())
     this.scores.push(this.createScore());
   }
 
-  onSubmit() {
-    this._golfRoundService.createGolfRound(this.createGolfRoundForm.value)
-      .subscribe(data => {
+  onSubmit()
+  {
+    var golfRoundData: GolfRound = {
+      id: null,
+      date: new Date(this.createGolfRoundForm.value.date),
+      courseId: this.createGolfRoundForm.value.holes
+    };
+
+    var golfRoundId = '';
+
+    this._golfRoundService.createGolfRound(golfRoundData).subscribe(
+      data => golfRoundId = data);
+
+     var scoreData: Score[] = [];
+
+    for (let score of this.createGolfRoundForm.value.scores) {
+      var currentScore: Score = {
+        playerId: score.player,
+        value: score.value,
+        golfRoundId: golfRoundId
+      }
+      scoreData.push(currentScore)
+    }
+    console.log(golfRoundId);
+    this._scoreService.addScores(scoreData).subscribe(data => {
         this.router.navigate(['golf-rounds']);
       });
   }
