@@ -52,15 +52,17 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<string> GetCourseHoles(string courseName)
+        public IEnumerable<string> GetCourseHoles(string courseName,string courseTee)
         {
             try
             {
-                return _context.Courses.Where(c => c.Name.Equals(courseName)).Select(c => c.Holes);
+                return _context.Courses.Where(c => c.Name.Equals(courseName)&&
+                                                   c.TeeName.Equals(courseTee))
+                                       .Select(c => c.Holes);
             }
             catch
             {
-                throw new Exception("Could not retrieve all course names");
+                throw new Exception("Could not retrieve all course holes");
             }
         }
 
@@ -74,7 +76,7 @@ namespace TheWeekendGolfer.Data
             }
             catch
             {
-                throw new Exception("Could not retrieve all course names");
+                throw new Exception("Could not retrieve all course tees");
             }
         }
 

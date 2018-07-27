@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -45,24 +46,20 @@ namespace TheWeekendGolfer.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCourseHoles(string courseName)
+        public IActionResult GetCourseDetails(string courseName,string tee = null)
         {
             try
             {
-                return Ok(_courseAccessLayer.GetCourseHoles(courseName));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+                if(tee!=null)
+                { 
+                    return Ok(_courseAccessLayer.GetCourseHoles(courseName, tee));
+                }
+                else
+                {
+                    return Ok(_courseAccessLayer.GetCourseTees(courseName));
+                }
+                
 
-        [HttpGet]
-        public IActionResult GetCourseTees(string courseName)
-        {
-            try
-            {
-                return Ok(_courseAccessLayer.GetCourseTees(courseName));
             }
             catch
             {

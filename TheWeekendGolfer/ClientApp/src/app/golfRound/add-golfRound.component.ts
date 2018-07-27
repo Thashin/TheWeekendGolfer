@@ -16,6 +16,7 @@ export class AddGolfRoundComponent implements OnInit {
   public courseNames: string[];
   public holesNames: string[];
   public tees: string[];
+  public courseName: string;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService) {
     this.getCourseNames();
@@ -25,12 +26,15 @@ export class AddGolfRoundComponent implements OnInit {
     this._courseService.getCourseNames().subscribe(data => this.courseNames = data);
   }
 
-  getCourseHoles(courseName: string) {
-    this._courseService.getCourseHoles(courseName).subscribe(data => this.holesNames = data);
-  }
 
   getCourseTees(courseName: string) {
+    this.courseName = courseName;
     this._courseService.getCourseTees(courseName).subscribe(data => this.tees = data);
+  }
+
+
+  getCourseHoles(teeName: string) {
+    this._courseService.getCourseHoles(this.courseName,teeName).subscribe(data => this.holesNames = data);
   }
 
   createGolfRoundForm: FormGroup;
