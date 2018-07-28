@@ -11,6 +11,7 @@ import { Score } from '../models/score.model';
 import { Player } from '../models/player.model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ScoreService } from '../services/scores.service';
+import { AddGolfRound } from '../models/addGolfRound.model';
 
 @Component({
   templateUrl: './add-golfRound.component.html'
@@ -87,29 +88,22 @@ export class AddGolfRoundComponent implements OnInit {
 
   onSubmit()
   {
-    var golfRoundData: GolfRound = {
-      id: null,
-      date: new Date(this.createGolfRoundForm.value.date),
-      courseId: this.createGolfRoundForm.value.holes
-    };
 
-    var golfRoundId = '';
-
-    this._golfRoundService.createGolfRound(golfRoundData).subscribe(
-      data => golfRoundId = data);
-
-     var scoreData: Score[] = [];
+    var scoreData: Score[] = [];
 
     for (let score of this.createGolfRoundForm.value.scores) {
       var currentScore: Score = {
         playerId: score.player,
-        value: score.value,
-        golfRoundId: golfRoundId
+        value: score.value
       }
       scoreData.push(currentScore)
     }
-    console.log(golfRoundId);
-    this._scoreService.addScores(scoreData).subscribe(data => {
+    var golfRoundData: AddGolfRound = {
+      date: new Date(this.createGolfRoundForm.value.date),
+      courseId: this.createGolfRoundForm.value.holes,
+      scores: scoreData
+    };
+    this._golfRoundService.createGolfRound(golfRoundData).subscribe(data => {
         this.router.navigate(['golf-rounds']);
       });
   }

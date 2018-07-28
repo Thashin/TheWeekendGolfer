@@ -8,6 +8,7 @@ import 'rxjs/add/observable/throw';
 import { GolfRound } from '../models/golfRound.model';
 import { Course } from '../models/course.model';
 import { Score } from '../models/score.model';
+import { AddGolfRound } from '../models/addGolfRound.model';
 
 @Injectable()
 export class GolfRoundService {
@@ -29,7 +30,7 @@ export class GolfRoundService {
       .catch(this.errorHandler)
   }
 
-  createGolfRound(golfRound: GolfRound) {
+  createGolfRound(golfRound: AddGolfRound) {
     let options = {
       headers: new HttpHeaders(
         { 'Content-Type': 'application/json; charset=utf-8' }
@@ -38,7 +39,8 @@ export class GolfRoundService {
     const body = JSON.stringify(
       {
         'Date': golfRound.date,
-        'CourseId': golfRound.courseId
+        'CourseId': golfRound.courseId,
+        'Scores': golfRound.scores
       });
     return this._http.post(this.theWeekendGolferUrl + 'api/GolfRound/Create', body, options)
       .catch(this.errorHandler)

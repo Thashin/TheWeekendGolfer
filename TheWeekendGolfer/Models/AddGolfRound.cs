@@ -13,6 +13,6 @@ namespace TheWeekendGolfer.Web.Models
 
         public DateTime Date { get; set; }
         public Guid CourseId { get; set; }
-        public IEnumerable<Score> Scores { get; set; }
+        public List<Score> Scores { get; set; }
     }
 }

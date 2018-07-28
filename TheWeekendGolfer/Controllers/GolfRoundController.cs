@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
@@ -57,8 +58,12 @@ namespace TheWeekendGolfer.Web.Controllers
             try
             {
                 Guid golfRoundId = _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
-                _scoreAccessLayer.AddScores
-                return Ok(golfRoundId);
+                foreach(Score score in golfRound.Scores)
+                {
+                    score.GolfRoundId = golfRoundId;
+                }
+                _scoreAccessLayer.AddScores(golfRound.Scores);
+                return Ok();
             }
             catch
             {

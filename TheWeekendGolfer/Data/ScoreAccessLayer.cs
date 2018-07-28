@@ -44,6 +44,8 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
+                
+                  
                 _context.Scores.Add(score);
                 _context.SaveChanges();
                 return true;
@@ -52,6 +54,23 @@ namespace TheWeekendGolfer.Data
             {
                 throw new Exception("Could not add score for " + score.Id.ToString());
             }
+        }
+
+        public Boolean AddScores(IEnumerable<Score> scores)
+        {
+            try
+            {
+                foreach (Score score in scores)
+                {
+                    AddScore(score);
+                }
+                return true;
+            }
+            catch
+            {
+                throw new Exception("Could not add score any scores");
+            }
+
         }
 
         public Boolean UpdateScore(Score score)
