@@ -16,11 +16,15 @@ namespace TheWeekendGolfer.Web.Controllers
     {
         GolfRoundAccessLayer _golfRoundAccessLayer;
         ScoreAccessLayer _scoreAccessLayer;
+        PlayerAccessLayer _playerAccessLayer;
+        CourseAccessLayer _courseAccessLayer;
 
-        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer)
+        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer)
         {
             _golfRoundAccessLayer = golfRoundAccessLayer;
             _scoreAccessLayer = scoreAccessLayer;
+            _playerAccessLayer = playerAccessLayer;
+            _courseAccessLayer = courseAccessLayer;
         }
 
         [HttpGet]
@@ -28,7 +32,28 @@ namespace TheWeekendGolfer.Web.Controllers
         {
             try
             {
-                return Ok(_golfRoundAccessLayer.GetAllGolfRounds());
+                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
+                var scores = _scoreAccessLayer.GetAllScores();
+                var courses = _courseAccessLayer.GetAllCourses();
+                var players = _playerAccessLayer.GetAllPlayers();
+
+                var joinRoundScores = from round in rounds
+                            join score in scores on round.Id equals score.GolfRoundId
+                            where score.GolfRoundId.Equals(round.Id)
+                            select new { round.Date,round.CourseId, score .PlayerId,score.Value};
+
+                var resolveCourses = from round in joinRoundScores
+                                     join course in courses on round.CourseId equals course.Id
+                                     where course.Id.Equals(round.CourseId)
+                                     select new { round.Date, course.Name, course.TeeName, course.Holes, round.PlayerId, round.Value };
+
+                var resolvePlayers = from round in resolveCourses
+                                     join player in players on round.PlayerId equals player.Id
+                                     where player.Id.Equals(round.PlayerId)
+                                     select new { round.Date, round.Name, round.TeeName, round.Holes, player.FirstName,player.LastName,player.Handicap, round.Value };
+
+
+                return Ok(resolvePlayers);
             }
             catch
             {

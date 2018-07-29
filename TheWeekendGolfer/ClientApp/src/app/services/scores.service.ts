@@ -28,25 +28,6 @@ export class ScoreService {
       .catch(this.errorHandler)
   }
 
-  addScores(scores: Score[]) {
-    let options = {
-      headers: new HttpHeaders(
-        { 'Content-Type': 'application/json; charset=utf-8' }
-      )
-    };
-
-    for (let score of scores) {
-
-      const body = JSON.stringify(
-        {
-          'PlayerId': score.playerId,
-          'Value': score.value,
-          'GolfRoundId':score.golfRoundId
-        });
-      return this._http.post(this.theWeekendGolferUrl + 'api/Score/Create', body,options)
-        .catch(this.errorHandler)
-    }
-  }
 
   updateScore(score) {
     return this._http.put(this.theWeekendGolferUrl + 'api/Score/Edit', score)

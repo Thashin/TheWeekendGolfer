@@ -11,8 +11,10 @@
 <table class='table' *ngIf="golfRounds">
   <thead>
     <tr>
-      <th>Time</th>
+      <th>Date</th>
       <th>Course</th>
+      <th>Tee Name</th>
+      <th>Holes</th>
       <th>Player 1</th>
       <th>Player 2</th>
       <th>Player 3</th>
@@ -21,8 +23,11 @@
   </thead>
   <tbody>
     <tr *ngFor="let golfRound of golfRounds">
-      <td>{{ golfRound.date }}</td>
-      <td>{{ golfRound.course }}</td>
+      <td>{{ golfRound.date | date: "dd-MMM-y" }}</td>
+      <td>{{ golfRound.name }}</td>
+      <td>{{ golfRound.teeName }}</td>
+      <td>{{ golfRound.holes }}</td>
+      <td>{{golfRound.firstName}} {{golfRound.lastName}} </td>
     </tr>
   </tbody>
 </table>
