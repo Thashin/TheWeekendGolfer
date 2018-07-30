@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TheWeekendGolfer.Data;
@@ -76,6 +77,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         // POST: GolfRound/Create
+        [Authorize]
         [HttpPost]
      //   [ValidateAntiForgeryToken]
         public ActionResult Create([FromBody]AddGolfRound golfRound)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TheWeekendGolfer.Data.GolfDB.Migrations
+namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
     public partial class init : Migration
     {
@@ -38,12 +38,6 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GolfRounds", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GolfRounds_Course_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -51,6 +45,7 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Handicap = table.Column<decimal>(nullable: true),
@@ -75,18 +70,6 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Scores", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Scores_GolfRounds_GolfRoundId",
-                        column: x => x.GolfRoundId,
-                        principalTable: "GolfRounds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Scores_Players_PlayerId",
-                        column: x => x.PlayerId,
-                        principalTable: "Players",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
         }
 

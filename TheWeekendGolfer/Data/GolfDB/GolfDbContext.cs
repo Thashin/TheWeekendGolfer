@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Models;
 
 namespace TheWeekendGolfer.Web.Data
@@ -15,6 +16,7 @@ namespace TheWeekendGolfer.Web.Data
         public DbSet<Score> Scores { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<GolfRound> GolfRounds { get; set; }
+        public DbSet<Handicap> Handicaps { get; set; }
 
     }
 }

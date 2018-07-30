@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheWeekendGolfer.Web.Data;
 
-namespace TheWeekendGolfer.Data.GolfDB.Migrations
+namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
     [DbContext(typeof(GolfDbContext))]
-    [Migration("20180727055811_init")]
-    partial class init
+    [Migration("20180730061947_addHandicapTable")]
+    partial class addHandicapTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,23 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TheWeekendGolfer.Models.Handicap", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreateAt")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("CurrentHandicap");
+
+                    b.Property<Guid>("PlayerId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Handicaps");
+                });
 
             modelBuilder.Entity("TheWeekendGolfer.Web.Models.Course", b =>
                 {
@@ -80,6 +97,8 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<DateTime>("Modified");
+
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
