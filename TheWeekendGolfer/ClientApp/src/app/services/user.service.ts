@@ -39,6 +39,21 @@ export class UserService {
       .catch(this.errorHandler);
   }
 
+  loginUser(user: User) {
+    let options = {
+      headers: new HttpHeaders(
+        { 'Content-Type': 'application/json; charset=utf-8' }
+      )
+    };
+    const body = JSON.stringify(
+      {
+        'Email': user.email,
+        'Password': user.password,
+      });
+    return this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options)
+      .catch(this.errorHandler);
+  }
+
 
 
   errorHandler(error: Response) {

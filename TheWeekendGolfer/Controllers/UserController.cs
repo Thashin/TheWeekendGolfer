@@ -54,5 +54,27 @@ namespace TheWeekendGolfer.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginAsync([FromBody]User user)
+        {
+            if(ModelState.IsValid)
+            {
+                var isSignedIn = await _signInManager.PasswordSignInAsync(user.Email,user.Password
+         , false, false);
+                if (isSignedIn.Succeeded)
+                {
+                    return Ok("Login Successful");
+                }
+                else
+                {
+                    return Ok("Login Failed");
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

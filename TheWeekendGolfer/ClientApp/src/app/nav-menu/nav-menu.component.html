@@ -18,6 +18,11 @@
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/login"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-education'></span> Login
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/sign-up"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-education'></span> Sign Up
               </a>

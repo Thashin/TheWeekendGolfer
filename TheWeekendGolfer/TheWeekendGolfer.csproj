@@ -41,6 +41,7 @@
     <None Remove="ClientApp\src\app\services\player.service.ts" />
     <None Remove="ClientApp\src\app\services\scores.service.ts" />
     <None Remove="ClientApp\src\app\services\user.service.ts" />
+    <None Remove="ClientApp\src\app\user\log-in.component.ts" />
     <None Remove="ClientApp\src\app\user\sign-up.component.ts" />
     <None Remove="Data\GolfDB\SeedData\SlopeRatings.csv" />
   </ItemGroup>
@@ -67,6 +68,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\services\scores.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\course.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\user.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\log-in.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user\sign-up.component.ts" />
   </ItemGroup>
 
