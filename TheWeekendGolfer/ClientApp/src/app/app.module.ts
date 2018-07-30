@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PlayerComponent } from './player/player.component';
 import { CourseComponent } from './course/course.component';
@@ -18,19 +17,21 @@ import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
 import { AddGolfRoundComponent } from './golfRound/add-golfRound.component';
 import { ScoreService } from './services/scores.service';
+import { SignUpComponent } from './user/sign-up.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     FetchDataComponent,
     PlayerComponent,
     CourseComponent,
     GolfRoundComponent,
     AddGolfRoundComponent,
-    AddPlayerComponent
+    AddPlayerComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,16 +40,16 @@ import { ScoreService } from './services/scores.service';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
       { path: 'courses', component: CourseComponent },  
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'players', component: PlayerComponent },
       { path: 'add-player', component: AddPlayerComponent },
       { path: 'golf-rounds', component: GolfRoundComponent },
       { path: 'add-golf-round', component: AddGolfRoundComponent },
+      { path: 'sign-up', component: SignUpComponent }
     ])
   ],
-  providers: [CourseService, PlayerService, GolfRoundService, ScoreService],
+  providers: [CourseService, PlayerService, GolfRoundService, ScoreService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

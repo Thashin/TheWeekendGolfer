@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheWeekendGolfer.Web.Data;
 
-namespace TheWeekendGolfer.Data.GolfDB.Migrations
+namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
     [DbContext(typeof(GolfDbContext))]
     partial class GolfDbContextModelSnapshot : ModelSnapshot
@@ -78,6 +78,8 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<DateTime>("Modified");
+
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 

@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheWeekendGolfer.Web.Data;
 
-namespace TheWeekendGolfer.Data.GolfDB.Migrations
+namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
     [DbContext(typeof(GolfDbContext))]
-    [Migration("20180727055811_init")]
+    [Migration("20180730030255_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,8 @@ namespace TheWeekendGolfer.Data.GolfDB.Migrations
                     b.Property<string>("LastName");
 
                     b.Property<DateTime>("Modified");
+
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 

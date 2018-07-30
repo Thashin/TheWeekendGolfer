@@ -57,7 +57,6 @@ namespace TheWeekendGolfer.Web.Controllers
             try
             {
                 Guid golfRoundId = _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
-                _scoreAccessLayer.AddScores
                 return Ok(golfRoundId);
             }
             catch
