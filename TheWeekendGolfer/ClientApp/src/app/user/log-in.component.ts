@@ -35,7 +35,7 @@ export class LogInComponent implements OnInit {
 
       this.userService.loginUser(user)
         .subscribe(data => {
-          this.router.navigate(['players']);
+          this.router.navigate(['/players']);
         });
     }
 

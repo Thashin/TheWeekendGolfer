@@ -76,5 +76,20 @@ namespace TheWeekendGolfer.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet]
+        public IActionResult isLoggedIn()
+        {
+            var a = User.Identity.IsAuthenticated;
+
+            return Ok(User.Identity.IsAuthenticated);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
+        }
     }
 }

@@ -17,7 +17,15 @@ export class UserService {
     this.theWeekendGolferUrl = baseUrl;
   }
 
+  isLoggedIn() {
+    return this._http.get(this.theWeekendGolferUrl + 'api/User/isLoggedIn')
+      .catch(this.errorHandler);
+  }
 
+  logout() {
+    return this._http.get(this.theWeekendGolferUrl + 'api/User/Logout')
+      .catch(this.errorHandler);
+  }
 
   createUser(user:User) {
     let options = {

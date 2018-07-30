@@ -49,7 +49,8 @@ import { LogInComponent } from './user/log-in.component';
       { path: 'golf-rounds', component: GolfRoundComponent },
       { path: 'add-golf-round', component: AddGolfRoundComponent },
       { path: 'sign-up', component: SignUpComponent },
-      { path: 'login', component: LogInComponent }
+      { path: 'login', component: LogInComponent },
+      { path: 'logout', component: LogInComponent }
     ])
   ],
   providers: [CourseService, PlayerService, GolfRoundService, ScoreService,UserService],
