@@ -24,12 +24,11 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreateAt")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("CurrentHandicap");
+                    b.Property<DateTime>("Date");
 
                     b.Property<Guid>("PlayerId");
+
+                    b.Property<decimal>("Value");
 
                     b.HasKey("Id");
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Data.ApplicationUserDB;
 using TheWeekendGolfer.Models;
@@ -37,7 +38,7 @@ namespace TheWeekendGolfer
 
             services.AddDbContext<GolfDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddScoped<HandicapAccessLayer>();
             services.AddScoped<CourseAccessLayer>();
             services.AddScoped<GolfRoundAccessLayer>();
             services.AddScoped<PlayerAccessLayer>();

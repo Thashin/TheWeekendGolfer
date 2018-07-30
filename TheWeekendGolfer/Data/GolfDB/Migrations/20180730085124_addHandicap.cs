@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
-    public partial class init : Migration
+    public partial class addHandicap : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,6 +38,20 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GolfRounds", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Handicaps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    PlayerId = table.Column<Guid>(nullable: false),
+                    Value = table.Column<decimal>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Handicaps", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +94,9 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
 
             migrationBuilder.DropTable(
                 name: "GolfRounds");
+
+            migrationBuilder.DropTable(
+                name: "Handicaps");
 
             migrationBuilder.DropTable(
                 name: "Players");

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +18,15 @@ namespace TheWeekendGolfer.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class GolfRoundController : Controller
     {
+        HandicapAccessLayer _handicapAccessLayer;
         GolfRoundAccessLayer _golfRoundAccessLayer;
         ScoreAccessLayer _scoreAccessLayer;
         PlayerAccessLayer _playerAccessLayer;
         CourseAccessLayer _courseAccessLayer;
 
-        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer)
+        public GolfRoundController(HandicapAccessLayer handicapAccessLayer,GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer)
         {
+            _handicapAccessLayer = handicapAccessLayer;
             _golfRoundAccessLayer = golfRoundAccessLayer;
             _scoreAccessLayer = scoreAccessLayer;
             _playerAccessLayer = playerAccessLayer;
@@ -80,6 +85,7 @@ namespace TheWeekendGolfer.Web.Controllers
         [Authorize]
         [HttpPost]
      //   [ValidateAntiForgeryToken]
+        //TODO: Figure out how to separate responsibilities
         public ActionResult Create([FromBody]AddGolfRound golfRound)
         {
             try
@@ -88,7 +94,10 @@ namespace TheWeekendGolfer.Web.Controllers
                 foreach(Score score in golfRound.Scores)
                 {
                     score.GolfRoundId = golfRoundId;
+                    Decimal handicap = CalculateHandicap(score.Value,golfRound.CourseId);
+
                 }
+                
                 _scoreAccessLayer.AddScores(golfRound.Scores);
                 return Ok();
             }
@@ -98,6 +107,17 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
+        private Decimal CalculateHandicap(int score,Guid courseId)
+        {
+            Course course = _courseAccessLayer.GetCourse(courseId);
+            Decimal handicap = (score - course.ScratchRating) * Decimal.Parse("113")
+                        / course.Slope * Decimal.Parse("0.93");
+            if(!course.Holes.Equals("18"))
+            {
+                handicap = handicap * 2;
+            }
+            return handicap;
+        }
 
         // POST: GolfRound/Edit/5
         [HttpPost]

@@ -10,8 +10,8 @@ using TheWeekendGolfer.Web.Data;
 namespace TheWeekendGolfer.Data.GolfDb.Migrations
 {
     [DbContext(typeof(GolfDbContext))]
-    [Migration("20180730061947_addHandicapTable")]
-    partial class addHandicapTable
+    [Migration("20180730085124_addHandicap")]
+    partial class addHandicap
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,12 +26,11 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreateAt")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("CurrentHandicap");
+                    b.Property<DateTime>("Date");
 
                     b.Property<Guid>("PlayerId");
+
+                    b.Property<decimal>("Value");
 
                     b.HasKey("Id");
 
