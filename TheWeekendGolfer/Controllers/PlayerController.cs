@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
+using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
 
@@ -13,10 +15,13 @@ namespace TheWeekendGolfer.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class PlayerController : Controller
     {
+        HandicapAccessLayer _handicapAccessLayer;
         PlayerAccessLayer _playerAccessLayer;
 
-        public PlayerController(PlayerAccessLayer playerAccessLayer)
+
+        public PlayerController(HandicapAccessLayer handicapAccessLayer, PlayerAccessLayer playerAccessLayer)
         {
+            _handicapAccessLayer = handicapAccessLayer;
             _playerAccessLayer = playerAccessLayer;
         }
 
@@ -64,27 +69,63 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-
-        // POST: Player/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Player player)
+        
+        private Boolean Edit(Guid playerId,Decimal handicap)
         {
-            if (_playerAccessLayer.UpdatePlayer(player))
+            Player player = _playerAccessLayer.GetPlayer(playerId);
+            player.Handicap = handicap;
+            player.Modified = DateTime.Now;
+            return _playerAccessLayer.UpdatePlayer(player);
+        }
+
+
+
+
+
+        public Boolean RecalculateHandicap(Guid playerId)
+        {
+            IEnumerable<Handicap> handicaps = _handicapAccessLayer.GetOrderedHandicaps(playerId)
+                                                                 .OrderBy(h=>h.Value);
+
+            int roundsPlayed = handicaps.Count();
+            Decimal newHandicap;
+
+            if (roundsPlayed>=19)
             {
-                return Ok();
+                newHandicap = handicaps.Take(8).Sum(h => h.Value) / 8;
+            }
+            else if (roundsPlayed >= 17)
+            {
+                newHandicap = handicaps.Take(7).Sum(h => h.Value) / 7;
+            }
+            else if (roundsPlayed >= 15)
+            {
+                newHandicap = handicaps.Take(6).Sum(h => h.Value) / 6;
+            }
+            else if (roundsPlayed >= 13)
+            {
+                newHandicap = handicaps.Take(5).Sum(h => h.Value) / 5;
+            }
+            else if (roundsPlayed >= 11)
+            {
+                newHandicap = handicaps.Take(4).Sum(h => h.Value) / 4;
+            }
+            else if (roundsPlayed >= 9)
+            {
+                newHandicap = handicaps.Take(3).Sum(h => h.Value) / 3;
+            }
+            else if (roundsPlayed >= 7)
+            {
+                newHandicap = handicaps.Take(2).Sum(h => h.Value) / 2;
             }
             else
             {
-                return BadRequest();
+                newHandicap = handicaps.Take(1).Sum(h => h.Value) / 1;
             }
-        }
 
-        //[HttpDelete]
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+            return Edit(playerId, newHandicap);
+
+        }
 
     }
 }

@@ -42,11 +42,12 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public void AddHandicap(Handicap handicap)
+        public Boolean AddHandicap(Handicap handicap)
         {
             try
             {
                 _context.Handicaps.Add(handicap);
+                return true;
             }
             catch
             {

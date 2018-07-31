@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
+using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Data.ApplicationUserDB;
 using TheWeekendGolfer.Models;
+using TheWeekendGolfer.Web.Controllers;
 using TheWeekendGolfer.Web.Data;
 
 namespace TheWeekendGolfer
@@ -43,6 +45,11 @@ namespace TheWeekendGolfer
             services.AddScoped<GolfRoundAccessLayer>();
             services.AddScoped<PlayerAccessLayer>();
             services.AddScoped<ScoreAccessLayer>();
+            services.AddScoped<HandicapController>();
+            services.AddScoped<CourseController>();
+            services.AddScoped<GolfRoundController>();
+            services.AddScoped<PlayerController>();
+            services.AddScoped<ScoreController>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Web.Models;
@@ -15,10 +16,12 @@ namespace TheWeekendGolfer.Web.Controllers
     public class ScoreController : Controller
     {
         ScoreAccessLayer _scoreAccessLayer;
+        HandicapController _handicapController;
 
-        public ScoreController(ScoreAccessLayer scoreAccessLayer)
+        public ScoreController(ScoreAccessLayer scoreAccessLayer, HandicapController handicapController)
         {
             _scoreAccessLayer = scoreAccessLayer;
+            _handicapController = handicapController;
         }
 
         [HttpGet]
@@ -48,21 +51,20 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-        // POST: Score/Create
-        [Authorize]
-        [HttpGet]
-        //[ValidateAntiForgeryToken]
-        public ActionResult AddScores(Score[] scores)
+        public Boolean AddScore(DateTime date, Score score, Guid courseId)
         {
-            foreach (Score score in scores)
+
+            if (!_scoreAccessLayer.AddScore(score))
             {
-                if (!_scoreAccessLayer.AddScore(score))
-                {
-                    return BadRequest();
-                }
+                return false;
+            }
+            else
+            {
+                _handicapController.CalculateHandicap(date, score, courseId);
+
+                return true;
             }
 
-            return Ok();
         }
 
 

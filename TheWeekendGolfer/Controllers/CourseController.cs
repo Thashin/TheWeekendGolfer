@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheWeekendGolfer.Data;
+using TheWeekendGolfer.Web.Models;
 
 namespace TheWeekendGolfer.Controllers
 {
@@ -66,19 +67,10 @@ namespace TheWeekendGolfer.Controllers
                 return BadRequest();
             }
         }
-
-        [HttpGet]
-        // GET: Course/Details/5
-        public ActionResult Details(Guid id)
+        
+        public Course Details(Guid id)
         {
-            try
-            {
-                return Ok(_courseAccessLayer.GetCourse(id));
-            }
-            catch
-            {
-                return BadRequest();
-            }
+                return _courseAccessLayer.GetCourse(id);
         }
     }
 }
