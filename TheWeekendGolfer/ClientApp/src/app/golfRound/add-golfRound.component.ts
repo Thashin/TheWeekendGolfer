@@ -26,11 +26,12 @@ export class AddGolfRoundComponent implements OnInit {
   public allPlayers: Player[];
   public currentPlayers: Player[];
   public courseName: string;
+  numScores: number;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService) {
     this.getCourseNames();
     this.getPlayers();
-
+    this.numScores = 1;
   }
 
   getCourseNames() {
@@ -84,6 +85,12 @@ export class AddGolfRoundComponent implements OnInit {
   addScore(): void {
     this.scores = <FormArray>this.createGolfRoundForm.get('scores');
     this.scores.push(this.createScore());
+    this.numScores += 1;
+  }
+
+  removeScore(i:number): void {
+    this.scores.removeAt(i);
+    this.numScores -= 1;
   }
 
   onSubmit()
