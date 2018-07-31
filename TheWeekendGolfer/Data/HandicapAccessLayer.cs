@@ -47,6 +47,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Handicaps.Add(handicap);
+                _context.SaveChanges();
                 return true;
             }
             catch

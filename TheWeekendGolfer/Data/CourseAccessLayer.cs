@@ -19,7 +19,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return (Course)_context.Courses.Select(s => s.Id.Equals(id));
+                return _context.Courses.Where(s => s.Id.Equals(id)).FirstOrDefault(); ;
             }
             catch
             {

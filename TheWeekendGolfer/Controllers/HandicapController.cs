@@ -38,7 +38,7 @@ namespace TheWeekendGolfer.Controllers
                 PlayerId = score.PlayerId };
             handicap.Value = (score.Value - course.ScratchRating) * Decimal.Parse("113")
                         / course.Slope * Decimal.Parse("0.93");
-            if (!course.Holes.Equals("18"))
+            if (course.Holes.Contains("-"))
             {
                 handicap.Value = handicap.Value * 2;
             }

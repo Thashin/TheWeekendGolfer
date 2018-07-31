@@ -59,8 +59,17 @@ namespace TheWeekendGolfer.Web.Controllers
    //     [ValidateAntiForgeryToken]
         public ActionResult Create([FromBody]Player player)
         {
-            if (_playerAccessLayer.AddPlayer(player))
+            Guid playerId = _playerAccessLayer.AddPlayer(player);
+            if (playerId != null)
             {
+                if(player.Handicap==null)
+                {
+                    return Ok();
+                }
+                else if(!_handicapAccessLayer.AddHandicap(new Handicap { Date = DateTime.Now, PlayerId = playerId, Value = player.Handicap.Value }))
+                {
+                    return BadRequest();
+                }
                 return Ok();
             }
             else

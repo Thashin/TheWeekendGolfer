@@ -20,7 +20,19 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return (Player)_context.Players.Select(s => s.Id.Equals(id));
+                return _context.Players.Where(s => s.Id.Equals(id)).FirstOrDefault();
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Player for " + id.ToString());
+            }
+        }
+
+        public Player GetLastPlayer(Guid id)
+        {
+            try
+            {
+                return _context.Players.Where(s => s.Id.Equals(id)).FirstOrDefault();
             }
             catch
             {
@@ -40,14 +52,14 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddPlayer(Player player)
+        public Guid AddPlayer(Player player)
         {
             try
             {
                 player.Modified = DateTime.Now;
                 _context.Players.Add(player);
                 _context.SaveChanges();
-                return true;
+                return player.Id;
             }
             catch
             {
