@@ -28,6 +28,7 @@ export class NavMenuComponent {
 
   public logout() {
     this._userService.logout().subscribe()
+    this.checkLogin();
   }
 
   toggle() {
