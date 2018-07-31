@@ -92,8 +92,13 @@ namespace TheWeekendGolfer.Web.Controllers
                     });
                 }
 
+                foreach (var roundId in roundsforDisplay.Keys)
+                {
+                    roundsforDisplay[roundId].players = roundsforDisplay[roundId].players.OrderBy(p => p.score).ToList();
+                }
 
-                return Ok(roundsforDisplay.Values);
+
+                    return Ok(roundsforDisplay.Values);
             }
             catch
             {
