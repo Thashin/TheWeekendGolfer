@@ -6,28 +6,36 @@
     <span class='glyphicon glyphicon-plus'></span> Add Golf Round
   </a>
 </button>
-<p *ngIf="!golfRounda"><em>Loading...</em></p>
+<p *ngIf="!golfRoundViews"><em>Loading...</em></p>
 
-<table class='table' *ngIf="golfRounds">
+<table class='table' *ngIf="golfRoundViews">
   <thead>
     <tr>
       <th>Date</th>
       <th>Course</th>
       <th>Tee Name</th>
       <th>Holes</th>
+      <th>Par</th>
+      <th>Scratch Rating</th>
+      <th>Slope</th>
       <th>Player 1</th>
       <th>Player 2</th>
       <th>Player 3</th>
       <th>Player 4</th>
     </tr>
   </thead>
-  <tbody>
-    <tr *ngFor="let golfRound of golfRounds">
-      <td>{{ golfRound.date | date: "dd-MMM-y" }}</td>
-      <td>{{ golfRound.name }}</td>
-      <td>{{ golfRound.teeName }}</td>
-      <td>{{ golfRound.holes }}</td>
-      <td>{{golfRound.firstName}} {{golfRound.lastName}} </td>
-    </tr>
+  <tbody >
+    <ng-container *ngFor="let golfRound of golfRoundViews">
+      <tr>
+        <td>{{ golfRound.date | date: "dd-MMM-y" }}</td>
+        <td>{{ golfRound.course.name }}</td>
+        <td>{{ golfRound.course.teeName }}</td>
+        <td>{{ golfRound.course.holes }}</td>
+        <td>{{ golfRound.course.par }}</td>
+        <td>{{ golfRound.course.scratchRating }}</td>
+        <td>{{ golfRound.course.slope }}</td>
+        <td *ngFor="let score of golfRound.players">{{score.player.firstName}} {{score.player.lastName}} {{score.score}}</td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

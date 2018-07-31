@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TheWeekendGolfer.Models;
-using TheWeekendGolfer.Web.Models;
+using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Data
 {

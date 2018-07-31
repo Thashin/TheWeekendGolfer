@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using TheWeekendGolfer.Web.Models;
+using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Models
 {

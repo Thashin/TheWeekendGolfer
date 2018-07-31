@@ -37,7 +37,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.ToTable("Handicaps");
                 });
 
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.Course", b =>
+            modelBuilder.Entity("TheWeekendGolfer.Models.Course", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -64,7 +64,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.GolfRound", b =>
+            modelBuilder.Entity("TheWeekendGolfer.Models.GolfRound", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -81,7 +81,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.ToTable("GolfRounds");
                 });
 
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.Player", b =>
+            modelBuilder.Entity("TheWeekendGolfer.Models.Player", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
@@ -104,7 +104,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     b.ToTable("Players");
                 });
 
-            modelBuilder.Entity("TheWeekendGolfer.Web.Models.Score", b =>
+            modelBuilder.Entity("TheWeekendGolfer.Models.Score", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();

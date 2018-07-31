@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Controllers;
-using TheWeekendGolfer.Web.Models;
+using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Controllers
 {

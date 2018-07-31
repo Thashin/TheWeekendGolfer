@@ -1,10 +1,13 @@
 import { Course } from './course.model';
 import { Score } from './score.model';
+import { Player } from './player.model';
 
 export class GolfRound {
+  id: string;
   date: Date;
-  course: string;
+  name: string;
   teeName: string;
   holes: string;
-  player:string[][]
+  player: Player;
+  value: number;
 }

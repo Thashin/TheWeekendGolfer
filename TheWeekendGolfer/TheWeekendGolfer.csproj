@@ -34,6 +34,7 @@
     <None Remove="ClientApp\src\app\models\golfRound.model.ts" />
     <None Remove="ClientApp\src\app\models\player.model.ts" />
     <None Remove="ClientApp\src\app\models\score.model.ts" />
+    <None Remove="ClientApp\src\app\models\scoreView.model.ts" />
     <None Remove="ClientApp\src\app\models\User.model.ts" />
     <None Remove="ClientApp\src\app\player\add-player.component.ts" />
     <None Remove="ClientApp\src\app\services\course.service.ts" />
@@ -57,6 +58,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\scoreView.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\user.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\course.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\golfRound.model.ts" />

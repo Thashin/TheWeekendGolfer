@@ -11,8 +11,7 @@ using Newtonsoft.Json;
 using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Web.Data;
-using TheWeekendGolfer.Web.Models;
-using TheWeekendGolfer.Web.Models.GolfRoundViewModels;
+using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
 {
@@ -25,7 +24,7 @@ namespace TheWeekendGolfer.Web.Controllers
         CourseAccessLayer _courseAccessLayer;
         ScoreController _scoreController;
 
-        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer,ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer,ScoreController scoreController)
+        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer, ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer, ScoreController scoreController)
         {
             _golfRoundAccessLayer = golfRoundAccessLayer;
             _scoreAccessLayer = scoreAccessLayer;
@@ -45,22 +44,56 @@ namespace TheWeekendGolfer.Web.Controllers
                 var players = _playerAccessLayer.GetAllPlayers();
 
                 var joinRoundScores = from round in rounds
-                            join score in scores on round.Id equals score.GolfRoundId
-                            where score.GolfRoundId.Equals(round.Id)
-                            select new { round.Date,round.CourseId, score .PlayerId,score.Value};
+                                      join score in scores on round.Id equals score.GolfRoundId
+                                      where score.GolfRoundId.Equals(round.Id)
+                                      select new { round.Id, round.Date, round.CourseId, score.PlayerId, score.Value };
 
                 var resolveCourses = from round in joinRoundScores
                                      join course in courses on round.CourseId equals course.Id
                                      where course.Id.Equals(round.CourseId)
-                                     select new { round.Date, course.Name, course.TeeName, course.Holes, round.PlayerId, round.Value };
+                                     select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes,course.Par,course.ScratchRating,course.Slope, round.PlayerId, round.Value };
 
                 var resolvePlayers = from round in resolveCourses
                                      join player in players on round.PlayerId equals player.Id
                                      where player.Id.Equals(round.PlayerId)
-                                     select new { round.Date, round.Name, round.TeeName, round.Holes, player.FirstName,player.LastName,player.Handicap, round.Value };
+                                     select new { round.Id, round.Date, round.Name, round.TeeName, round.Holes, round.Par, round.ScratchRating, round.Slope, player.FirstName, player.LastName, player.Handicap, round.Value };
+
+                Dictionary<Guid, GolfRoundViewModel> roundsforDisplay = new Dictionary<Guid, GolfRoundViewModel>();
+
+                foreach (var round in resolvePlayers)
+                {
+                    var roundId = round.Id;
+                    if (!roundsforDisplay.ContainsKey(roundId))
+                    {
+                        roundsforDisplay.Add(roundId, new GolfRoundViewModel
+                        {
+                            Date = round.Date,
+                            Course = new Course
+                            {
+                                Name = round.Name,
+                                TeeName = round.TeeName,
+                                Holes = round.Holes,
+                                Par = round.Par,
+                                ScratchRating = round.ScratchRating,
+                                Slope = round.Slope
+                            },
+                            players = new List<PlayerViewModel>()
+                        });
+                    }
+                    roundsforDisplay[roundId].players.Add(new PlayerViewModel
+                    {
+                        player = new Player
+                        {
+                            FirstName = round.FirstName,
+                            LastName = round.LastName,
+                            Handicap = round.Handicap
+                        },
+                        score = round.Value
+                    });
+                }
 
 
-                return Ok(resolvePlayers);
+                return Ok(roundsforDisplay.Values);
             }
             catch
             {
@@ -85,17 +118,17 @@ namespace TheWeekendGolfer.Web.Controllers
         // POST: GolfRound/Create
         [Authorize]
         [HttpPost]
-     //   [ValidateAntiForgeryToken]
+        //   [ValidateAntiForgeryToken]
         //TODO: Figure out how to separate responsibilities
         public ActionResult Create([FromBody]AddGolfRound golfRound)
         {
             try
             {
                 Guid golfRoundId = _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
-                foreach(Score score in golfRound.Scores)
+                foreach (Score score in golfRound.Scores)
                 {
                     score.GolfRoundId = golfRoundId;
-                    if (!_scoreController.AddScore(golfRound.Date,score, golfRound.CourseId))
+                    if (!_scoreController.AddScore(golfRound.Date, score, golfRound.CourseId))
                         return BadRequest();
                 }
 

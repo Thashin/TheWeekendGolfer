@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TheWeekendGolfer.Web.Models
+namespace TheWeekendGolfer.Models
 {
     public class Score
     {

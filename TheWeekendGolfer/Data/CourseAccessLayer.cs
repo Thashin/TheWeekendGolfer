@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheWeekendGolfer.Web.Data;
-using TheWeekendGolfer.Web.Models;
+using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
