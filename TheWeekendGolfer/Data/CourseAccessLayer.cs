@@ -38,6 +38,17 @@ namespace TheWeekendGolfer.Data
                 throw new Exception("Could not retrieve all Courses");
             }
         }
+        public IEnumerable<Course> GetAllCoursesOrderedSlope()
+        {
+            try
+            {
+                return _context.Courses.Select(s => s).OrderBy(s=>s.Slope);
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all Courses");
+            }
+        }
 
         public IEnumerable<string> GetCourseNames()
         {

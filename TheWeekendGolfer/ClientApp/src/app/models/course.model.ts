@@ -1,4 +1,4 @@
-export class Course {
+export interface Course {
   id: string;
   location: string;
   name: string;

@@ -22,6 +22,12 @@ export class CourseService {
       .catch(this.errorHandler);
   }
 
+
+  getCoursesOrderedSlope() {
+    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetAllCoursesOrderedSlope')
+      .catch(this.errorHandler);
+  }
+
   getCourseNames() {
     return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseNames')
       .catch(this.errorHandler);
