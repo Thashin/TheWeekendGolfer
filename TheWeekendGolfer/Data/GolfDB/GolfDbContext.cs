@@ -17,6 +17,7 @@ namespace TheWeekendGolfer.Web.Data
         public DbSet<Player> Players { get; set; }
         public DbSet<GolfRound> GolfRounds { get; set; }
         public DbSet<Handicap> Handicaps { get; set; }
+        public DbSet<Partner> Partners { get; set; }
 
     }
 }

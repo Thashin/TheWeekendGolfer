@@ -46,7 +46,7 @@ namespace TheWeekendGolfer.Data
             {
                 _context.GolfRounds.Add(golfRound);
                 _context.SaveChanges();
-                return _context.GolfRounds.Last().Id;
+                return golfRound.Id;
             }
             catch
             {

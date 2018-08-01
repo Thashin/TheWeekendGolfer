@@ -45,10 +45,12 @@ namespace TheWeekendGolfer
             services.AddScoped<GolfRoundAccessLayer>();
             services.AddScoped<PlayerAccessLayer>();
             services.AddScoped<ScoreAccessLayer>();
+            services.AddScoped<PartnerAccessLayer>();
             services.AddScoped<CourseController>();
             services.AddScoped<GolfRoundController>();
             services.AddScoped<PlayerController>();
             services.AddScoped<ScoreController>();
+            services.AddScoped<UserController>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

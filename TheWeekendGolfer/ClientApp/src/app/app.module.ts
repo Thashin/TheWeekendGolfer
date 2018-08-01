@@ -20,6 +20,8 @@ import { ScoreService } from './services/scores.service';
 import { SignUpComponent } from './user/sign-up.component';
 import { UserService } from './services/user.service';
 import { LogInComponent } from './user/log-in.component';
+import { AddPartnerComponent } from './partner/add-partner.component';
+import { PartnerService } from './services/partner.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { LogInComponent } from './user/log-in.component';
     AddGolfRoundComponent,
     AddPlayerComponent,
     SignUpComponent,
-    LogInComponent
+    LogInComponent,
+    AddPartnerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,10 +54,11 @@ import { LogInComponent } from './user/log-in.component';
       { path: 'add-golf-round', component: AddGolfRoundComponent },
       { path: 'sign-up', component: SignUpComponent },
       { path: 'login', component: LogInComponent },
-      { path: 'logout', component: LogInComponent }
+      { path: 'logout', component: LogInComponent },
+      { path: 'add-partner', component: AddPartnerComponent }
     ])
   ],
-  providers: [CourseService, PlayerService, GolfRoundService, ScoreService,UserService],
+  providers: [CourseService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

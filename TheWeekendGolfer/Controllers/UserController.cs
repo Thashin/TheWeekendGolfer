@@ -84,14 +84,14 @@ namespace TheWeekendGolfer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPlayer()
+        public async Task<Guid?> GetPlayer()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                return Ok(_playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id);
+                return _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id;
             }
-            return Ok();
+            return null;
         }
 
         [HttpGet]

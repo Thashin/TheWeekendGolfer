@@ -32,13 +32,16 @@
     <None Remove="ClientApp\src\app\course\course.component.ts" />
     <None Remove="ClientApp\src\app\models\course.model.ts" />
     <None Remove="ClientApp\src\app\models\golfRound.model.ts" />
+    <None Remove="ClientApp\src\app\models\partner.model.ts" />
     <None Remove="ClientApp\src\app\models\player.model.ts" />
     <None Remove="ClientApp\src\app\models\score.model.ts" />
     <None Remove="ClientApp\src\app\models\scoreView.model.ts" />
     <None Remove="ClientApp\src\app\models\User.model.ts" />
+    <None Remove="ClientApp\src\app\partner\add-partner.component.ts" />
     <None Remove="ClientApp\src\app\player\add-player.component.ts" />
     <None Remove="ClientApp\src\app\services\course.service.ts" />
     <None Remove="ClientApp\src\app\services\golfRound.service.ts" />
+    <None Remove="ClientApp\src\app\services\partner.service.ts" />
     <None Remove="ClientApp\src\app\services\player.service.ts" />
     <None Remove="ClientApp\src\app\services\scores.service.ts" />
     <None Remove="ClientApp\src\app\services\user.service.ts" />
@@ -58,13 +61,16 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\partner.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\scoreView.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\user.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\course.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\golfRound.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\player.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\score.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\partner\add-partner.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\player\add-player.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\partner.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\golfRound.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\player.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\scores.service.ts" />
