@@ -80,9 +80,18 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         public IActionResult isLoggedIn()
         {
-            var a = User.Identity.IsAuthenticated;
-
             return Ok(User.Identity.IsAuthenticated);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPlayer()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                return Ok(_playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id);
+            }
+            return Ok();
         }
 
         [HttpGet]

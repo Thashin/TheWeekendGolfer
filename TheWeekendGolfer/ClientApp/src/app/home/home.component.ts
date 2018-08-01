@@ -1,39 +1,56 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Chart, ChartData, Point } from "chart.js";
 import { CourseService } from '../services/course.service';
 import { Router } from '@angular/router';
 import { Course } from '../models/course.model';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from '../services/user.service';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
-export class HomeComponent{
+export class HomeComponent implements OnInit {
 
+  public playerId: string;
   public courses: Course[];
   public slopesPar: Array<any> =[];
   public pars: number[] = [];
 
-  constructor(public http: HttpClient, private _router: Router, private _courseService: CourseService) {
-    this.getCoursesOrderedSlope();
+  public lineChartData: Array<any>;
+  public lineChartLabels: Array<any>; 
+
+
+  constructor(public http: HttpClient, private _router: Router, private _userService: UserService, private _playerService: PlayerService, private _courseService: CourseService) {
+
+
+    this.getHandicaps();
+    
   }
 
-  getCoursesOrderedSlope() {
-    this._courseService.getCoursesOrderedSlope().subscribe(
-      data => {
-        for (let course of data) {
-          
-            this.slopesPar.push({ x: course.par, y: course.slope })
-        }
-        console.log(this.slopesPar)
-      }
-    )
+  ngOnInit(): void {
+
+
+
   }
 
+
+  getHandicaps() {
+    this._userService.getPlayerid().subscribe(
+      playerId => {
+        this._playerService.getPlayerHandicaps(playerId).subscribe(
+          handicaps => {
+            this.lineChartData = [{ data : handicaps.map(item => item.value),label:'Handicap'}];
+            this.lineChartLabels = handicaps.map(item => item.date);
+            console.log(this.lineChartLabels)
+          }
+        )
+      });
+    
+  }
 
   // lineChart
-  public lineChartLabels: Array<any> = this.pars;
   public lineChartOptions: any = {
     responsive: true
   };
@@ -64,7 +81,7 @@ export class HomeComponent{
     }
   ];
   public lineChartLegend: boolean = true;
-  public lineChartType: string = 'scatter';
+  public lineChartType: string = 'line';
 
 
   // events

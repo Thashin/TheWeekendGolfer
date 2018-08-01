@@ -21,6 +21,10 @@ export class PlayerService {
       .catch(this.errorHandler);
   }
 
+  getPlayerHandicaps(playerId: string) {
+    return this._http.get(this.theWeekendGolferUrl + 'api/Player/GetOrderedHandicaps?PlayerId=' + playerId)
+      .catch(this.errorHandler);
+  }
 
   getPlayerById(id: string) {
     return this._http.get(this.theWeekendGolferUrl + "api/Player/Details/" + id)

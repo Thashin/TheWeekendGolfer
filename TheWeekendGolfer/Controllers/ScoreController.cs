@@ -16,12 +16,12 @@ namespace TheWeekendGolfer.Web.Controllers
     public class ScoreController : Controller
     {
         ScoreAccessLayer _scoreAccessLayer;
-        HandicapController _handicapController;
+        PlayerController _playerController;
 
-        public ScoreController(ScoreAccessLayer scoreAccessLayer, HandicapController handicapController)
+        public ScoreController(ScoreAccessLayer scoreAccessLayer, PlayerController playerController)
         {
             _scoreAccessLayer = scoreAccessLayer;
-            _handicapController = handicapController;
+            _playerController = playerController;
         }
 
         [HttpGet]
@@ -60,7 +60,7 @@ namespace TheWeekendGolfer.Web.Controllers
             }
             else
             {
-                _handicapController.CalculateHandicap(date, score, courseId);
+                _playerController.CalculateHandicap(date, score, courseId);
 
                 return true;
             }

@@ -45,7 +45,6 @@ namespace TheWeekendGolfer
             services.AddScoped<GolfRoundAccessLayer>();
             services.AddScoped<PlayerAccessLayer>();
             services.AddScoped<ScoreAccessLayer>();
-            services.AddScoped<HandicapController>();
             services.AddScoped<CourseController>();
             services.AddScoped<GolfRoundController>();
             services.AddScoped<PlayerController>();

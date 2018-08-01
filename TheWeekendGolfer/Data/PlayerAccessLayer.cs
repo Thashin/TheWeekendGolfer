@@ -40,6 +40,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public Player GetPlayerByUserId(Guid id)
+        {
+            try
+            {
+                return _context.Players.Where(s => s.UserId.Equals(id)).FirstOrDefault();
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Player for " + id.ToString());
+            }
+        }
+
         public IEnumerable<Player> GetAllPlayers()
         {
             try

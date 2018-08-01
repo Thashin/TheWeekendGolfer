@@ -17,12 +17,43 @@ namespace TheWeekendGolfer.Web.Controllers
     {
         HandicapAccessLayer _handicapAccessLayer;
         PlayerAccessLayer _playerAccessLayer;
+        CourseController _courseController;
 
 
-        public PlayerController(HandicapAccessLayer handicapAccessLayer, PlayerAccessLayer playerAccessLayer)
+        public PlayerController(HandicapAccessLayer handicapAccessLayer, PlayerAccessLayer playerAccessLayer, CourseController courseController)
         {
             _handicapAccessLayer = handicapAccessLayer;
             _playerAccessLayer = playerAccessLayer;
+            _courseController = courseController;
+        }
+        
+
+        public Boolean AddHandicap(Handicap handicap)
+        {
+            _handicapAccessLayer.AddHandicap(handicap);
+            return RecalculateHandicap(handicap.PlayerId);
+        }
+
+        public Boolean CalculateHandicap(DateTime date, Score score, Guid courseId)
+        {
+            Course course = _courseController.Details(courseId);
+            Handicap handicap = new Handicap
+            {
+                Date = date,
+                PlayerId = score.PlayerId
+            };
+            handicap.Value = (score.Value - course.ScratchRating) * Decimal.Parse("113")
+                        / course.Slope * Decimal.Parse("0.93");
+            if (course.Holes.Contains("-"))
+            {
+                handicap.Value = handicap.Value * 2;
+            }
+            return AddHandicap(handicap);
+        }
+        [HttpGet]
+        public IEnumerable<Handicap> GetOrderedHandicaps(Guid PlayerId)
+        {
+            return _handicapAccessLayer.GetOrderedHandicaps(PlayerId);
         }
 
         [HttpGet]

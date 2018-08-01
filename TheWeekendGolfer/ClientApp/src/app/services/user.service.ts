@@ -62,6 +62,10 @@ export class UserService {
       .catch(this.errorHandler);
   }
 
+  getPlayerid() {
+    return this._http.get(this.theWeekendGolferUrl + 'api/User/GetPlayer')
+      .catch(this.errorHandler);
+  }
 
 
   errorHandler(error: Response) {
