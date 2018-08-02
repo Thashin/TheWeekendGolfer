@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
@@ -11,9 +11,11 @@ import { User } from '../models/User.model';
 
 @Injectable()
 export class UserService {
+
+  isLoggedInEvent: EventEmitter<any> = new EventEmitter<any>();
   theWeekendGolferUrl: string = "";
 
-  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string, private _router: Router) {
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router) {
     this.theWeekendGolferUrl = baseUrl;
   }
 
@@ -23,8 +25,16 @@ export class UserService {
   }
 
   logout() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/User/Logout')
-      .catch(this.errorHandler);
+    var result = "";
+    this._http.get(this.theWeekendGolferUrl + 'api/User/Logout')
+      .catch(this.errorHandler).subscribe(data => {
+        result = data.Result;
+        if (data.Result == "Logout Successful") {
+          this.isLoggedInEvent.emit();
+          this.router.navigate(['/']);
+        }
+      });
+    return result;
   }
 
   createUser(user:User) {
@@ -58,8 +68,20 @@ export class UserService {
         'Email': user.email,
         'Password': user.password,
       });
-    return this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options)
-      .catch(this.errorHandler);
+    var result = "";
+    this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options)
+      .catch(this.errorHandler).subscribe(data => {
+        result = data.Result;
+        if (data.Result == "Login Successful") {
+          this.isLoggedInEvent.emit();
+          this.router.navigate(['/']);
+        }
+      });
+    return result;
+  }
+
+  getEmitter() {
+    return this.isLoggedInEvent;
   }
 
   getPlayerid() {

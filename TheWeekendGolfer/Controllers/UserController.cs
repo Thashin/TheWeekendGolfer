@@ -64,11 +64,11 @@ namespace TheWeekendGolfer.Controllers
          , false, false);
                 if (isSignedIn.Succeeded)
                 {
-                    return Ok("Login Successful");
+                    return Ok("{\"Result\":\"Login Successful\"}");
                 }
                 else
                 {
-                    return Ok("Login Failed");
+                    return Ok("{\"Result\":\"Login Failed\"}");
                 }
             }
             else
@@ -98,7 +98,7 @@ namespace TheWeekendGolfer.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Ok();
+            return Ok("{\"Result\":\"Logout Successful\"}");
         }
     }
 }

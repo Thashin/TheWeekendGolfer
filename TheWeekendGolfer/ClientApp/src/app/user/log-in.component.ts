@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PlayerService } from "../services/player.service";
 import { first } from "rxjs/operators";
@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { UserService } from '../services/user.service';
 import { Player } from '../models/player.model';
 import { User } from '../models/User.model';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-log-in',
@@ -13,9 +14,9 @@ import { User } from '../models/User.model';
 })
 export class LogInComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private _userService: UserService) { }
 
- loginForm: FormGroup;
+  loginForm: FormGroup;
 
   ngOnInit() {
 
@@ -33,10 +34,8 @@ export class LogInComponent implements OnInit {
       password: this.loginForm.value.password,
       player : null   }
 
-      this.userService.loginUser(user)
-        .subscribe(data => {
-          this.router.navigate(['/players']);
-        });
+      this._userService.loginUser(user)
+
     }
 
   }
