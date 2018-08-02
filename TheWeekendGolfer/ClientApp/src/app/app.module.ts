@@ -7,7 +7,6 @@ import { ChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { PlayerComponent } from './player/player.component';
 import { CourseComponent } from './course/course.component';
 import { CourseService } from './services/course.service';
@@ -28,7 +27,6 @@ import { PartnerService } from './services/partner.service';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    FetchDataComponent,
     PlayerComponent,
     CourseComponent,
     GolfRoundComponent,
@@ -47,7 +45,6 @@ import { PartnerService } from './services/partner.service';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'courses', component: CourseComponent },  
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'players', component: PlayerComponent },
       { path: 'add-player', component: AddPlayerComponent },
       { path: 'golf-rounds', component: GolfRoundComponent },

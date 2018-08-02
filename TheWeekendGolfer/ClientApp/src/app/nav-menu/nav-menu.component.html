@@ -28,11 +28,6 @@
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Fetch data
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
               <a [routerLink]='["/golf-rounds"]' (click)='collapse()'>
                 <span class='glyphicon glyphicon-th-list'></span> Golf Rounds
               </a>
@@ -47,7 +42,7 @@
                 <span class='glyphicon glyphicon-th-list'></span> Courses
               </a>
             </li>
-            <li *ngIf="isLoggedIn" [routerLinkActive]='["link-active"]'>
+            <li *ngIf="isLoggedIn">
               <a [routerLink]='["/"]' (click)='logout()'>
                 <span class='glyphicon glyphicon-education'></span> Logout
               </a>
