@@ -1,26 +1,33 @@
 <div class="col-md-6">
   <h2 class="text-center">Add User</h2>
   <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="firstName">First Name:</label>
-      <input formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+    <div class="row">
+      <mat-form-field>
+        <input matInput formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+      </mat-form-field>
     </div>
-    <div class="form-group">
-      <label for="lastName">Last Name:</label>
-      <input formControlName="lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+    <div class="row">
+      <mat-form-field>
+        <input matInput formControlName="lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+      </mat-form-field>
     </div>
-    <div class="form-group">
-      <label for="handicap">Handicap:</label>
-      <input type="number" formControlName="handicap" placeholder="Handicap" name="handicap" class="form-control" id="handicap">
+    <div class="row">
+      <mat-form-field>
+        <input matInput type="number" formControlName="handicap" placeholder="Handicap" name="handicap" class="form-control" id="handicap">
+      </mat-form-field>
     </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
+    <div class="row">
+      <mat-form-field>
+        <input matInput type="email" formControlName="email" placeholder="Email" name="email" class="form-control" id="email">
+      </mat-form-field>
     </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" formControlName="password" placeholder="Password" name="password" class="form-control" id="password">
+    <div class="row">
+      <mat-form-field>
+        <input matInput type="password" formControlName="password" placeholder="Password" name="password" class="form-control" id="password">
+      </mat-form-field>
     </div>
-    <button class="btn btn-success">Sign Up</button>
+    <div class="button-row">
+      <button mat-raised-button color="primary">Sign Up</button>
+    </div>
   </form>
 </div>
