@@ -1,53 +1,42 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>TheWeekendGolfer</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-          <ul class='nav navbar-nav'>
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-              <a [routerLink]='["/"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-home'></span> Home
-              </a>
-            </li>
-              <li *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]'>
-                <a [routerLink]='["/login"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-education'></span> Login
-                </a>
-              </li>
-            <li *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/sign-up"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-education'></span> Sign Up
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/golf-rounds"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Golf Rounds
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/players"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Players
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/courses"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Courses
-              </a>
-            </li>
-            <li *ngIf="isLoggedIn">
-              <a [routerLink]='["/"]' (click)='logout()'>
-                <span class='glyphicon glyphicon-education'></span> Logout
-              </a>
-            </li>
-          </ul>
-        </div>
-    </div>
-</div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer
+               class="sidenav"
+               fixedInViewport="true">
+    <mat-toolbar class="toolbar" color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]='["/"]' (click)='collapse()'>
+        <mat-icon>home</mat-icon> Home
+      </a>
+      <a mat-list-item *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]' (click)='collapse()'>
+        <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Login
+      </a>
+      <a mat-list-item *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]' (click)='collapse()'>
+        <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Sign Up
+      </a>
+      <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='collapse()'>
+        <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Golf Rounds
+      </a>
+      <a mat-list-item [routerLink]='["/players"]' (click)='collapse()'>
+        <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Players
+      </a>
+      <a mat-list-item [routerLink]='["/courses"]' (click)='collapse()'>
+        <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Courses
+      </a>
+      <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/"]' (click)='logout()'>
+        <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Logout
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>The Weekend Golfer</span>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
