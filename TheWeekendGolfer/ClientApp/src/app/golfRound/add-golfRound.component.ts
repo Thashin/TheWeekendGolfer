@@ -22,7 +22,7 @@ export class AddGolfRoundComponent implements OnInit {
 
   public courseNames: string[];
   public holesNames: Course[];
-  public tees: string[][];
+  public tees: string[];
   public scores: FormArray;
   public allPlayers: Player[];
   public currentPlayers: Player[];
@@ -40,12 +40,7 @@ export class AddGolfRoundComponent implements OnInit {
   getCurrentPlayer() {
     this._userService.getPlayerid().subscribe(playerId => {
       this._playerService.getPlayerById(playerId).subscribe(data => {
-        this.player = {
-          id: playerId,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          handicap: 0
-        };
+        this.player = data;
         console.log(this.player);
       })
         });
@@ -64,7 +59,6 @@ export class AddGolfRoundComponent implements OnInit {
 
   getCourseHoles(teeName: string) {
     this._courseService.getCourseHoles(this.courseName, teeName).subscribe(data => this.holesNames = data);
-    console.log(this.holesNames);
   }
 
   getPlayers() {

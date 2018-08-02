@@ -1,10 +1,12 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+import { Course } from '../models/course.model';
+
+
+
 
 
 
@@ -18,41 +20,35 @@ export class CourseService {
 
 
   getCourses(){
-    return this._http.get(this.theWeekendGolferUrl + 'api/Course/Index')
-      .catch(this.errorHandler);
+    return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/Index');
   }
 
 
   getCoursesOrderedSlope() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetAllCoursesOrderedSlope')
-      .catch(this.errorHandler);
+    return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/GetAllCoursesOrderedSlope');
   }
 
   getCourseNames() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseNames')
-      .catch(this.errorHandler);
+    return this._http.get<string[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseNames');
   }
 
   getCourseTees(courseName: string) {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName)
-      .catch(this.errorHandler);
+    return this._http.get<string[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName);
   }
   getCourseHoles(courseName:string,courseTee:string) {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName+"&Tee="+courseTee)
-      .catch(this.errorHandler);
+    return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName + "&Tee=" + courseTee);
   }
 
 
 
   getCourseById(id: string) {
-    return this._http.get(this.theWeekendGolferUrl + "api/Course/Details/" + id)
-      .catch(this.errorHandler)
+    return this._http.get<Course>(this.theWeekendGolferUrl + "api/Course/Details/" + id);
   }
 
 
   errorHandler(error: Response) {
     console.log(error);
-    return Observable.throw(error);
+    return observableThrowError(error);
   }
 
  

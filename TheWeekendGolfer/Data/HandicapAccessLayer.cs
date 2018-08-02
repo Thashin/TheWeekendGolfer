@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Data;
-using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {

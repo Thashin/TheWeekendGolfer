@@ -1,11 +1,13 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { Player } from '../models/player.model';
+import { Handicap } from '../models/handicap.model';
 
 @Injectable()
 export class PlayerService {
@@ -17,18 +19,15 @@ export class PlayerService {
 
 
   getPlayers() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Player/Index')
-      .catch(this.errorHandler);
+    return this._http.get<Player[]>(this.theWeekendGolferUrl + 'api/Player/Index');
   }
 
   getPlayerHandicaps(playerId: string) {
-    return this._http.get(this.theWeekendGolferUrl + 'api/Player/GetOrderedHandicaps?PlayerId=' + playerId)
-      .catch(this.errorHandler);
+    return this._http.get<Handicap[]>(this.theWeekendGolferUrl + 'api/Player/GetOrderedHandicaps?PlayerId=' + playerId);
   }
 
   getPlayerById(id: string) {
-    return this._http.get<Player>(this.theWeekendGolferUrl + "api/Player/Details?id=" + id)
-      .catch(this.errorHandler)
+    return this._http.get<Player>(this.theWeekendGolferUrl + "api/Player/Details?id=" + id);
   }
 
   createPlayer(player: Player) {
@@ -43,24 +42,19 @@ export class PlayerService {
         'LastName': player.lastName,
         'Handicap': String(player.handicap)
       });
-    return this._http.post(this.theWeekendGolferUrl + 'api/Player/Create', body, options)
-      .catch(this.errorHandler)
+    return this._http.post(this.theWeekendGolferUrl + 'api/Player/Create', body, options);
   }
 
   updatePlayer(player) {
-    return this._http.put(this.theWeekendGolferUrl + 'api/Player/Edit', player)
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.put(this.theWeekendGolferUrl + 'api/Player/Edit', player);
   }
 
   deletePlayer(id) {
-    return this._http.delete(this.theWeekendGolferUrl + "api/Player/Delete/" + id)
-      .map((response: Response) => response.json())
-      .catch(this.errorHandler);
+    return this._http.delete(this.theWeekendGolferUrl + "api/Player/Delete/" + id);
   }
 
   errorHandler(error: Response) {
     console.log(error);
-    return Observable.throw(error);
+    return observableThrowError(error);
   }
 }  

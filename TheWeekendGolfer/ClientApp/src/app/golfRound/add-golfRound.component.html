@@ -37,11 +37,11 @@
               <label>Player {{i+1}}:</label>
             </div>
             <div class="col-sm-4">
-              <select *ngIf="i==0" (change)="addPlayer(player.id)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
+              <!--<select *ngIf="i==0" (change)="addPlayer(player.id)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
                 <option *ngIf="!allPlayers"><em>Loading...</em></option>
                 <option [value]="player.id">{{player.firstName}} {{player.lastName}} </option>
-              </select>
-              <select *ngIf="i" (change)="addPlayer($event.target.value)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
+              </select>-->
+              <select  (change)="addPlayer($event.target.value)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
                 <option *ngIf="!allPlayers"><em>Loading...</em></option>
                 <option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </option>
               </select>

@@ -8,7 +8,6 @@ using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Data;
-using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
 {

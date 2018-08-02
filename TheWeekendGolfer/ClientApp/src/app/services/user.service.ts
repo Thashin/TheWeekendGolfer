@@ -1,10 +1,11 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
+
+
+
 import { User } from '../models/User.model';
 
 
@@ -20,16 +21,14 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/User/isLoggedIn')
-      .catch(this.errorHandler);
+    return this._http.get<boolean>(this.theWeekendGolferUrl + 'api/User/isLoggedIn');
   }
 
   logout() {
     var result = "";
-    this._http.get(this.theWeekendGolferUrl + 'api/User/Logout')
-      .catch(this.errorHandler).subscribe(data => {
-        result = data.Result;
-        if (data.Result == "Logout Successful") {
+    this._http.get(this.theWeekendGolferUrl + 'api/User/Logout').subscribe(data => {
+      result = data["Result"];
+      if (data["Result"] == "Logout Successful") {
           this.isLoggedInEvent.emit();
           this.router.navigate(['/']);
         }
@@ -53,8 +52,7 @@ export class UserService {
           'Handicap': user.player.handicap
         }
       });
-    return this._http.post(this.theWeekendGolferUrl + 'api/user/CreateAsync',body,options)
-      .catch(this.errorHandler);
+    return this._http.post(this.theWeekendGolferUrl + 'api/user/CreateAsync', body, options);
   }
 
   loginUser(user: User) {
@@ -70,9 +68,9 @@ export class UserService {
       });
     var result = "";
     this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options)
-      .catch(this.errorHandler).subscribe(data => {
-        result = data.Result;
-        if (data.Result == "Login Successful") {
+      .subscribe(data => {
+        result = data["Result"];
+        if (data["Result"] == "Login Successful") {
           this.isLoggedInEvent.emit();
           this.router.navigate(['/']);
         }
@@ -85,14 +83,13 @@ export class UserService {
   }
 
   getPlayerid() {
-    return this._http.get(this.theWeekendGolferUrl + 'api/User/GetPlayer')
-      .catch(this.errorHandler);
+    return this._http.get<string>(this.theWeekendGolferUrl + 'api/User/GetPlayer');
   }
 
 
   errorHandler(error: Response) {
     console.log(error);
-    return Observable.throw(error);
+    return observableThrowError(error);
   }
 
 

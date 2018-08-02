@@ -6,7 +6,6 @@ import { Router } from "@angular/router";
 import { UserService } from '../services/user.service';
 import { Player } from '../models/player.model';
 import { User } from '../models/User.model';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-log-in',
