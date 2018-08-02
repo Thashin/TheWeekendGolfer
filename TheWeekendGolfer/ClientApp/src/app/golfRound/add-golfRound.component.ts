@@ -12,6 +12,7 @@ import { Player } from '../models/player.model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { ScoreService } from '../services/scores.service';
 import { AddGolfRound } from '../models/addGolfRound.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   templateUrl: './add-golfRound.component.html'
@@ -26,12 +27,28 @@ export class AddGolfRoundComponent implements OnInit {
   public allPlayers: Player[];
   public currentPlayers: Player[];
   public courseName: string;
+  public player: Player;
   numScores: number;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService) {
+    this.getCurrentPlayer();
     this.getCourseNames();
     this.getPlayers();
     this.numScores = 1;
+  }
+
+  getCurrentPlayer() {
+    this._userService.getPlayerid().subscribe(playerId => {
+      this._playerService.getPlayerById(playerId).subscribe(data => {
+        this.player = {
+          id: playerId,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          handicap: 0
+        };
+        console.log(this.player);
+      })
+        });
   }
 
   getCourseNames() {

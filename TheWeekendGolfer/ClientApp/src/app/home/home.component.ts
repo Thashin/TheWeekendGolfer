@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
           handicaps => {
             this.lineChartData = [{ data : handicaps.map(item => item.value),label:'Handicap'}];
             this.lineChartLabels = handicaps.map(item => item.date);
-            console.log(this.lineChartLabels)
           }
         )
       });

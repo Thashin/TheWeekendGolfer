@@ -1,10 +1,8 @@
 <h1>Employee Data</h1>
 
 <p>This component demonstrates fetching Employee data from the server.</p>
-<button [routerLinkActive]='["link-active"]'>
-  <a [routerLink]='["/add-golf-round"]'>
+<button class="btn btn-success"*ngIf="isLoggedIn" [routerLink]='["/add-golf-round"]'>
     <span class='glyphicon glyphicon-plus'></span> Add Golf Round
-  </a>
 </button>
 <p *ngIf="!golfRoundViews"><em>Loading...</em></p>
 

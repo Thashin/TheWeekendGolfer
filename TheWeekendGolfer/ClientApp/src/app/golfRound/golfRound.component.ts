@@ -5,6 +5,7 @@ import { GolfRoundService } from '../services/golfRound.service'
 import { GolfRound } from '../models/golfRound.model'
 import { Course } from '../models/course.model';
 import { ScoreView } from '../models/scoreView.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   templateUrl: './golfRound.component.html'
@@ -13,8 +14,18 @@ import { ScoreView } from '../models/scoreView.model';
 export class GolfRoundComponent {
   public golfRoundViews: GolfRoundView[];
 
-  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService) {
+  isLoggedIn = false;
+  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService) {
     this.getGolfRounds();
+    this.checkLogin();
+  }
+
+
+
+  checkLogin(): void {
+    this._userService.isLoggedIn().subscribe(
+      data => this.isLoggedIn = data
+    )
   }
 
   getGolfRounds() {

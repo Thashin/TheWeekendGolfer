@@ -19,7 +19,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p=>p.PartnerId) ;
+                return _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
             }
             catch
             {
@@ -31,13 +31,30 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                _context.Partners.Add(player);
-                _context.SaveChanges();
+                if (!checkPartner(player))
+                {
+                    _context.Partners.Add(player);
+                    _context.SaveChanges();
+                }
                 return true;
             }
             catch
             {
                 throw new Exception("Could not add Partner for " + player.Id.ToString());
+            }
+        }
+
+        public Boolean checkPartner(Partner partner)
+        {
+            try
+            {
+                return _context.Partners.Where(p => p.PlayerId.Equals(partner.PlayerId) &&
+                                                    p.PartnerId.Equals(partner.PartnerId))
+                                        .Any();
+            }
+            catch
+            {
+                throw new Exception("Could not check Partner for " + partner.Id.ToString());
             }
         }
 

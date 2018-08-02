@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Models;
@@ -11,20 +12,25 @@ namespace TheWeekendGolfer.Controllers
     [Route("api/[controller]/[action]")]
     public class PartnerController : Controller
     {
+        PlayerAccessLayer _playerAccessLayer;
         PartnerAccessLayer _partnerAccessLayer;
-        UserController _userController;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PartnerController(PartnerAccessLayer partnerAccessLayer, UserController userController)
+        public PartnerController(PartnerAccessLayer partnerAccessLayer, PlayerAccessLayer playerAccessLayer, UserManager<ApplicationUser> userManager)
         {
             _partnerAccessLayer = partnerAccessLayer;
-            _userController = userController;
+            _playerAccessLayer = playerAccessLayer;
+            _userManager = userManager;
         }
         [HttpPost]
         public async Task<IActionResult> AddPartnerAsync([FromBody]Partner partner)
         {
-            var player = await _userController.GetPlayer();
-            partner.PlayerId = player.Value;
-            _partnerAccessLayer.AddPartner(partner);
+            var user = await _userManager.GetUserAsync(User);
+            if(user != null)
+            {
+                partner.PlayerId = _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id;
+                _partnerAccessLayer.AddPartner(partner);
+            }
             return Ok();
         }
 

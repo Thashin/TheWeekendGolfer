@@ -5,6 +5,7 @@ import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { PlayerService } from '../services/player.service';
 import { Player } from '../models/player.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-add-partner',
@@ -12,24 +13,30 @@ import { Player } from '../models/player.model';
 })
 export class AddPartnerComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private partnerService: PartnerService, private _playerService: PlayerService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private partnerService: PartnerService, private _playerService: PlayerService, private _userService: UserService) {
     this.getPlayers();
   }
 
-  allPlayers:Player[]
+  allPlayers: Player[]
   createPartnerForm: FormGroup;
 
   ngOnInit() {
 
     this.createPartnerForm = this.formBuilder.group({
       id: [],
-      name: ['', Validators.required]
+      partnerId: ['', Validators.required]
     });
 
   }
 
   getPlayers() {
-    this._playerService.getPlayers().subscribe(data => this.allPlayers = data);
+    this._userService.getPlayerid().subscribe(playerId => {
+      this._playerService.getPlayers().subscribe(data => {
+        this.allPlayers = data;
+        var index = this.allPlayers.map(player => player.id).indexOf(playerId);
+        this.allPlayers.splice(index, 1);
+      });
+    });
   }
 
   onSubmit() {

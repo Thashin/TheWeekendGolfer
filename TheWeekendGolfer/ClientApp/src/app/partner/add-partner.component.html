@@ -2,10 +2,10 @@
   <h2 class="text-center">Add Partner</h2>
   <form [formGroup]="createPartnerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="name">Partner:</label>
-      <select formControlName="name" placeholder="Partner" name="name" class="form-control" id="name">
+      <label for="partnerId">Partner:</label>
+      <select formControlName="partnerId" placeholder="Partner" name="partnerId" class="form-control" id="partnerId">
         <option *ngIf="!allPlayers"><em>Loading...</em></option>
-        <option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </option>
+        <option  [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </option>
       </select>
     </div>
     <button class="btn btn-success">Add Partner</button>
