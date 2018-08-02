@@ -6,16 +6,16 @@
 </button>
 <p *ngIf="!golfRoundViews"><em>Loading...</em></p>
 
-<table class='table' *ngIf="golfRoundViews">
+<table matSort (matSortChange)="sortData($event)" class='table' *ngIf="golfRoundViews">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Course</th>
-      <th>Tee Name</th>
+      <th mat-sort-header="date">Date</th>
+      <th mat-sort-header="course">Course</th>
+      <th mat-sort-header="teeName">Tee Name</th>
       <th>Holes</th>
-      <th>Par</th>
-      <th>Scratch Rating</th>
-      <th>Slope</th>
+      <th mat-sort-header="par">Par</th>
+      <th mat-sort-header="scratchRating">Scratch Rating</th>
+      <th mat-sort-header="slope">Slope</th>
       <th>Player 1</th>
       <th>Player 2</th>
       <th>Player 3</th>
