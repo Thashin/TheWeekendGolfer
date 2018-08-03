@@ -97,6 +97,18 @@ export class GolfRoundComponent implements AfterViewInit {
       data => {
         this.golfRoundViews = new MatTableDataSource(data);
         this.golfRoundViews.paginator = this.paginator;
+
+        this.golfRoundViews.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'date': return item.date.valueOf();
+            case 'course': return item.course.name;
+            case 'teeName': return item.course.teeName;
+            case 'par': return item.course.par;
+            case 'scratchRating': return item.course.scratchRating;
+            case 'slope': return item.course.slope;
+          }
+        }
+
         this.golfRoundViews.sort = this.sort;
       })
   }
