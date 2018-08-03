@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,10 +12,14 @@ export class NavMenuComponent implements OnInit {
 
   isExpanded = false;
   isLoggedIn = false;
+  private _mobileQueryListener: () => void;
+  mobileQuery: MediaQueryList;
 
-
-  constructor(private router: Router,private _userService: UserService) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,private _userService: UserService) {
     this.checkLogin()
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
   ngOnInit(): void {
@@ -22,6 +27,9 @@ export class NavMenuComponent implements OnInit {
       this.isLoggedIn = !this.isLoggedIn
     }
       )
+  }
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
 

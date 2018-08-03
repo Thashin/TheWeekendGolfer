@@ -13,7 +13,7 @@ import { Player } from '../models/player.model';
   templateUrl: './golfRound.component.html'
 })
 
-export class GolfRoundComponent implements AfterViewInit {
+export class GolfRoundComponent {
 
   public golfRoundViews: MatTableDataSource<GolfRoundView>;
   displayedColumns: string[] = ['date', 'course', 'teeName', 'holes', 'par', 'scratchRating', 'slope'];
@@ -24,63 +24,9 @@ export class GolfRoundComponent implements AfterViewInit {
   isLoggedIn = false;
   constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService) {
 
-    this.golfRoundViews = new MatTableDataSource([{
-      "date": new Date(2018, 7, 18),
-      "course": {
-        "id": "00000000-0000-0000-0000-000000000000",
-        "location": null,
-        "name": "Wembley Golf Complex ",
-        "holes": "Tuart 10-18",
-        "teeName": "Blue Men",
-        "par": 35,
-        "scratchRating": 34.00,
-        "slope": 117.00,
-        "created": "2018-08-03T11:40:19.5255925+08:00"
-      }, "players": [{
-        "player": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "userId": "00000000-0000-0000-0000-000000000000",
-          "firstName": "Thashin",
-          "lastName": "Naidoo",
-          "handicap": -5.44,
-          "created": "2018-08-03T11:40:19.5255948+08:00",
-          "modified": "0001-01-01T00:00:00"
-        }, "score": 37
-      }]
-    },
-    {
-      "date": new Date(2018, 7, 19),
-      "course": {
-        "id": "00000000-0000-0000-0000-000000000000",
-        "location": null,
-        "name": "Wembley Golf Complex ",
-        "holes": "Tuart 10-18",
-        "teeName": "Blue Men",
-        "par": 35,
-        "scratchRating": 34.00,
-        "slope": 117.00,
-        "created": "2018-08-03T11:40:19.5255925+08:00"
-      }, "players": [{
-        "player": {
-          "id": "00000000-0000-0000-0000-000000000000",
-          "userId": "00000000-0000-0000-0000-000000000000",
-          "firstName": "Thashin",
-          "lastName": "Naidoo",
-          "handicap": -5.44,
-          "created": "2018-08-03T11:40:19.5255948+08:00",
-          "modified": "0001-01-01T00:00:00"
-        }, "score": 37
-      }]
-    }]
-    )
     this.getGolfRounds();
 
     this.checkLogin();
-  }
-
-  ngAfterViewInit(): void {
-
-
   }
 
 
