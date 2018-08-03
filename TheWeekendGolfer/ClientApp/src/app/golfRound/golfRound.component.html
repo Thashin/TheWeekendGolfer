@@ -1,39 +1,60 @@
 <h1>Employee Data</h1>
 
 <p>This component demonstrates fetching Employee data from the server.</p>
-<button class="btn btn-success"*ngIf="isLoggedIn" [routerLink]='["/add-golf-round"]'>
-    <span class='glyphicon glyphicon-plus'></span> Add Golf Round
+<button class="btn btn-success" *ngIf="isLoggedIn" [routerLink]='["/add-golf-round"]'>
+  <span class='glyphicon glyphicon-plus'></span> Add Golf Round
 </button>
 <p *ngIf="!golfRoundViews"><em>Loading...</em></p>
 
-<table matSort (matSortChange)="sortData($event)" class='table' *ngIf="golfRoundViews">
-  <thead>
-    <tr>
-      <th mat-sort-header="date">Date</th>
-      <th mat-sort-header="course">Course</th>
-      <th mat-sort-header="teeName">Tee Name</th>
-      <th>Holes</th>
-      <th mat-sort-header="par">Par</th>
-      <th mat-sort-header="scratchRating">Scratch Rating</th>
-      <th mat-sort-header="slope">Slope</th>
-      <th>Player 1</th>
-      <th>Player 2</th>
-      <th>Player 3</th>
-      <th>Player 4</th>
-    </tr>
-  </thead>
-  <tbody >
-    <ng-container *ngFor="let golfRound of golfRoundViews">
-      <tr>
-        <td>{{ golfRound.date | date: "dd-MMM-y" }}</td>
-        <td>{{ golfRound.course.name }}</td>
-        <td>{{ golfRound.course.teeName }}</td>
-        <td>{{ golfRound.course.holes }}</td>
-        <td>{{ golfRound.course.par }}</td>
-        <td>{{ golfRound.course.scratchRating }}</td>
-        <td>{{ golfRound.course.slope }}</td>
-        <td *ngFor="let score of golfRound.players">{{score.player.firstName}} {{score.player.lastName}} {{score.score}}</td>
-      </tr>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="golfRoundViews" *ngIf="golfRoundViews" matSort>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.date | date: "dd-MMM-y" }}</td>
     </ng-container>
-  </tbody>
-</table>
+
+    <ng-container matColumnDef="course">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="teeName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tee Name</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.teeName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="holes">
+      <th mat-header-cell *matHeaderCellDef>Holes</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.holes }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="par">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Par</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.par }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="scratchRating">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Scratch Rating</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.scratchRating }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="slope">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Slope</th>
+      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.slope }}</td>
+    </ng-container>
+
+    <!--<ng-container *ngFor="let score of golfRound.players; let i = index;">
+      <th mat-header-cell  *matHeaderCellDef >Player {{i+1}}</th>
+      <td mat-cell *matCellDef="let golfRound" >{{score.player.firstName}} {{score.player.lastName}} {{score.score}}</td>
+    </ng-container>-->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let golfRound; columns: displayedColumns;"></tr>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]"></mat-paginator>
+</div>
