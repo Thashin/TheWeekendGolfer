@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -8,9 +8,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit {
-
-  isExpanded = false;
+export class NavMenuComponent implements OnInit, OnDestroy {
+  
   isLoggedIn = false;
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
@@ -39,15 +38,8 @@ export class NavMenuComponent implements OnInit {
     )
   }
 
-  collapse() {
-    this.isExpanded = false;
-  }
-
   public logout() {
     this._userService.logout();
   }
 
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
 }

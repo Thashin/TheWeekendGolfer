@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CourseService } from '../services/course.service'
@@ -11,24 +11,27 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
   styleUrls: ['./course.component.css']
 })
 
-export class CourseComponent {
+export class CourseComponent implements AfterViewInit{
   public courses: MatTableDataSource<Course>;
   displayedColumns: string[] = ['name', 'location', 'teeName', 'holes', 'par', 'scratchRating', 'slope'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+
 
   constructor(public http: HttpClient, private _router: Router, private _courseService: CourseService) {
+
+  }
+  ngAfterViewInit() {
     this.getCourses();
   }
-
+  @ViewChild(MatSort) sort: MatSort;
   getCourses() {
     this._courseService.getCourses().subscribe(
       data => {
         this.courses = new MatTableDataSource(data);
     this.courses.paginator = this.paginator;
-
-    this.courses.sortingDataAccessor = (item, property) => {
+        
+     /*  this.courses.sortingDataAccessor = (item, property) => {
       switch (property) {
         case 'location': return item.location;
         case 'name': return item.name;
@@ -38,9 +41,9 @@ export class CourseComponent {
         case 'scratchRating': return item.scratchRating;
         case 'slope': return item.slope;
       }
-    }
-
-    this.courses.sort = this.sort;
+    }*/
+        this.courses.sort = this.sort;
+        console.log(this.courses);
   })
   }
 

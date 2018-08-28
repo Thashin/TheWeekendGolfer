@@ -1,0 +1,8 @@
+.log-in-container {
+  display: flex;
+  flex-direction: column;
+}
+
+  .log-in-container > * {
+    width: 100%;
+  }
