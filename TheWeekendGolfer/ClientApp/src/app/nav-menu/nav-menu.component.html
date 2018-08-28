@@ -8,27 +8,34 @@
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
 
-      <mat-nav-list>
+      <mat-nav-list class="navigation-items">
         <a mat-list-item [routerLink]='["/"]' (click)='snav.toggle()'>
-          <mat-icon>home</mat-icon> Home
+          <mat-icon class="icon">home</mat-icon>
+          <span class="label">Home</span>
         </a>
         <a mat-list-item *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]' (click)='snav.toggle()'>
-          <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Login
+          <mat-icon class="icon">input</mat-icon>
+          <span class="label">Login</span>
         </a>
         <a mat-list-item *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]' (click)='snav.toggle()'>
-          <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Sign Up
+          <mat-icon class="icon">person_add</mat-icon>
+          <span class="label">Sign Up</span>
         </a>
         <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='snav.toggle()'>
-          <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Golf Rounds
+          <mat-icon class="icon">golf_course</mat-icon>
+          <span class="label">Golf Rounds</span>
         </a>
         <a mat-list-item [routerLink]='["/players"]' (click)='snav.toggle()'>
-          <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Players
+          <mat-icon class="icon">people</mat-icon>
+          <span class="label">Players</span>
         </a>
         <a mat-list-item [routerLink]='["/courses"]' (click)='snav.toggle()'>
-          <mat-icon svgIcon='glyphicon glyphicon-th-list'></mat-icon> Courses
+          <mat-icon class="icon">streetview</mat-icon>
+          <span class="label">Courses</span>
         </a>
         <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/"]' (click)='logout()'>
-          <mat-icon svgIcon='glyphicon glyphicon-education'></mat-icon> Logout
+          <mat-icon class="icon">input</mat-icon>
+          <span class="label">Logout</span>
         </a>
       </mat-nav-list>
 
