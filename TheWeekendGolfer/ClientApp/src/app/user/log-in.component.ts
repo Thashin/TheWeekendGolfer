@@ -37,7 +37,6 @@ export class LogInComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       var user: User = {
         email: result.value.email,
         password: result.value.password,

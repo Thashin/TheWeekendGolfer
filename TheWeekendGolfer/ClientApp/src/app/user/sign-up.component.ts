@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { PlayerService } from "../services/player.service";
 import { first } from "rxjs/operators";
@@ -6,49 +6,71 @@ import { Router } from "@angular/router";
 import { UserService } from '../services/user.service';
 import { Player } from '../models/player.model';
 import { User } from '../models/User.model';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html'
+  templateUrl: './../home/home.component.html'
 })
-export class SignUpComponent implements OnInit {
-
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService: UserService) { }
+export class SignUpComponent implements AfterViewInit {
 
   createUserForm: FormGroup;
+  constructor(private formBuilder: FormBuilder, private router: Router, private _userService: UserService, public dialog: MatDialog) {
+  this.createUserForm = this.formBuilder.group({
 
-  ngOnInit() {
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    handicap: ['', Validators.required],
+    email: ['', Validators.required],
+    password: ['', Validators.required]
+  });}
 
-    this.createUserForm = this.formBuilder.group({
 
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      handicap: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required]
-    });
+  ngAfterViewInit() {
 
+
+    this.openDialog();
   }
 
-  onSubmit() {
+  openDialog(): void {
+    const dialogRef = this.dialog.open(SignUpDialog, {
+      minWidth: '400px',
+      data: this.createUserForm
+    });
 
-    var player: Player = {
-      id : null, 
-      firstName : this.createUserForm.value.firstName,
-      lastName : this.createUserForm.value.lastName,
-      handicap : this.createUserForm.value.handicap
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      var player: Player = {
+        id: null,
+        firstName: result.value.firstName,
+        lastName: result.value.lastName,
+        handicap: result.value.handicap
+      }
 
-    var user: User = {
-      email : this.createUserForm.value.email,
-      password : this.createUserForm.value.password,
-      player : player
-    }
+      var user: User = {
+        email: result.value.email,
+        password: result.value.password,
+        player: player
+      }
 
-      this.userService.createUser(user)
+      this._userService.createUser(user)
         .subscribe(data => {
           this.router.navigate(['players']);
         });
-    }
+    });
+  }
 
   }
+@Component({
+  templateUrl: './sign-up.component.html',
+})
+export class SignUpDialog {
+
+  constructor(
+    public dialog: MatDialogRef<SignUpDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialog.close();
+  }
+
+}
