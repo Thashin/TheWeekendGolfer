@@ -10,3 +10,7 @@ table {
 td, th {
   width: 14%;
 }
+
+.mat-column{
+flex:0 0 100px;
+}

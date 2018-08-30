@@ -1,6 +1,6 @@
-<h1>Employee Data</h1>
+<h1>Golf Rounds</h1>
 
-<p>This component demonstrates fetching Employee data from the server.</p>
+<p>This shows every golf round posted to this site</p>
 <button class="btn btn-success" *ngIf="isLoggedIn" [routerLink]='["/add-golf-round"]'>
   <span class='glyphicon glyphicon-plus'></span> Add Golf Round
 </button>
@@ -48,10 +48,23 @@
       <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.slope }}</td>
     </ng-container>
 
-    <!--<ng-container *ngFor="let score of golfRound.players; let i = index;">
-      <th mat-header-cell  *matHeaderCellDef >Player {{i+1}}</th>
-      <td mat-cell *matCellDef="let golfRound" >{{score.player.firstName}} {{score.player.lastName}} {{score.score}}</td>
-    </ng-container>-->
+    <ng-container matColumnDef="player1">
+      <th mat-header-cell *matHeaderCellDef>Player 1</th>
+      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div class="row" >{{golfRound.players[0].score}}</div>{{golfRound.players[0].player.firstName}} {{golfRound.players[0].player.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="player2">
+      <th mat-header-cell *matHeaderCellDef>Player 2</th>
+      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[1]"><div class="row">{{golfRound.players[1].score}}</div>{{golfRound.players[1].player.firstName}} {{golfRound.players[1].player.lastName}}</div></td>
+    </ng-container>
+    <ng-container matColumnDef="player3">
+      <th mat-header-cell *matHeaderCellDef>Player 3</th>
+      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[2]"><div class="row">{{golfRound.players[2].score}}</div>{{golfRound.players[2].player.firstName}} {{golfRound.players[2].player.lastName}}</div></td>
+    </ng-container>
+    <ng-container matColumnDef="player4">
+      <th mat-header-cell *matHeaderCellDef>Player 4</th>
+      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[3]"><div class="row">{{golfRound.players[3].score}}</div>{{golfRound.players[3].player.firstName}} {{golfRound.players[3].player.lastName}}</div></td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let golfRound; columns: displayedColumns;"></tr>
   </mat-table>

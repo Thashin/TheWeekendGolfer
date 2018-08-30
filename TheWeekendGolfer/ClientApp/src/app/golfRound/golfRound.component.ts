@@ -16,7 +16,7 @@ import { Player } from '../models/player.model';
 export class GolfRoundComponent {
 
   public golfRoundViews: MatTableDataSource<GolfRoundView>;
-  displayedColumns: string[] = ['date', 'course', 'teeName', 'holes', 'par', 'scratchRating', 'slope'];
+  displayedColumns: string[] = ['date', 'course', 'teeName', 'holes', 'par', 'scratchRating', 'slope', 'player1', 'player2', 'player3', 'player4'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -56,6 +56,7 @@ export class GolfRoundComponent {
         }
 
         this.golfRoundViews.sort = this.sort;
+        console.log(this.golfRoundViews);
       })
   }
 
