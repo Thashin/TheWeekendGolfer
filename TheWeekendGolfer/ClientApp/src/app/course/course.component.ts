@@ -20,35 +20,26 @@ export class CourseComponent implements AfterViewInit{
 
   constructor(public http: HttpClient, private _router: Router, private _courseService: CourseService) {
 
-  }
-  ngAfterViewInit() {
     this.getCourses();
   }
+
   @ViewChild(MatSort) sort: MatSort;
+  ngAfterViewInit() {
+
+
+  }
   getCourses() {
     this._courseService.getCourses().subscribe(
       data => {
         this.courses = new MatTableDataSource(data);
-    this.courses.paginator = this.paginator;
-        
-     /*  this.courses.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'location': return item.location;
-        case 'name': return item.name;
-        case 'holes': return item.holes;
-        case 'teeName': return item.teeName;
-        case 'par': return item.par;
-        case 'scratchRating': return item.scratchRating;
-        case 'slope': return item.slope;
-      }
-    }*/
+        this.courses.paginator = this.paginator;
         this.courses.sort = this.sort;
-        console.log(this.courses);
+        console.log(this.sort)
   })
   }
 
 
-
+  /*
   applyFilter(filterValue: string) {
     this.courses.filterPredicate = (data, filter) =>
       (
@@ -65,7 +56,7 @@ export class CourseComponent implements AfterViewInit{
       this.courses.paginator.firstPage();
     }
   }
-
+  */
 
   public getCourseNames() {
     return this._courseService.getCourseNames();

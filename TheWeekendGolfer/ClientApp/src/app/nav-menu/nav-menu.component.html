@@ -2,6 +2,21 @@
   <mat-toolbar color="primary" class="toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
     <h1 class="app-name">The Weekend Golfer</h1>
+    <span style="flex: 1 1 auto;"></span>
+    <div class="toolbar-icons">
+      <button mat-icon-button *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]'>
+        <mat-icon class="icon">input</mat-icon>
+        <span class="label">Login</span>
+      </button>
+      <button mat-icon-button *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]'>
+        <mat-icon class="icon">person_add</mat-icon>
+        <span class="label">Sign Up</span>
+      </button>
+      <button mat-icon-button *ngIf="isLoggedIn" [routerLink]='["/"]' (click)='logout()'>
+        <mat-icon class="icon">input</mat-icon>
+        <span class="label">Logout</span>
+      </button>
+    </div>
   </mat-toolbar>
   <mat-sidenav-container class="sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
@@ -13,14 +28,7 @@
           <mat-icon class="icon">home</mat-icon>
           <span class="label">Home</span>
         </a>
-        <a mat-list-item *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">input</mat-icon>
-          <span class="label">Login</span>
-        </a>
-        <a mat-list-item *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">person_add</mat-icon>
-          <span class="label">Sign Up</span>
-        </a>
+
         <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='snav.toggle()'>
           <mat-icon class="icon">golf_course</mat-icon>
           <span class="label">Golf Rounds</span>
@@ -32,10 +40,6 @@
         <a mat-list-item [routerLink]='["/courses"]' (click)='snav.toggle()'>
           <mat-icon class="icon">streetview</mat-icon>
           <span class="label">Courses</span>
-        </a>
-        <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/"]' (click)='logout()'>
-          <mat-icon class="icon">input</mat-icon>
-          <span class="label">Logout</span>
         </a>
       </mat-nav-list>
 

@@ -41,7 +41,8 @@ h1.app-name {
   display: inline-block;
   height: 30px;
   margin: 0 auto;
-  padding-right: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
   text-align: center;
   vertical-align: middle;
   width: 15%;
@@ -49,7 +50,19 @@ h1.app-name {
 
 .label {
   display: inline-block;
+  vertical-align: middle;
   line-height: 30px;
-  margin: 0;
+  padding-right: 15px;
+  margin: 0 auto;
   width: 85%;
+}
+.mat-icon-button {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 20px;
+  width: 100px;
+}
+
+.toolbar-icons{
+  padding-right:15px
 }

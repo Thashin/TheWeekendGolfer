@@ -55,7 +55,7 @@ import { AddGolfRoundComponent } from './golfRound/add-golfRound.component';
 import { ScoreService } from './services/scores.service';
 import { SignUpComponent } from './user/sign-up.component';
 import { UserService } from './services/user.service';
-import { LogInComponent } from './user/log-in.component';
+import { LogInComponent, LoginDialog } from './user/log-in.component';
 import { AddPartnerComponent } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
 
@@ -71,8 +71,10 @@ import { PartnerService } from './services/partner.service';
     AddPlayerComponent,
     SignUpComponent,
     LogInComponent,
+    LoginDialog,
     AddPartnerComponent
   ],
+  entryComponents: [LoginDialog]
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
