@@ -1,26 +1,39 @@
-<h1>Employee Data</h1>
+<h1>Players</h1>
 
-<p>This component demonstrates fetching Employee data from the server.</p>
+<p>This is a list of all players on this site.</p>
 
-<button [routerLinkActive]='["link-active"]'>
-  <a [routerLink]='["/add-player"]'>
-    <span class='glyphicon glyphicon-add'></span> Add Player
-  </a>
-</button>
+
 
 <p *ngIf="!players"><em>Loading...</em></p>
 
-<table class='table' *ngIf="players">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Handicap</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let player of players">
-      <td>{{ player.firstName }} {{player.lastName}}</td>
-      <td>{{ player.handicap }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="buttun-row">
+<button mat-raised-button color="primary" [routerLink]='["/add-player"]'>
+  <mat-icon class="icon">person_add</mat-icon>
+  <span class='label'></span> Add Player
+</button>
+  </div>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="players" matSort class="mat-elevation-z8" *ngIf="players">
+
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Player</th>
+      <td mat-cell *matCellDef="let player">{{ player.firstName }} {{player.lastName}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="handicap">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Handicap</th>
+      <td mat-cell *matCellDef="let player">{{ player.handicap }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let course; columns: displayedColumns;"></tr>
+  </mat-table>
+
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]"></mat-paginator>
+</div>

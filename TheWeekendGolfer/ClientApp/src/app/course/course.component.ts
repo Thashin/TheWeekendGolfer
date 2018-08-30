@@ -39,7 +39,7 @@ export class CourseComponent implements AfterViewInit{
   }
 
 
-  /*
+
   applyFilter(filterValue: string) {
     this.courses.filterPredicate = (data, filter) =>
       (
@@ -56,7 +56,7 @@ export class CourseComponent implements AfterViewInit{
       this.courses.paginator.firstPage();
     }
   }
-  */
+
 
   public getCourseNames() {
     return this._courseService.getCourseNames();
