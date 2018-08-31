@@ -33,8 +33,13 @@ export class CourseComponent implements AfterViewInit{
       data => {
         this.courses = new MatTableDataSource(data);
         this.courses.paginator = this.paginator;
+        /*this.courses.sortingDataAccessor = (course, property) => {
+          switch (property) {
+            case 'name': return course.lastName.toLowerCase();
+            default: return course[property];
+          }
+        };*/
         this.courses.sort = this.sort;
-        console.log(this.sort)
   })
   }
 
