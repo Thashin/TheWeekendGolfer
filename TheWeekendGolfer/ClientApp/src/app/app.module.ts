@@ -51,7 +51,7 @@ import { PlayerService } from './services/player.service';
 import { GolfRoundService } from './services/golfRound.service';
 import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
-import { AddGolfRoundComponent } from './golfRound/add-golfRound.component';
+import { AddGolfRoundComponent, AddGolfRoundDialog } from './golfRound/add-golfRound.component';
 import { ScoreService } from './services/scores.service';
 import { SignUpComponent, SignUpDialog } from './user/sign-up.component';
 import { UserService } from './services/user.service';
@@ -68,6 +68,7 @@ import { PartnerService } from './services/partner.service';
     CourseComponent,
     GolfRoundComponent,
     AddGolfRoundComponent,
+    AddGolfRoundDialog,
     AddPlayerComponent,
     SignUpComponent,
     SignUpDialog,
@@ -75,7 +76,7 @@ import { PartnerService } from './services/partner.service';
     LoginDialog,
     AddPartnerComponent
   ],
-  entryComponents: [LoginDialog, SignUpDialog],
+  entryComponents: [LoginDialog, SignUpDialog, AddGolfRoundDialog],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,

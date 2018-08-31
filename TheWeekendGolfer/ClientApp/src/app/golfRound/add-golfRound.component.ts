@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GolfRoundService } from '../services/golfRound.service'
@@ -13,37 +13,109 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { ScoreService } from '../services/scores.service';
 import { AddGolfRound } from '../models/addGolfRound.model';
 import { UserService } from '../services/user.service';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
-  templateUrl: './add-golfRound.component.html'
+  templateUrl: './../home/home.component.html'
 })
 
-export class AddGolfRoundComponent implements OnInit {
+export class AddGolfRoundComponent implements AfterViewInit {
+
+
+  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService, public dialog: MatDialog) {
+
+    this.createGolfRoundForm = this.formBuilder.group({
+      id: [],
+      date: ['', Validators.required],
+      course: ['', Validators.required],
+      tee: ['', Validators.required],
+      holes: ['', Validators.required],
+      scores: this.formBuilder.array([this.createScore()])
+    });
+  }
+
+  createScore(): FormGroup {
+    return this.formBuilder.group({
+      player: '',
+      value: ''
+    });
+  }
+
+
+  createGolfRoundForm: FormGroup;
+
+
+  ngAfterViewInit() {
+    this.openDialog();
+
+  }
+
+ 
+
+  openDialog(): void {
+
+    var scoreData: Score[] = [];
+    const dialogRef = this.dialog.open(AddGolfRoundDialog, {
+      minWidth: '1000px',
+      data: this.createGolfRoundForm
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      for (let score of result.value.scores) {
+        var currentScore: Score = {
+          playerId: score.player,
+          value: score.value
+        }
+        scoreData.push(currentScore)
+      }
+      var golfRoundData: AddGolfRound = {
+        date: new Date(result.value.date),
+        courseId: result.value.holes,
+        scores: scoreData
+      };
+      this._golfRoundService.createGolfRound(golfRoundData).subscribe(data => {
+        this.router.navigate(['golf-rounds']);
+      });
+    });
+  }
+
+}
+
+@Component({
+  templateUrl: './add-golfRound.component.html',
+})
+export class AddGolfRoundDialog {
+  
+  public currentPlayers: Player[];
 
   public courseNames: string[];
   public holesNames: Course[];
   public tees: string[];
-  public scores: FormArray;
-  public allPlayers: Player[];
-  public currentPlayers: Player[];
   public courseName: string;
+
+  public allPlayers: Player[];
   public player: Player;
+  public scores: FormArray;
+
   numScores: number;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService) {
+
+  constructor(private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService,private formBuilder: FormBuilder,
+    public dialog: MatDialogRef<AddGolfRoundDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: FormArray) {
     this.getCurrentPlayer();
     this.getCourseNames();
-    this.getPlayers();
+    this.getPlayers();;
     this.numScores = 1;
+    this.currentPlayers = [];
   }
-
   getCurrentPlayer() {
     this._userService.getPlayerid().subscribe(playerId => {
       this._playerService.getPlayerById(playerId).subscribe(data => {
         this.player = data;
         console.log(this.player);
       })
-        });
+    });
   }
 
   getCourseNames() {
@@ -65,64 +137,31 @@ export class AddGolfRoundComponent implements OnInit {
     this._playerService.getPlayers().subscribe(data => this.allPlayers = data);
   }
 
-  createGolfRoundForm: FormGroup;
-
-
-  ngOnInit() {
-    this.currentPlayers = [];
-    this.createGolfRoundForm = this.formBuilder.group({
-      id: [],
-      date: ['', Validators.required],
-      course: ['', Validators.required],
-      tee: ['', Validators.required],
-      holes: ['', Validators.required],
-      scores: this.formBuilder.array([this.createScore()])
-    });
-
-  }
-
   addPlayer(player: Player) {
     this.currentPlayers.push(player);
-    
+
   }
 
-  createScore(): FormGroup{
+  createScore(): FormGroup {
     return this.formBuilder.group({
-      player:'',
+      player: '',
       value: ''
     });
   }
 
   addScore(): void {
-    this.scores = <FormArray>this.createGolfRoundForm.get('scores');
+    this.scores = <FormArray>this.data.get('scores');
     this.scores.push(this.createScore());
     this.numScores += 1;
   }
 
-  removeScore(i:number): void {
+  removeScore(i: number): void {
     this.scores.removeAt(i);
     this.numScores -= 1;
   }
 
-  onSubmit()
-  {
-
-    var scoreData: Score[] = [];
-
-    for (let score of this.createGolfRoundForm.value.scores) {
-      var currentScore: Score = {
-        playerId: score.player,
-        value: score.value
-      }
-      scoreData.push(currentScore)
-    }
-    var golfRoundData: AddGolfRound = {
-      date: new Date(this.createGolfRoundForm.value.date),
-      courseId: this.createGolfRoundForm.value.holes,
-      scores: scoreData
-    };
-    this._golfRoundService.createGolfRound(golfRoundData).subscribe(data => {
-        this.router.navigate(['golf-rounds']);
-      });
+  onNoClick(): void {
+    this.dialog.close();
   }
+
 }

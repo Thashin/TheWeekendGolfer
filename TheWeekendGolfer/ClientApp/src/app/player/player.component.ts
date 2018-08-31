@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { PlayerService } from '../services/player.service'
 import { Player } from '../models/player.model'
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { merge } from 'rxjs';
+import { startWith, switchMap, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './player.component.html'
@@ -11,7 +13,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 export class PlayerComponent {
 
-  public players: MatTableDataSource<Player>;
+  public players: MatTableDataSource<Player> | null;
   displayedColumns: string[] = ['name', 'handicap'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -26,7 +28,7 @@ export class PlayerComponent {
     this.players.filterPredicate = (data, filter) =>
       (
         data.firstName.trim().toLowerCase().indexOf(filter) !== -1 ||
-        data.lastName.trim().toLowerCase().indexOf(filter) !== -1 
+        data.lastName.trim().toLowerCase().indexOf(filter) !== -1
       );
 
 
@@ -38,12 +40,19 @@ export class PlayerComponent {
   }
 
   getPlayers() {
-    this._courseService.getPlayers().subscribe(
-      data => {
-        this.players = new MatTableDataSource(data);
-        this.players.paginator = this.paginator;
-        this.players.sort = this.sort;
-      }
-    )
-  }
+
+     this._courseService.getPlayers().subscribe(
+       data => {
+         this.players = new MatTableDataSource(data);
+         this.players.paginator = this.paginator;
+         this.players.sortingDataAccessor = (player, property) => {
+           switch (property) {
+             case 'name': return player.lastName.toLowerCase();
+             default: return player[property];
+           }
+         };
+         this.players.sort = this.sort;
+       }
+     );
+        }
 }
