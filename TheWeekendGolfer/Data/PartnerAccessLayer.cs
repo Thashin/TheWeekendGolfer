@@ -27,6 +27,19 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<Player> GetPotentialPartners(Guid playerId)
+        {
+            try
+            {
+                var partners = _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
+                return _context.Players.Where(p => !p.Id.Equals(playerId) && !partners.Contains(p.Id));
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve potential Partner for " + playerId);
+            }
+        }
+
         public Boolean AddPartner(Partner player)
         {
             try

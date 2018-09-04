@@ -39,5 +39,11 @@ namespace TheWeekendGolfer.Controllers
         {
             return Ok(_partnerAccessLayer.GetPartners(playerId));
         }
+
+        [HttpGet]
+        public IActionResult GetPotentialPartners(Guid playerId)
+        {
+            return Ok(_partnerAccessLayer.GetPotentialPartners(playerId));
+        }
     }
 }

@@ -16,7 +16,7 @@ import { UserService } from '../services/user.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
-  templateUrl: './../home/home.component.html'
+  templateUrl: './golfRound.component.html'
 })
 
 export class AddGolfRoundComponent implements AfterViewInit {
@@ -103,6 +103,7 @@ export class AddGolfRoundDialog {
   constructor(private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService,private formBuilder: FormBuilder,
     public dialog: MatDialogRef<AddGolfRoundDialog>,
     @Inject(MAT_DIALOG_DATA) public data: FormArray) {
+    console.log(data);
     this.getCurrentPlayer();
     this.getCourseNames();
     this.getPlayers();;

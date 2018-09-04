@@ -56,7 +56,7 @@ import { ScoreService } from './services/scores.service';
 import { SignUpComponent, SignUpDialog } from './user/sign-up.component';
 import { UserService } from './services/user.service';
 import { LogInComponent, LoginDialog } from './user/log-in.component';
-import { AddPartnerComponent } from './partner/add-partner.component';
+import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
 
 @NgModule({
@@ -70,13 +70,14 @@ import { PartnerService } from './services/partner.service';
     AddGolfRoundComponent,
     AddGolfRoundDialog,
     AddPlayerComponent,
+    AddPartnerDialog,
     SignUpComponent,
     SignUpDialog,
     LogInComponent,
     LoginDialog,
     AddPartnerComponent
   ],
-  entryComponents: [LoginDialog, SignUpDialog, AddGolfRoundDialog],
+  entryComponents: [LoginDialog, SignUpDialog, AddGolfRoundDialog, AddPartnerDialog],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,

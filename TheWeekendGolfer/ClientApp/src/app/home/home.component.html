@@ -1,14 +1,14 @@
-<div class="row">
-  <div class="col-md-6">
-    <div style="display: block;">
-      <canvas *ngIf="lineChartData" baseChart width="800" height="800"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"></canvas>
-    </div>
+<div class="weekend-golfer-container">
+  <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
+    <mat-icon class="icon">add</mat-icon>
+    <span class='label'></span> Add Partner
+  </button>
+  <div style="display: block;">
+    <canvas *ngIf="lineChartData" baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"></canvas>
   </div>
-
 </div>

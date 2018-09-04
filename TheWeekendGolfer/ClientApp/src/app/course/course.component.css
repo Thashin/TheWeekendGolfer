@@ -1,25 +1,6 @@
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
 
-table {
-  width: 100%;
-}
-
-th{
-  font-size:larger;
-}
 
 td, th {
-  vertical-align: middle;
   width: 16%;
 }
 
-.mat-column{
-flex:0 0 100px;
-}
-
-.course-container{
-  padding:30px;
-}

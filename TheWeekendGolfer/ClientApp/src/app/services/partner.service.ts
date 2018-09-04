@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 
 import { Partner } from '../models/partner.model';
+import { Player } from '../models/player.model';
 
 
 
@@ -23,7 +24,11 @@ export class PartnerService {
     return this._http.get<Partner[]>(this.theWeekendGolferUrl + 'api/Partner/GetPartners?PlayerId=' + playerId);
   }
 
-  addPartner(partner: Partner) {
+  getPotentialPartners(playerId: string) {
+    return this._http.get<Player[]>(this.theWeekendGolferUrl + 'api/Partner/GetPotentialPartners?PlayerId=' + playerId);
+  }
+
+  addPartner(partnerId: string) {
     let options = {
       headers: new HttpHeaders(
         { 'Content-Type': 'application/json; charset=utf-8' }
@@ -31,7 +36,7 @@ export class PartnerService {
     };
     const body = JSON.stringify(
       {
-        'PartnerId': partner.partnerId
+        'PartnerId': partnerId
       });
     return this._http.post(this.theWeekendGolferUrl + 'api/Partner/AddPartnerAsync', body, options);
   }
