@@ -1,76 +1,78 @@
-<h1>Golf Rounds</h1>
+<div class="golf-round-container">
+  <h1>Golf Rounds</h1>
 
-<p>This shows every golf round posted to this site</p>
-<div class="button-row">
-  <button mat-raised-button color="primary" [routerLink]='["/add-golf-round"]'>
-    <mat-icon class="icon">add</mat-icon>
-    <span class='label'></span> Add Golf Round
-  </button>
-</div>
-<p *ngIf="!golfRoundViews"><em>Loading...</em></p>
+  <p>This shows every golf round posted to this site</p>
+  <div class="button-row">
+    <button mat-raised-button color="primary" [routerLink]='["/add-golf-round"]'>
+      <mat-icon class="icon">add</mat-icon>
+      <span class='label'></span> Add Golf Round
+    </button>
+  </div>
+  <p *ngIf="!golfRoundViews"><em>Loading...</em></p>
 
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <mat-table [dataSource]="golfRoundViews" matSort>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="golfRoundViews" matSort>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.date | date: "dd-MMM-y" }}</td>
-    </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.date | date: "dd-MMM-y" }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="course">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.name }}</td>
-    </ng-container>
+      <ng-container matColumnDef="course">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Course</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.name }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="teeName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tee Name</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.teeName }}</td>
-    </ng-container>
+      <ng-container matColumnDef="teeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tee Name</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.teeName }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="holes">
-      <th mat-header-cell *matHeaderCellDef>Holes</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.holes }}</td>
-    </ng-container>
+      <ng-container matColumnDef="holes">
+        <th mat-header-cell *matHeaderCellDef>Holes</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.holes }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="par">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Par</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.par }}</td>
-    </ng-container>
+      <ng-container matColumnDef="par">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Par</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.par }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="scratchRating">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Scratch Rating</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.scratchRating }}</td>
-    </ng-container>
+      <ng-container matColumnDef="scratchRating">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Scratch Rating</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.scratchRating }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="slope">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Slope</th>
-      <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.slope }}</td>
-    </ng-container>
+      <ng-container matColumnDef="slope">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Slope</th>
+        <td mat-cell *matCellDef="let golfRound">{{ golfRound.course.slope }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="player1">
-      <th mat-header-cell *matHeaderCellDef>Player 1</th>
-      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div class="row" >{{golfRound.players[0].score}}</div>{{golfRound.players[0].player.firstName}} {{golfRound.players[0].player.lastName}} </td>
-    </ng-container>
+      <ng-container matColumnDef="player1">
+        <th mat-header-cell *matHeaderCellDef>Player 1</th>
+        <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div class="row">{{golfRound.players[0].score}}</div><mat-divider></mat-divider>{{golfRound.players[0].player.firstName}} {{golfRound.players[0].player.lastName}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="player2">
-      <th mat-header-cell *matHeaderCellDef>Player 2</th>
-      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[1]"><div class="row">{{golfRound.players[1].score}}</div>{{golfRound.players[1].player.firstName}} {{golfRound.players[1].player.lastName}}</div></td>
-    </ng-container>
-    <ng-container matColumnDef="player3">
-      <th mat-header-cell *matHeaderCellDef>Player 3</th>
-      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[2]"><div class="row">{{golfRound.players[2].score}}</div>{{golfRound.players[2].player.firstName}} {{golfRound.players[2].player.lastName}}</div></td>
-    </ng-container>
-    <ng-container matColumnDef="player4">
-      <th mat-header-cell *matHeaderCellDef>Player 4</th>
-      <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[3]"><div class="row">{{golfRound.players[3].score}}</div>{{golfRound.players[3].player.firstName}} {{golfRound.players[3].player.lastName}}</div></td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let golfRound; columns: displayedColumns;"></tr>
-  </mat-table>
+      <ng-container matColumnDef="player2">
+        <th mat-header-cell *matHeaderCellDef>Player 2</th>
+        <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[1]"><div class="row">{{golfRound.players[1].score}}</div><mat-divider></mat-divider>{{golfRound.players[1].player.firstName}} {{golfRound.players[1].player.lastName}}</div></td>
+      </ng-container>
+      <ng-container matColumnDef="player3">
+        <th mat-header-cell *matHeaderCellDef>Player 3</th>
+        <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[2]"><div class="row">{{golfRound.players[2].score}}</div><mat-divider></mat-divider>{{golfRound.players[2].player.firstName}} {{golfRound.players[2].player.lastName}}</div></td>
+      </ng-container>
+      <ng-container matColumnDef="player4">
+        <th mat-header-cell *matHeaderCellDef>Player 4</th>
+        <td mat-cell *matCellDef="let golfRound" style="text-align:center"><div *ngIf="golfRound.players[3]"><div class="row">{{golfRound.players[3].score}}</div><mat-divider></mat-divider>{{golfRound.players[3].player.firstName}} {{golfRound.players[3].player.lastName}}</div></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let golfRound; columns: displayedColumns;"></tr>
+    </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]"></mat-paginator>
+  </div>
 </div>

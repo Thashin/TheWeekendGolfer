@@ -41,8 +41,8 @@ export class HomeComponent implements OnInit {
       playerId => {
         this._playerService.getPlayerHandicaps(playerId).subscribe(
           handicaps => {
-            this.lineChartData = [{ data : handicaps.map(item => item.value),label:'Handicap'}];
-            this.lineChartLabels = handicaps.map(item => item.date);
+            this.lineChartData = [{ data: handicaps.map(item => item.currentHandicap).reverse(), label: 'Handicap' }];
+            this.lineChartLabels = handicaps.map(item => item.date).reverse();
           }
         )
       });
@@ -51,7 +51,15 @@ export class HomeComponent implements OnInit {
 
   // lineChart
   public lineChartOptions: any = {
-    responsive: true
+    scales: {
+      yAxes: [{
+        display: true,
+        ticks: {
+          beginAtZero: true   // minimum value will be 0.
+        }
+      }]
+    },
+    responsive: false
   };
   public lineChartColors: Array<any> = [
     { // grey

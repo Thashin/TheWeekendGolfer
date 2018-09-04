@@ -8,9 +8,11 @@ import { ScoreView } from '../models/scoreView.model';
 import { UserService } from '../services/user.service';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Player } from '../models/player.model';
+import { style } from '@angular/animations';
 
 @Component({
-  templateUrl: './golfRound.component.html'
+  templateUrl: './golfRound.component.html',
+  styleUrls: ['./golfRound.component.css']
 })
 
 export class GolfRoundComponent {

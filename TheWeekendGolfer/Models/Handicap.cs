@@ -11,6 +11,7 @@ namespace TheWeekendGolfer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid PlayerId { get; set; }
+        public Decimal CurrentHandicap { get; set; }
         public Decimal Value { get; set; }
         public DateTime Date { get; set; }
     }

@@ -29,8 +29,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         public Boolean AddHandicap(Handicap handicap)
         {
-            _handicapAccessLayer.AddHandicap(handicap);
-            return RecalculateHandicap(handicap.PlayerId);
+            return _handicapAccessLayer.AddHandicap(handicap);
         }
 
         public Boolean CalculateHandicap(DateTime date, Score score, Guid courseId)
@@ -47,8 +46,9 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 handicap.Value = handicap.Value * 2;
             }
-            return AddHandicap(handicap);
+            return RecalculateHandicap(handicap);
         }
+
         [HttpGet]
         public IEnumerable<Handicap> GetOrderedHandicaps(Guid PlayerId)
         {
@@ -121,9 +121,9 @@ namespace TheWeekendGolfer.Web.Controllers
 
 
 
-        public Boolean RecalculateHandicap(Guid playerId)
+        public Boolean RecalculateHandicap(Handicap handicap)
         {
-            IEnumerable<Handicap> handicaps = _handicapAccessLayer.GetOrderedHandicaps(playerId)
+            IEnumerable<Handicap> handicaps = _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId)
                                                                  .OrderBy(h=>h.Value);
 
             int roundsPlayed = handicaps.Count();
@@ -161,8 +161,9 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 newHandicap = handicaps.Take(1).Sum(h => h.Value) / 1;
             }
-
-            return Edit(playerId, newHandicap);
+            handicap.CurrentHandicap = newHandicap;
+            AddHandicap(handicap);
+            return Edit(handicap.PlayerId, newHandicap);
 
         }
 
