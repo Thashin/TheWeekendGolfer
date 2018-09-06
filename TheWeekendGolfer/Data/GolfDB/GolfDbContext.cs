@@ -3,6 +3,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Data
 {
+    /// <summary>
+    /// Used to create structure for golf DB
+    /// </summary>
     public class GolfDbContext: DbContext
     {
         public GolfDbContext(DbContextOptions options):base(options)

@@ -27,6 +27,11 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        /// <summary>
+        /// Returns all players that are not currently partners with given player
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         public IEnumerable<Player> GetPotentialPartners(Guid playerId)
         {
             try
@@ -57,7 +62,12 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean checkPartner(Partner partner)
+        /// <summary>
+        /// Ensures that user cannot add the same partner twice 
+        /// </summary>
+        /// <param name="partner"></param>
+        /// <returns></returns>
+        private Boolean checkPartner(Partner partner)
         {
             try
             {

@@ -44,8 +44,6 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                
-                  
                 _context.Scores.Add(score);
                 _context.SaveChanges();
                 return true;

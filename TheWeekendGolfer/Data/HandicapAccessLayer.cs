@@ -28,6 +28,11 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        /// <summary>
+        /// Get the latest 20 handicaps for a player
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         public IEnumerable<Handicap> GetOrderedHandicaps(Guid playerId)
         {
             try

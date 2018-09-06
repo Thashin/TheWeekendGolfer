@@ -18,6 +18,11 @@ namespace TheWeekendGolfer.Web.Data
          * Add handling for null data
          * Ignoring missing id column in CSV
         */ 
+
+        /// <summary>
+        /// Seed database with course data
+        /// </summary>
+        /// <param name="context"></param>
         public static void EnsureSeedDataForContext(this GolfDbContext context)
         {
             if(context.Courses.Any())

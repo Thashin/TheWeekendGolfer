@@ -9,6 +9,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data.ApplicationUserDB
 {
+    /// <summary>
+    /// Used to create structure for Application User DB
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
