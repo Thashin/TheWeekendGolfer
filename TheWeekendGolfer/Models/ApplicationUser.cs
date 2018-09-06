@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>
+    /// This is the model for the User class to sign-in.
+    /// </summary>
     public class ApplicationUser : IdentityUser
     {
     }

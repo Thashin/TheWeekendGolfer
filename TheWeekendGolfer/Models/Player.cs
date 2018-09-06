@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the Player class  
+    /// </summary>  
     public class Player
     {
 

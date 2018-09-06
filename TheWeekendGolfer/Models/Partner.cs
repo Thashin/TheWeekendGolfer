@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the Partner class.  
+    /// </summary>  
     public class Partner
     {
         public Guid Id { get; set; }

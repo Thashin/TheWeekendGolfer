@@ -8,6 +8,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>
+    /// This is the model to add a user.
+    /// </summary>
     public class AddUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

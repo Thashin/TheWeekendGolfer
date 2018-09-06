@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the Score class  
+    /// </summary>  
     public class Score
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

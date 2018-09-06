@@ -6,6 +6,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the GolfRoundView class.  
+    /// </summary>  
     public class GolfRoundViewModel
     {
         public DateTime Date { get; set; }

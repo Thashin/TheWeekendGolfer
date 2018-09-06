@@ -21,7 +21,7 @@ export class PartnerService {
 
 
   getPartners(playerId: string) {
-    return this._http.get<Partner[]>(this.theWeekendGolferUrl + 'api/Partner/GetPartners?PlayerId=' + playerId);
+    return this._http.get<string[]>(this.theWeekendGolferUrl + 'api/Partner/GetPartners?PlayerId=' + playerId);
   }
 
   getPotentialPartners(playerId: string) {

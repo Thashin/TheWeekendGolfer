@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the Handicap class.  
+    /// </summary>  
     public class Handicap
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

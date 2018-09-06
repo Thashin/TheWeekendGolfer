@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the GolfRound class.  
+    /// </summary>  
     public class GolfRound
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Models
 {
+    /// <summary>  
+    ///  Model for the Course class.  
+    /// </summary>  
     public class Course
     {
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Location { get; set; }

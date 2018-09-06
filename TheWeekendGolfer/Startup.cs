@@ -38,6 +38,7 @@ namespace TheWeekendGolfer
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //Inject dependencies
             services.AddDbContext<GolfDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<HandicapAccessLayer>();
@@ -72,7 +73,9 @@ namespace TheWeekendGolfer
                 app.UseHsts();
             }
 
+            //Seed database with Course data
             golfDbContext.EnsureSeedDataForContext();
+
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
