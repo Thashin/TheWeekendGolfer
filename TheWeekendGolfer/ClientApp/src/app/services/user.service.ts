@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 
 import { User } from '../models/User.model';
+import { Player } from '../models/player.model';
 
 
 
@@ -83,7 +84,7 @@ export class UserService {
   }
 
   getPlayerid() {
-    return this._http.get<string>(this.theWeekendGolferUrl + 'api/User/GetPlayer');
+    return this._http.get<Player>(this.theWeekendGolferUrl + 'api/User/GetPlayer');
   }
 
 

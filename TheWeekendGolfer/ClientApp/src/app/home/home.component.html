@@ -1,14 +1,22 @@
 <div class="weekend-golfer-container">
-  <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
-    <mat-icon class="icon">add</mat-icon>
-    <span class='label'></span> Add Partner
-  </button>
-  <div style="display: block;">
-    <canvas *ngIf="lineChartData" baseChart
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="lineChartOptions"
-            [legend]="lineChartLegend"
-            [chartType]="lineChartType"></canvas>
+  <div class="button-container">
+    <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
+      <mat-icon class="icon">add</mat-icon>
+      <span class='label'></span> Add Partner
+    </button>
   </div>
-</div>
+    <mat-card *ngIf="lineChartData">
+      <ngx-charts-line-chart [results]="lineChartData"
+                             [autoScale]="autoScale"
+                             [gradient]="gradient"
+                             [xAxis]="showXAxis"
+                             [yAxis]="showYAxis"
+                             [legend]="showLegend"
+                             [showXAxisLabel]="showXAxisLabel"
+                             [showYAxisLabel]="showYAxisLabel"
+                             [xAxisLabel]="xAxisLabel"
+                             [yAxisLabel]="yAxisLabel"
+                             [timeline]="timeline">
+      </ngx-charts-line-chart>
+    </mat-card>
+  </div>

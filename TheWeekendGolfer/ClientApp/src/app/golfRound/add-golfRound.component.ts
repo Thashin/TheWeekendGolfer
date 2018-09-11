@@ -111,8 +111,8 @@ export class AddGolfRoundDialog {
     this.currentPlayers = [];
   }
   getCurrentPlayer() {
-    this._userService.getPlayerid().subscribe(playerId => {
-      this._playerService.getPlayerById(playerId).subscribe(data => {
+    this._userService.getPlayerid().subscribe(player => {
+      this._playerService.getPlayerById(player.id).subscribe(data => {
         this.player = data;
         console.log(this.player);
       })

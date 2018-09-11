@@ -27,27 +27,7 @@ namespace TheWeekendGolfer.Web.Controllers
         }
         
 
-        public Boolean AddHandicap(Handicap handicap)
-        {
-            return _handicapAccessLayer.AddHandicap(handicap);
-        }
 
-        public Boolean CalculateHandicap(DateTime date, Score score, Guid courseId)
-        {
-            Course course = _courseController.Details(courseId);
-            Handicap handicap = new Handicap
-            {
-                Date = date,
-                PlayerId = score.PlayerId
-            };
-            handicap.Value = (score.Value - course.ScratchRating) * Decimal.Parse("113")
-                        / course.Slope * Decimal.Parse("0.93");
-            if (course.Holes.Contains("-"))
-            {
-                handicap.Value = handicap.Value * 2;
-            }
-            return RecalculateHandicap(handicap);
-        }
 
         [HttpGet]
         public IEnumerable<Handicap> GetOrderedHandicaps(Guid PlayerId)
@@ -96,7 +76,7 @@ namespace TheWeekendGolfer.Web.Controllers
                 {
                     return Ok();
                 }
-                else if(!_handicapAccessLayer.AddHandicap(new Handicap { Date = DateTime.Now, PlayerId = playerId, Value = player.Handicap.Value }))
+                else if(!_handicapAccessLayer.AddHandicap(new Handicap { Date = DateTime.Now, PlayerId = playerId, Value = player.Handicap.Value, CurrentHandicap = player.Handicap.Value }))
                 {
                     return BadRequest();
                 }
@@ -109,63 +89,13 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         
-        private Boolean Edit(Guid playerId,Decimal handicap)
-        {
-            Player player = _playerAccessLayer.GetPlayer(playerId);
-            player.Handicap = handicap;
-            player.Modified = DateTime.Now;
-            return _playerAccessLayer.UpdatePlayer(player);
-        }
 
 
 
 
 
-        public Boolean RecalculateHandicap(Handicap handicap)
-        {
-            IEnumerable<Handicap> handicaps = _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId)
-                                                                 .OrderBy(h=>h.Value);
 
-            int roundsPlayed = handicaps.Count();
-            Decimal newHandicap;
 
-            if (roundsPlayed>=19)
-            {
-                newHandicap = handicaps.Take(8).Sum(h => h.Value) / 8;
-            }
-            else if (roundsPlayed >= 17)
-            {
-                newHandicap = handicaps.Take(7).Sum(h => h.Value) / 7;
-            }
-            else if (roundsPlayed >= 15)
-            {
-                newHandicap = handicaps.Take(6).Sum(h => h.Value) / 6;
-            }
-            else if (roundsPlayed >= 13)
-            {
-                newHandicap = handicaps.Take(5).Sum(h => h.Value) / 5;
-            }
-            else if (roundsPlayed >= 11)
-            {
-                newHandicap = handicaps.Take(4).Sum(h => h.Value) / 4;
-            }
-            else if (roundsPlayed >= 9)
-            {
-                newHandicap = handicaps.Take(3).Sum(h => h.Value) / 3;
-            }
-            else if (roundsPlayed >= 7)
-            {
-                newHandicap = handicaps.Take(2).Sum(h => h.Value) / 2;
-            }
-            else
-            {
-                newHandicap = handicaps.Take(1).Sum(h => h.Value) / 1;
-            }
-            handicap.CurrentHandicap = newHandicap;
-            AddHandicap(handicap);
-            return Edit(handicap.PlayerId, newHandicap);
-
-        }
 
     }
 }

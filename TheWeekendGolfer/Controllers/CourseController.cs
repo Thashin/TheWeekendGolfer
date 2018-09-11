@@ -82,6 +82,7 @@ namespace TheWeekendGolfer.Controllers
             }
         }
         
+        [HttpGet]
         public Course Details(Guid id)
         {
                 return _courseAccessLayer.GetCourse(id);

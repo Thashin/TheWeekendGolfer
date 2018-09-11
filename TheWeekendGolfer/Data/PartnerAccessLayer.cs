@@ -15,11 +15,12 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public IEnumerable<Guid> GetPartners(Guid playerId)
+        public IEnumerable<Player> GetPartners(Guid playerId)
         {
             try
             {
-                return _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
+                var partnerIds = _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
+                return _context.Players.Where(p => partnerIds.Contains(p.Id)).Select(p => new Player{ Id= p.Id,FirstName= p.FirstName, LastName = p.LastName }).ToList();
             }
             catch
             {

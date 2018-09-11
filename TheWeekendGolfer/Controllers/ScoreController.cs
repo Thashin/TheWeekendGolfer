@@ -18,76 +18,9 @@ namespace TheWeekendGolfer.Web.Controllers
         ScoreAccessLayer _scoreAccessLayer;
         PlayerController _playerController;
 
-        public ScoreController(ScoreAccessLayer scoreAccessLayer, PlayerController playerController)
-        {
-            _scoreAccessLayer = scoreAccessLayer;
-            _playerController = playerController;
-        }
-
-        [HttpGet]
-        public IActionResult Index()
-        {
-            try
-            {
-                return Ok(_scoreAccessLayer.GetAllScores());
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpGet]
-        // GET: Score/Details/5
-        public ActionResult Details(Guid id)
-        {
-            try
-            {
-                return Ok(_scoreAccessLayer.GetScore(id));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        public Boolean AddScore(DateTime date, Score score, Guid courseId)
-        {
-
-            if (!_scoreAccessLayer.AddScore(score))
-            {
-                return false;
-            }
-            else
-            {
-                _playerController.CalculateHandicap(date, score, courseId);
-
-                return true;
-            }
-
-        }
 
 
-        // POST: Score/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Score score)
-        {
-            if (_scoreAccessLayer.UpdateScore(score))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
 
-        //[HttpDelete]
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
 
     }
 }

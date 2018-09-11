@@ -38,7 +38,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 return _context.Handicaps.Where(h => h.PlayerId.Equals(playerId))
-                                  .OrderByDescending(h => h.Date).Take(20);
+                                  .OrderByDescending(h => h.Date).Take(100);
             }
             catch
             {
