@@ -33,6 +33,10 @@
           <mat-icon class="icon">golf_course</mat-icon>
           <span class="label">Golf Rounds</span>
         </a>
+        <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/partners"]' (click)='snav.toggle()'>
+          <mat-icon class="icon">people</mat-icon>
+          <span class="label">Partners</span>
+        </a>
         <a mat-list-item [routerLink]='["/players"]' (click)='snav.toggle()'>
           <mat-icon class="icon">people</mat-icon>
           <span class="label">Players</span>

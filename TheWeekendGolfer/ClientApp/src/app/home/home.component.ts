@@ -83,5 +83,8 @@ export class HomeComponent {
   yAxisLabel = 'Handicap';
   timeline = true;
   autoScale = true;
+  colorScheme = {
+    domain: ['#1D68FB', '#33C0FC', '#4AFFFE', '#AFFFFF', '#FFFC63', '#FDBD2D', '#FC8A25', '#FA4F1E', '#FA141B', '#BA38D1']
+  };
 }
 

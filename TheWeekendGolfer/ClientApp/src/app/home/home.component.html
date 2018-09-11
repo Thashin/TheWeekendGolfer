@@ -7,6 +7,7 @@
   </div>
     <mat-card *ngIf="lineChartData">
       <ngx-charts-line-chart [results]="lineChartData"
+                             [scheme]="colorScheme"
                              [autoScale]="autoScale"
                              [gradient]="gradient"
                              [xAxis]="showXAxis"

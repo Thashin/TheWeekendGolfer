@@ -59,6 +59,7 @@ import { UserService } from './services/user.service';
 import { LogInComponent, LoginDialog } from './user/log-in.component';
 import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
+import { PartnerComponent } from './partner/partner.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { PartnerService } from './services/partner.service';
     NavMenuComponent,
     HomeComponent,
     PlayerComponent,
+    PartnerComponent,
     CourseComponent,
     GolfRoundComponent,
     AddGolfRoundComponent,
@@ -131,7 +133,8 @@ import { PartnerService } from './services/partner.service';
       { path: 'sign-up', component: SignUpComponent },
       { path: 'login', component: LogInComponent },
       { path: 'logout', component: LogInComponent },
-      { path: 'add-partner', component: AddPartnerComponent }
+      { path: 'add-partner', component: AddPartnerComponent },
+      { path: 'partners', component: PartnerComponent }
     ])
   ],
   providers: [CourseService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService],

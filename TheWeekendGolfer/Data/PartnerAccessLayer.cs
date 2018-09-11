@@ -82,31 +82,32 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean UpdatePartner(Partner course)
+        public Boolean UpdatePartner(Partner partner)
         {
             try
             {
-                _context.Partners.Update(course);
+                _context.Partners.Update(partner);
                 _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not update Partner for " + course.Id.ToString());
+                throw new Exception("Could not update Partner for " + partner.Id.ToString());
             }
         }
 
-        public Boolean DeletePartner(Partner course)
+        public Boolean DeletePartner(Partner partner)
         {
             try
             {
-                _context.Partners.Remove(course);
+                partner = _context.Partners.Where(p => partner.PartnerId.Equals(p.PartnerId) && partner.PlayerId.Equals(p.PlayerId)).FirstOrDefault();
+                _context.Remove(partner);
                 _context.SaveChanges();
                 return true;
             }
             catch
             {
-                throw new Exception("Could not delete Partner for " + course.Id.ToString());
+                throw new Exception("Could not delete Partner for " + partner.Id.ToString());
             }
         }
     }

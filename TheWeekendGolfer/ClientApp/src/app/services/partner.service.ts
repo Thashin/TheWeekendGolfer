@@ -41,7 +41,18 @@ export class PartnerService {
     return this._http.post(this.theWeekendGolferUrl + 'api/Partner/AddPartnerAsync', body, options);
   }
 
-
+  removePartner(partnerId: string) {
+    let options = {
+      headers: new HttpHeaders(
+        { 'Content-Type': 'application/json; charset=utf-8' }
+      )
+    };
+    const body = JSON.stringify(
+      {
+        'PartnerId': partnerId
+      });
+    return this._http.post(this.theWeekendGolferUrl + 'api/Partner/RemovePartnerAsync', body, options);
+  }
 
 
   errorHandler(error: Response) {

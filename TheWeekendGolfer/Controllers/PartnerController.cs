@@ -45,5 +45,17 @@ namespace TheWeekendGolfer.Controllers
         {
             return Ok(_partnerAccessLayer.GetPotentialPartners(playerId));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemovePartnerAsync([FromBody]Partner Partner)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                Partner.PlayerId = _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id; 
+                _partnerAccessLayer.DeletePartner(Partner);
+            }
+                return Ok();
+        }
     }
 }

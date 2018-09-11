@@ -68,7 +68,6 @@ export class AddPartnerDialog{
     this._userService.getPlayerid().subscribe(player => {
       this._partnerService.getPotentialPartners(player.id).subscribe(potentialPartners => {
         this.allPlayers = potentialPartners;
-        console.log(this.allPlayers);
       });
     });
       }

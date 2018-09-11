@@ -19,7 +19,7 @@ export class PlayerComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public http: HttpClient, private _router: Router, private _courseService: PlayerService) {
+  constructor(public http: HttpClient, private _router: Router, private _playerService: PlayerService) {
     this.getPlayers();
   }
 
@@ -41,7 +41,7 @@ export class PlayerComponent {
 
   getPlayers() {
 
-     this._courseService.getPlayers().subscribe(
+    this._playerService.getPlayers().subscribe(
        data => {
          this.players = new MatTableDataSource(data);
          this.players.paginator = this.paginator;
