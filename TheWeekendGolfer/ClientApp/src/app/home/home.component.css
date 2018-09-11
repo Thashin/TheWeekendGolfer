@@ -4,5 +4,5 @@
 }
 mat-card {
   display: flex;
-  overflow: hidden;
+  padding: 10px;
 }

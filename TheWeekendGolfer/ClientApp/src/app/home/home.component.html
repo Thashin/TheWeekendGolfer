@@ -1,11 +1,17 @@
 <div class="weekend-golfer-container">
   <div *ngIf="isLoggedIn">
-    <div class="button-container" >
+    <div class="button-container">
       <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
         <mat-icon class="icon">add</mat-icon>
         <span class='label'></span> Add Partner
       </button>
     </div>
+      <mat-card *ngIf="currentHandicaps">
+        <ngx-charts-number-card
+                                [scheme]="colorScheme"
+                                [results]="currentHandicaps">
+        </ngx-charts-number-card>
+      </mat-card>
     <mat-card *ngIf="lineChartData">
       <ngx-charts-line-chart [results]="lineChartData"
                              [scheme]="colorScheme"

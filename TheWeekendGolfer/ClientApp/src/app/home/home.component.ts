@@ -9,6 +9,8 @@ import { PlayerService } from '../services/player.service';
 import { PartnerService } from '../services/partner.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { a } from '@angular/core/src/render3';
+import { Partner } from '../models/partner.model';
+import { Player } from '../models/player.model';
 
 @Component({
   selector: 'app-home',
@@ -17,17 +19,14 @@ import { a } from '@angular/core/src/render3';
 })
 export class HomeComponent {
 
-  public playerId: string;
-  public courses: Course[];
-  public slopesPar: Array<any> =[];
-  public pars: number[] = [];
   public lineChartData: any[] = [];
+  public currentHandicaps:any[] = []
   public isLoggedIn = false;
-  view: any[] = [500, 300];
-
+  public playerId = "";
+  public partners: Player[] = [];
 
   constructor(public http: HttpClient, private _router: Router, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
-    this.getHandicaps();
+    this.getHistoricalHandicaps();
     this.checkLogin();
   }
 
@@ -38,42 +37,64 @@ export class HomeComponent {
     )
   }
 
+  getCurrentHandicaps() {
+    this._playerService.getPlayerById(this.playerId).subscribe(player => {
+      this.currentHandicaps.push({
+        name: player.firstName + " " + player.lastName,
+        value: Math.round(player.handicap*10)/10
+      });
+      this.currentHandicaps = [... this.currentHandicaps];
+    }
+    )
+    this.partners.forEach(partner =>
+      this._playerService.getPlayerById(partner.id).subscribe(player => {
+        this.currentHandicaps.push({
+          name: player.firstName + " " + player.lastName,
+          value: Math.round(player.handicap * 10) / 10
+        });
+        this.currentHandicaps = [... this.currentHandicaps];
+        console.log(this.currentHandicaps)
+        }
+        )
+      )
+  }
 
-  getHandicaps() {
+
+
+  getHistoricalHandicaps() {
     this._userService.getPlayerid().subscribe(
       player => {
+        this.playerId = player.id;
         this._playerService.getPlayerHandicaps(player.id).subscribe(
           handicaps => {
             this.lineChartData.push({
-              name: player.firstName + " " + player.lastName, series: handicaps.map(item => {
+              name: player.firstName + " " + player.lastName,
+              series: handicaps.map(item => {
                 return {
                   name: new Date(item.date),
                   value: item.currentHandicap
                 }
               })
             });
-
             this.lineChartData = [... this.lineChartData];
           });
         this._partnerService.getPartners(player.id).subscribe(
           partners => {
+            this.partners = partners;
+            this.getCurrentHandicaps();
             partners.forEach(
               partner => {
                 this._playerService.getPlayerHandicaps(partner.id).subscribe(
                   handicaps => {
-
                     this.lineChartData.push({
                       name: partner.firstName + " " + partner.lastName, series: handicaps.map(item => {
-
                         return {
                           name: new Date(item.date),
                           value: item.currentHandicap
                         }
                       })
                     })
-
                     this.lineChartData = [... this.lineChartData];
-                    console.log(this.lineChartData)
                   }
                 );
               });
@@ -93,7 +114,7 @@ export class HomeComponent {
   timeline = true;
   autoScale = true;
   colorScheme = {
-    domain: ['#1D68FB', '#33C0FC', '#4AFFFE', '#AFFFFF', '#FFFC63', '#FDBD2D', '#FC8A25', '#FA4F1E', '#FA141B', '#BA38D1']
+    domain: ["#4e31a5", "#9c25a7", "#3065ab", "#57468b", "#904497", "#46648b", "#32118d", "#a00fb3", "#1052a2", "#6e51bd", "#b63cc3", "#6c97cb", "#8671c1", "#b455be", "#7496c3"]
   };
 }
 
