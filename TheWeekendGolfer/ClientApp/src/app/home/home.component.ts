@@ -21,12 +21,21 @@ export class HomeComponent {
   public courses: Course[];
   public slopesPar: Array<any> =[];
   public pars: number[] = [];
-  public lineChartData:any[] = [];
+  public lineChartData: any[] = [];
+  public isLoggedIn = false;
   view: any[] = [500, 300];
 
 
   constructor(public http: HttpClient, private _router: Router, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
     this.getHandicaps();
+    this.checkLogin();
+  }
+
+
+  checkLogin(): void {
+    this._userService.isLoggedIn().subscribe(
+      data => this.isLoggedIn = data
+    )
   }
 
 

@@ -2,7 +2,7 @@
   <h1>Golf Rounds</h1>
 
   <p>This shows every golf round posted to this site</p>
-  <div class="button-row">
+  <div class="button-row" *ngIf="isLoggedIn">
     <button mat-raised-button color="primary" [routerLink]='["/add-golf-round"]'>
       <mat-icon class="icon">add</mat-icon>
       <span class='label'></span> Add Golf Round

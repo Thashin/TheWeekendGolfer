@@ -19,11 +19,10 @@ export class GolfRoundComponent {
 
   public golfRoundViews: MatTableDataSource<GolfRoundView>;
   displayedColumns: string[] = ['date', 'course', 'teeName', 'holes', 'par', 'scratchRating', 'slope', 'player1', 'player2', 'player3', 'player4'];
-
+  isLoggedIn = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-  isLoggedIn = false;
+  
   constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService) {
 
     this.getGolfRounds();
@@ -91,6 +90,8 @@ export class GolfRoundComponent {
   }
 
 }
+
+
 
 
 export interface GolfRoundView {

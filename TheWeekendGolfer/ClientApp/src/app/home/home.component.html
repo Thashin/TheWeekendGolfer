@@ -1,10 +1,11 @@
 <div class="weekend-golfer-container">
-  <div class="button-container">
-    <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
-      <mat-icon class="icon">add</mat-icon>
-      <span class='label'></span> Add Partner
-    </button>
-  </div>
+  <div *ngIf="isLoggedIn">
+    <div class="button-container" >
+      <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
+        <mat-icon class="icon">add</mat-icon>
+        <span class='label'></span> Add Partner
+      </button>
+    </div>
     <mat-card *ngIf="lineChartData">
       <ngx-charts-line-chart [results]="lineChartData"
                              [scheme]="colorScheme"
@@ -20,4 +21,5 @@
                              [timeline]="timeline">
       </ngx-charts-line-chart>
     </mat-card>
+  </div>
   </div>
