@@ -40,6 +40,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<Score> GetAllPlayerScores(Guid playerId)
+        {
+            try
+            {
+                return _context.Scores.Where(s=>s.PlayerId.Equals(playerId));
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve all scores");
+            }
+        }
+
         public Boolean AddScore(Score score)
         {
             try

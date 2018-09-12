@@ -16,14 +16,18 @@ namespace TheWeekendGolfer.Web.Controllers
     {
         HandicapAccessLayer _handicapAccessLayer;
         PlayerAccessLayer _playerAccessLayer;
-        CourseController _courseController;
+        CourseAccessLayer _courseAccessLayer;
+        ScoreAccessLayer _scoreAccessLayer;
+        GolfRoundAccessLayer _golfRoundAccessLayer;
 
 
-        public PlayerController(HandicapAccessLayer handicapAccessLayer, PlayerAccessLayer playerAccessLayer, CourseController courseController)
+        public PlayerController(HandicapAccessLayer handicapAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer, ScoreAccessLayer scoreAccessLayer, GolfRoundAccessLayer golfRoundAccessLayer)
         {
             _handicapAccessLayer = handicapAccessLayer;
             _playerAccessLayer = playerAccessLayer;
-            _courseController = courseController;
+            _courseAccessLayer = courseAccessLayer;
+            _scoreAccessLayer = scoreAccessLayer;
+            _golfRoundAccessLayer = golfRoundAccessLayer;
         }
         
 
@@ -88,8 +92,14 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-        
 
+        [HttpGet]
+        public IActionResult GetAllPlayerRoundCourses(Guid playerId)
+        {
+            var rounds = _scoreAccessLayer.GetAllPlayerScores(playerId).Select(s => s.GolfRoundId).ToList();
+            var courses = _golfRoundAccessLayer.GetAllCourseIds(rounds).ToList();
+            return Ok(_courseAccessLayer.GetCourseStats(courses));
+        }
 
 
 

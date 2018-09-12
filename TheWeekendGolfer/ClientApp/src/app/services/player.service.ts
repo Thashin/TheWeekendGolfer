@@ -26,6 +26,11 @@ export class PlayerService {
     return this._http.get<Handicap[]>(this.theWeekendGolferUrl + 'api/Player/GetOrderedHandicaps?PlayerId=' + playerId);
   }
 
+  getPlayerCourseStats(playerId: string) {
+    return this._http.get<{[id:string]:number}[]>(this.theWeekendGolferUrl + "api/Player/GetAllPlayerRoundCourses?PlayerId=" + playerId);
+  }
+
+
   getPlayerById(id: string) {
     return this._http.get<Player>(this.theWeekendGolferUrl + "api/Player/Details?id=" + id);
   }

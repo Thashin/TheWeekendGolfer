@@ -42,7 +42,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Courses.Select(s => s).OrderBy(s=>s.Slope);
+                return _context.Courses.Select(s => s).OrderBy(s => s.Slope);
             }
             catch
             {
@@ -54,7 +54,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Courses.GroupBy(c=>c.Name).Select(c=>c.First().Name);
+                return _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
             }
             catch
             {
@@ -62,13 +62,13 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Course> GetCourseHoles(string courseName,string courseTee)
+        public IEnumerable<Course> GetCourseHoles(string courseName, string courseTee)
         {
             try
             {
                 return _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
-                                       .Select(c => c) ;
+                                       .Select(c => c);
             }
             catch
             {
@@ -82,11 +82,27 @@ namespace TheWeekendGolfer.Data
             {
                 return _context.Courses.Where(c => c.Name.Equals(courseName)).
                                         GroupBy(c => c.TeeName).
-                                        Select(c=>c.First().TeeName);
+                                        Select(c => c.First().TeeName);
             }
             catch
             {
                 throw new Exception("Could not retrieve all course tees");
+            }
+        }
+
+
+        public IDictionary<string,int> GetCourseStats(IList<Guid> courseIds)
+        {
+            try
+            {
+                var a = from c in _context.Courses
+                        join i in courseIds on c.Id equals i
+                        select c.Name;
+                return a.GroupBy(c => c).OrderByDescending(c=>c.Count()).ToDictionary(c => c.Key, c => c.Count());
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve course stats");
             }
         }
 

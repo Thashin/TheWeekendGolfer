@@ -6,12 +6,12 @@
         <span class='label'></span> Add Partner
       </button>
     </div>
-      <mat-card *ngIf="currentHandicaps">
-        <ngx-charts-number-card
-                                [scheme]="colorScheme"
-                                [results]="currentHandicaps">
-        </ngx-charts-number-card>
-      </mat-card>
+
+    <mat-card *ngIf="currentHandicaps">
+      <ngx-charts-number-card [scheme]="colorScheme"
+                              [results]="currentHandicaps">
+      </ngx-charts-number-card>
+    </mat-card>
     <mat-card *ngIf="lineChartData">
       <ngx-charts-line-chart [results]="lineChartData"
                              [scheme]="colorScheme"
@@ -26,6 +26,12 @@
                              [yAxisLabel]="yAxisLabel"
                              [timeline]="timeline">
       </ngx-charts-line-chart>
+    </mat-card>
+    <mat-card *ngIf="courseStats">
+      <ngx-charts-pie-grid    [scheme]="colorScheme"
+                              [results]="courseStats"
+                             >
+      </ngx-charts-pie-grid>
     </mat-card>
   </div>
   </div>

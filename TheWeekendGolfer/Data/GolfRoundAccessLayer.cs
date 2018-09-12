@@ -28,6 +28,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public IEnumerable<Guid> GetAllCourseIds(IList<Guid> golfRoundIds)
+        {
+            try
+            {
+                return _context.GolfRounds.Where(g => golfRoundIds.Contains(g.Id)).Select(c => c.CourseId); 
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Golf Rounds for " + golfRoundIds.ToString());
+            }
+        }
+
         public IEnumerable<GolfRound> GetAllGolfRounds()
         {
             try

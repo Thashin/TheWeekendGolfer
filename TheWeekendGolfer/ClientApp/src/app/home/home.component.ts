@@ -11,6 +11,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { a } from '@angular/core/src/render3';
 import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
+import { GolfRoundService } from '../services/golfRound.service';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +21,16 @@ import { Player } from '../models/player.model';
 export class HomeComponent {
 
   public lineChartData: any[] = [];
-  public currentHandicaps:any[] = []
+  public currentHandicaps: any[] = [];
+  public courseStats: any[] = [];
   public isLoggedIn = false;
   public playerId = "";
   public partners: Player[] = [];
 
-  constructor(public http: HttpClient, private _router: Router, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
-    this.getHistoricalHandicaps();
+  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
     this.checkLogin();
+    this.getHistoricalHandicaps();
+
   }
 
 
@@ -36,6 +39,7 @@ export class HomeComponent {
       data => this.isLoggedIn = data
     )
   }
+
 
   getCurrentHandicaps() {
     this._playerService.getPlayerById(this.playerId).subscribe(player => {
@@ -53,18 +57,27 @@ export class HomeComponent {
           value: Math.round(player.handicap * 10) / 10
         });
         this.currentHandicaps = [... this.currentHandicaps];
-        console.log(this.currentHandicaps)
         }
         )
-      )
+    )
   }
 
+  getCourseStats() {
+    this._playerService.getPlayerCourseStats(this.playerId).subscribe(courses => {
+      for (let name in courses) {
+        this.courseStats.push({ name: name, value: courses[name] })
+        this.courseStats = [... this.courseStats]
+      }
+    }
+    )
+    }
 
 
   getHistoricalHandicaps() {
     this._userService.getPlayerid().subscribe(
       player => {
         this.playerId = player.id;
+        this.getCourseStats();
         this._playerService.getPlayerHandicaps(player.id).subscribe(
           handicaps => {
             this.lineChartData.push({
