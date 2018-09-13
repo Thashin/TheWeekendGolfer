@@ -37,8 +37,13 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                var partners = _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
-                return _context.Players.Where(p => !p.Id.Equals(playerId) && !partners.Contains(p.Id));
+                var player = _context.Partners.Where(s => s.PlayerId.Equals(playerId));
+                if (0<player.Count())
+                {
+                    var partners = player.Select(p => p.PartnerId);
+                    return _context.Players.Where(p => !p.Id.Equals(playerId) && !partners.Contains(p.Id)).ToList();
+                }
+                return new List<Player>();
             }
             catch
             {
@@ -50,7 +55,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                if (!checkPartner(player))
+                if (!CheckPartner(player))
                 {
                     _context.Partners.Add(player);
                     _context.SaveChanges();
@@ -68,7 +73,7 @@ namespace TheWeekendGolfer.Data
         /// </summary>
         /// <param name="partner"></param>
         /// <returns></returns>
-        private Boolean checkPartner(Partner partner)
+        private Boolean CheckPartner(Partner partner)
         {
             try
             {

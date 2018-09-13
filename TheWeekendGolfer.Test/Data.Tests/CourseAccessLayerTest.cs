@@ -249,9 +249,9 @@ namespace TheWeekendGolfer.Tests
                 TeeName = "Blue Men"
             });
 
-            var actual = _context.Courses.Count();
+            var actual = _context.Courses;
 
-            actual.Should().Equals(expected);
+            actual.Should().HaveCount(expected);
         }
 
 

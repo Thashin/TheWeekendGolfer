@@ -20,7 +20,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Players.Where(s => s.Id.Equals(id)).FirstOrDefault();
+                return _context.Players.Where(s => s.Id.Equals(id)).First();
             }
             catch
             {
@@ -32,7 +32,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Players.Where(s => s.UserId.Equals(id)).FirstOrDefault();
+                return _context.Players.Where(s => s.UserId.Equals(id)).First();
             }
             catch
             {
