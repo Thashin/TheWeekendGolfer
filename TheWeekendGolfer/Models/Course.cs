@@ -13,14 +13,23 @@ namespace TheWeekendGolfer.Models
     public class Course
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public string Location { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Holes { get; set; }
+        [Required]
         public string TeeName { get; set; }
+        [Required]
         public int Par { get; set; }
+        [Required]
         public Decimal ScratchRating { get; set; }
+        [Required]
         public Decimal Slope { get; set; }
+        [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Created { get; set; } = DateTime.Now;
     }

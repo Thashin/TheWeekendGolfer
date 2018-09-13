@@ -24,10 +24,6 @@ export class CourseService {
   }
 
 
-  getCoursesOrderedSlope() {
-    return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/GetAllCoursesOrderedSlope');
-  }
-
   getCourseNames() {
     return this._http.get<string[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseNames');
   }

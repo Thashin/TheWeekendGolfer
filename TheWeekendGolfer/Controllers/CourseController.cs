@@ -48,19 +48,6 @@ namespace TheWeekendGolfer.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllCoursesOrderedSlope()
-        {
-            try
-            {
-                return Ok(_courseAccessLayer.GetAllCoursesOrderedSlope());
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpGet]
         public IActionResult GetCourseDetails(string courseName,string tee = null)
         {
             try

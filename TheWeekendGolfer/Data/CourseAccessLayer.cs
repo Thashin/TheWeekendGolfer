@@ -19,7 +19,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Courses.Where(s => s.Id.Equals(id)).FirstOrDefault(); ;
+                return _context.Courses.Where(s => s.Id.Equals(id)).First();
             }
             catch
             {
@@ -38,57 +38,51 @@ namespace TheWeekendGolfer.Data
                 throw new Exception("Could not retrieve all Courses");
             }
         }
-        public IEnumerable<Course> GetAllCoursesOrderedSlope()
-        {
-            try
-            {
-                return _context.Courses.Select(s => s).OrderBy(s => s.Slope);
-            }
-            catch
-            {
-                throw new Exception("Could not retrieve all Courses");
-            }
-        }
 
         public IEnumerable<string> GetCourseNames()
         {
-            try
+            var names = _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
+
+            if(names!=null)
             {
-                return _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
+                return names;
             }
-            catch
+            else
             {
                 throw new Exception("Could not retrieve all course names");
             }
         }
 
+        public IEnumerable<string> GetCourseTees(string courseName)
+        {
+            var tees = _context.Courses.Where(c => c.Name.Equals(courseName)).
+                                        GroupBy(c => c.TeeName).
+                                        Select(c => c.First().TeeName);
+            if(0<tees.Count())
+            {
+                return tees;
+            }
+            else
+            {
+                throw new Exception("Could not retrieve all course tees");
+            }
+        }
+
         public IEnumerable<Course> GetCourseHoles(string courseName, string courseTee)
         {
-            try
-            {
-                return _context.Courses.Where(c => c.Name.Equals(courseName) &&
+            var holes = _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
                                        .Select(c => c);
+            if(0<holes.Count())
+            {
+                return holes;
             }
-            catch
+            else
             {
                 throw new Exception("Could not retrieve all course holes");
             }
         }
 
-        public IEnumerable<string> GetCourseTees(string courseName)
-        {
-            try
-            {
-                return _context.Courses.Where(c => c.Name.Equals(courseName)).
-                                        GroupBy(c => c.TeeName).
-                                        Select(c => c.First().TeeName);
-            }
-            catch
-            {
-                throw new Exception("Could not retrieve all course tees");
-            }
-        }
 
 
         public IDictionary<string,int> GetCourseStats(IList<Guid> courseIds)
