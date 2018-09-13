@@ -13,11 +13,16 @@ namespace TheWeekendGolfer.Models
     public class Score
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public Guid Id { get; set; }
+        [Required]
         public Guid PlayerId { get; set; }
+        [Required]
         public int Value { get; set; }
+        [Required]
         public Guid GolfRoundId { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public DateTime Created { get; set; } = DateTime.Now;
     }
 }

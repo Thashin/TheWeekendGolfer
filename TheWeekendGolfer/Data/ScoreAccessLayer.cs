@@ -20,7 +20,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return (Score)_context.Scores.Select(s => s.Id.Equals(id));
+                return _context.Scores.Where(s => s.Id.Equals(id)).First();
             }
             catch
             {
@@ -42,11 +42,12 @@ namespace TheWeekendGolfer.Data
 
         public IEnumerable<Score> GetAllPlayerScores(Guid playerId)
         {
-            try
+            var scores  = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
+            if(0<scores.Count())
             {
-                return _context.Scores.Where(s=>s.PlayerId.Equals(playerId));
+                return scores;
             }
-            catch
+            else
             {
                 throw new Exception("Could not retrieve all scores");
             }
