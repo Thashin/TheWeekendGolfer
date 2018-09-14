@@ -18,17 +18,19 @@ namespace TheWeekendGolfer.Data
 
         public GolfRound GetGolfRound(Guid id)
         {
-            try
+            var round = _context.GolfRounds.Where(s => s.Id.Equals(id)).First();
+
+            if(round!=null)
             {
-                return (GolfRound)_context.GolfRounds.Select(s => s.Id.Equals(id));
+                return round;
             }
-            catch
+            else
             {
                 throw new Exception("Could not retrieve Golf Round for " + id.ToString());
             }
         }
 
-        public IEnumerable<Guid> GetAllCourseIds(IList<Guid> golfRoundIds)
+        public IEnumerable<Guid> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds)
         {
             try
             {

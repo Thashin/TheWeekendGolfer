@@ -97,7 +97,7 @@ namespace TheWeekendGolfer.Web.Controllers
         public IActionResult GetAllPlayerRoundCourses(Guid playerId)
         {
             var rounds = _scoreAccessLayer.GetAllPlayerScores(playerId).Select(s => s.GolfRoundId).ToList();
-            var courses = _golfRoundAccessLayer.GetAllCourseIds(rounds).ToList();
+            var courses = _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds).ToList();
             return Ok(_courseAccessLayer.GetCourseStats(courses));
         }
 
