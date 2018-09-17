@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Models;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Data
 {
-    public class CourseAccessLayer
+    public class CourseAccessLayer:ICourseAccessLayer
     {
         GolfDbContext _context;
 
@@ -15,7 +16,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public Course GetCourse(Guid id)
+        public async Task<Course> GetCourse(Guid id)
         {
             try
             {
@@ -27,7 +28,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Course> GetAllCourses()
+        public async Task<IEnumerable<Course>> GetAllCourses()
         {
             try
             {
@@ -39,9 +40,9 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<string> GetCourseNames()
+        public async Task<IEnumerable<string>> GetCourseNames()
         {
-            var names = _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
+            var names =  _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
 
             if(names!=null)
             {
@@ -53,7 +54,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<string> GetCourseTees(string courseName)
+        public async Task<IEnumerable<string>> GetCourseTees(string courseName)
         {
             var tees = _context.Courses.Where(c => c.Name.Equals(courseName)).
                                         GroupBy(c => c.TeeName).
@@ -68,7 +69,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Course> GetCourseHoles(string courseName, string courseTee)
+        public async Task<IEnumerable<Course>> GetCourseHoles(string courseName, string courseTee)
         {
             var holes = _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
@@ -85,7 +86,7 @@ namespace TheWeekendGolfer.Data
 
 
 
-        public IDictionary<string,int> GetCourseStats(IList<Guid> courseIds)
+        public async Task<IDictionary<string,int>> GetCourseStats(IList<Guid> courseIds)
         {
             try
             {
@@ -100,7 +101,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddCourse(Course course)
+        public async Task<Boolean> AddCourse(Course course)
         {
             try
             {
@@ -114,7 +115,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean UpdateCourse(Course course)
+        public async Task<Boolean> UpdateCourse(Course course)
         {
             try
             {
@@ -128,7 +129,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean DeleteCourse(Course course)
+        public async Task<Boolean> DeleteCourse(Course course)
         {
             try
             {

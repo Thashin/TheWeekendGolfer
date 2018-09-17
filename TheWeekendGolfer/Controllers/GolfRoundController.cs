@@ -34,19 +34,23 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
+
+                var coursesTask = _courseAccessLayer.GetAllCourses();
                 var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
                 var scores = _scoreAccessLayer.GetAllScores();
-                var courses = _courseAccessLayer.GetAllCourses();
                 var players = _playerAccessLayer.GetAllPlayers();
+
 
                 var joinRoundScores = from round in rounds
                                       join score in scores on round.Id equals score.GolfRoundId
                                       where score.GolfRoundId.Equals(round.Id)
                                       select new { round.Id, round.Date, round.CourseId, score.PlayerId, score.Value };
+
+                var courses = await coursesTask;
 
                 var resolveCourses = from round in joinRoundScores
                                      join course in courses on round.CourseId equals course.Id
@@ -183,9 +187,9 @@ namespace TheWeekendGolfer.Web.Controllers
             return _handicapAccessLayer.AddHandicap(handicap);
         }
 
-        private Boolean CalculateHandicap(DateTime date, Score score, Guid courseId)
+        private async Task<Boolean> CalculateHandicap(DateTime date, Score score, Guid courseId)
         {
-            Course course = _courseAccessLayer.GetCourse(courseId);
+            Course course = await _courseAccessLayer.GetCourse(courseId);
             Handicap handicap = new Handicap
             {
                 Date = date,

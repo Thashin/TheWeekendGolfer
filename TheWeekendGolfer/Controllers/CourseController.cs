@@ -12,67 +12,95 @@ namespace TheWeekendGolfer.Controllers
     [Route("api/[controller]/[action]")]
     public class CourseController : Controller
     {
-        CourseAccessLayer _courseAccessLayer;
+        ICourseAccessLayer _courseAccessLayer;
 
-        public CourseController(CourseAccessLayer courseAccessLayer)
+        public CourseController(ICourseAccessLayer courseAccessLayer)
         {
             _courseAccessLayer = courseAccessLayer;
         }
 
         [HttpGet]
-        [Route("/api/Course/Index")]
-        public IActionResult Index()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Index()
         {
-            try
+            var courses = await _courseAccessLayer.GetAllCourses();
+            if(courses.Count()>0)
             {
-                return Ok(_courseAccessLayer.GetAllCourses());
+                return Ok(courses);
             }
-            catch
+            else
             {
-                return BadRequest();
+                return NotFound("No courses were found");
             }
         }
 
         [HttpGet]
-        public IActionResult GetCourseNames()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetCourseNames()
         {
-            try
+            var courseNames = await _courseAccessLayer.GetCourseNames();
+
+            if(courseNames.Count()>0)
             {
-                return Ok(_courseAccessLayer.GetCourseNames());
+                return Ok(courseNames);
             }
-            catch
+            else
             {
-                return BadRequest();
+                return NotFound("Could not get course names");
             }
         }
 
 
         [HttpGet]
-        public IActionResult GetCourseDetails(string courseName,string tee = null)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetCourseDetails(string courseName,string tee = null)
         {
-            try
-            {
+                
                 if(tee!=null)
-                { 
-                    return Ok(_courseAccessLayer.GetCourseHoles(courseName, tee));
+                {
+                var holes = await _courseAccessLayer.GetCourseHoles(courseName, tee);
+                if (holes.Count() > 0)
+                {
+                    return Ok(holes);
                 }
                 else
                 {
-                    return Ok(_courseAccessLayer.GetCourseTees(courseName));
+                    return NotFound("Could not find holes for course");
+                }
+                }
+                else
+                {
+                var tees = await _courseAccessLayer.GetCourseTees(courseName);
+                if (tees.Count() > 0)
+                {
+                    return Ok(tees);
+                }
+                else
+                {
+                    return NotFound("Could not find tees for course");
+                }
                 }
                 
 
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+         }
         
         [HttpGet]
-        public Course Details(Guid id)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Details(Guid id)
         {
-                return _courseAccessLayer.GetCourse(id);
+            var details = await _courseAccessLayer.GetCourse(id);
+            if(details!=null)
+            {
+                return Ok(details);
+            }
+            else
+            {
+                return NotFound("Could not find course");
+            }
         }
     }
 }
