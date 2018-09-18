@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Data;
 using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Tests
 {
@@ -108,45 +109,45 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public void TestGetPartners(string id)
+        public async Task TestGetPartners(string id)
         {
-            var actual = _sut.GetPartners(new Guid(id));
+            var actual = await _sut.GetPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(3);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetPartnersNonPlayer(string id)
+        public async Task TestGetPartnersNonPlayer(string id)
         {
-            var actual = _sut.GetPartners(new Guid(id));
+            var actual = await _sut.GetPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(0);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public void TestGetAllPotentialPartners(string playerId)
+        public async Task TestGetAllPotentialPartners(string playerId)
         {
-            var actual = _sut.GetPotentialPartners(new Guid(playerId));
+            var actual = await _sut.GetPotentialPartners(new Guid(playerId));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(2);
 
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetPotentialPartnersNonPlayer(string id)
+        public async Task TestGetPotentialPartnersNonPlayer(string id)
         {
-            var actual = _sut.GetPotentialPartners(new Guid(id));
+            var actual = await _sut.GetPotentialPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(0);
         }
 
 
         [TestCase]
-        public void TestAddPartner()
+        public async Task TestAddPartner()
         {
             var expected = _context.Partners.Count() + 1;
 
-            _sut.AddPartner(new Partner()
+            await _sut.AddPartner(new Partner()
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000006"),
                 PlayerId = new Guid("00000000-0000-0000-0000-000000000003"),

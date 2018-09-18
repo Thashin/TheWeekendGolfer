@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Data;
 using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Tests
 {
@@ -58,7 +59,7 @@ namespace TheWeekendGolfer.Tests
         }
         
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public void TestGetLatestHandicap(string id)
+        public async Task TestGetLatestHandicap(string id)
         {
             var expected = new Handicap()
             {
@@ -69,13 +70,13 @@ namespace TheWeekendGolfer.Tests
                 Date = _createdAt.AddDays(1)
             };
 
-            var actual = _sut.GetLatestHandicap(new Guid(id));
+            var actual = await _sut.GetLatestHandicap(new Guid(id));
 
             actual.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public void TestGetOrderedHandicaps(string id)
+        public async Task TestGetOrderedHandicaps(string id)
         {
             var expected = new List<Handicap>(){
             new Handicap()
@@ -96,7 +97,7 @@ namespace TheWeekendGolfer.Tests
             }
             };
 
-            var actual = _sut.GetOrderedHandicaps(new Guid(id));
+            var actual = await _sut.GetOrderedHandicaps(new Guid(id));
 
             actual.Should().BeEquivalentTo(expected,options=>options.WithStrictOrdering());
         }
@@ -104,11 +105,11 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public void TestAddHandicap()
+        public async Task TestAddHandicap()
         {
             var expected = _context.Handicaps.Count() + 1;
 
-            _sut.AddHandicap(
+            await _sut.AddHandicap(
                 new Handicap()
                 {
                     Id = new Guid("00000000-0000-0000-0000-000000000004"),

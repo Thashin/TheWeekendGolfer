@@ -34,17 +34,17 @@ namespace TheWeekendGolfer.Web.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<Handicap>> GetOrderedHandicaps(Guid PlayerId)
+        public async Task<IActionResult> GetOrderedHandicaps(Guid PlayerId)
         {
-            return await _handicapAccessLayer.GetOrderedHandicaps(PlayerId);
+            return Ok(await _handicapAccessLayer.GetOrderedHandicaps(PlayerId));
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                return Ok(_playerAccessLayer.GetAllPlayers());
+                return Ok(await _playerAccessLayer.GetAllPlayers());
             }
             catch
             {
@@ -56,11 +56,11 @@ namespace TheWeekendGolfer.Web.Controllers
 
         [HttpGet]
         // GET: Player/Details/5
-        public ActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
             try
             {
-                return Ok(_playerAccessLayer.GetPlayer(id));
+                return Ok(await _playerAccessLayer.GetPlayer(id));
             }
             catch
             {
@@ -76,15 +76,25 @@ namespace TheWeekendGolfer.Web.Controllers
             Guid playerId = await _playerAccessLayer.AddPlayer(player);
             if (playerId != null)
             {
-                if(player.Handicap==null)
+                if (player.Handicap == null)
                 {
-                    return Ok();
+                    return Ok(playerId);
                 }
-                else if(! await _handicapAccessLayer.AddHandicap(new Handicap { Date = DateTime.Now, PlayerId = playerId, Value = player.Handicap.Value, CurrentHandicap = player.Handicap.Value }))
-                {
-                    return BadRequest();
-                }
-                return Ok();
+                else if (!await _handicapAccessLayer.AddHandicap(
+                        new Handicap
+                        {
+                            Date = DateTime.Now,
+                            PlayerId = playerId,
+                            Value = player.Handicap.Value,
+                            CurrentHandicap = player.Handicap.Value
+                        }))
+                    {
+                        return BadRequest();
+                    }
+                    else
+                    {
+                        return Ok(playerId);
+                    }
             }
             else
             {
@@ -98,7 +108,7 @@ namespace TheWeekendGolfer.Web.Controllers
         {
             var rounds = await _scoreAccessLayer.GetAllPlayerScores(playerId);
             var courses = await  _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
-            return Ok(_courseAccessLayer.GetCourseStats(courses.ToList()));
+            return Ok(await _courseAccessLayer.GetCourseStats(courses.ToList()));
         }
 
 

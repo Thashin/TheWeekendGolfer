@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Data;
 using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Tests
 {
@@ -65,23 +66,23 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public void TestGetGolfRound(string id)
+        public async Task TestGetGolfRound(string id)
         {
-            var actual = _sut.GetGolfRound(new Guid(id));
+            var actual = await _sut.GetGolfRound(new Guid(id));
 
             actual.Should().BeOfType<GolfRound>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetGolfRoundException(string id)
+        public async Task TestGetGolfRoundException(string id)
         {
-            Action action = () => _sut.GetGolfRound(new Guid(id));
+            Func<Task> action = async() => await _sut.GetGolfRound(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public void TestGetAllGolfRoundCourseIds()
+        public async Task TestGetAllGolfRoundCourseIds()
         {
             var courseIds = new List<Guid>(){
                   new Guid("00000000-0000-0000-0000-000000000001"),
@@ -95,14 +96,14 @@ namespace TheWeekendGolfer.Tests
                                    new Guid("00000000-0000-0000-0001-000000000000")
             };
 
-            var actual = _sut.GetAllGolfRoundCourseIds(courseIds);
+            var actual = await _sut.GetAllGolfRoundCourseIds(courseIds);
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase]
-        public void TestGetAllGolfRounds()
+        public async Task TestGetAllGolfRounds()
         {
             var expected = new List<GolfRound>() {
                 new GolfRound(){
@@ -135,18 +136,18 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = _sut.GetAllGolfRounds();
+            var actual = await _sut.GetAllGolfRounds();
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase]
-        public void TestAddGolfRound()
+        public async Task TestAddGolfRound()
         {
             var expected = _context.GolfRounds.Count() + 1;
 
-            _sut.AddGolfRound(new GolfRound()
+            await _sut.AddGolfRound(new GolfRound()
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000006"),
                 Date = DateTime.Now,

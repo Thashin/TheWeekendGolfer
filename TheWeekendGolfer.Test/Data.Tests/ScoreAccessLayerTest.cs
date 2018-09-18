@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Data;
 using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Tests
 {
@@ -66,23 +67,23 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000004")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public void TestGetScore(string id)
+        public async Task TestGetScore(string id)
         {
-            var actual = _sut.GetScore(new Guid(id));
+            var actual = await _sut.GetScore(new Guid(id));
 
             actual.Should().BeOfType<Score>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetScoreException(string id)
+        public async Task TestGetScoreException(string id)
         {
-            Action action = () => _sut.GetScore(new Guid(id));
+            Func<Task> action = async () => await _sut.GetScore(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public void TestGetAllScores()
+        public async Task TestGetAllScores()
         {
             var expected = new List<Score>()
             {
@@ -116,14 +117,14 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = _sut.GetAllScores();
+            var actual = await _sut.GetAllScores();
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public void TestGetAllPlayerScores(string playerId)
+        public async Task TestGetAllPlayerScores(string playerId)
         {
             var expected = new List<Score>()
             {
@@ -144,26 +145,26 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = _sut.GetAllPlayerScores(new Guid(playerId));
+            var actual = await _sut.GetAllPlayerScores(new Guid(playerId));
 
             actual.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetAllPlayerScoresException(string id)
+        public async Task TestGetAllPlayerScoresException(string id)
         {
-            Action action = () => _sut.GetAllPlayerScores(new Guid(id));
+            Func<Task> action = async () => await _sut.GetAllPlayerScores(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
 
         [TestCase]
-        public void TestAddScore()
+        public async Task TestAddScore()
         {
             var expected = _context.Scores.Count() + 1;
 
-            _sut.AddScore(
+            await _sut.AddScore(
                 new Score(){
                     Id = new Guid("00000000-0000-0000-0000-000000000005"),
                     PlayerId = new Guid("00000000-0000-0000-0003-000000000000"),
@@ -180,7 +181,7 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public void TestAddScores()
+        public async Task TestAddScores()
         {
             var expected = _context.Scores.Count() + 2;
 
@@ -202,7 +203,7 @@ namespace TheWeekendGolfer.Tests
                     Created = _createdAt,
                 }
             };
-            _sut.AddScores(scores);
+            await _sut.AddScores(scores);
 
             var actual = _context.Scores.Count();
 

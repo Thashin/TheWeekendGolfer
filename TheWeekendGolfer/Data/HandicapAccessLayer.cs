@@ -39,8 +39,8 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.Handicaps.Where(h => h.PlayerId.Equals(playerId))
-                                  .OrderByDescending(h => h.Date).Take(100);
+                var orderedHandicaps = _context.Handicaps.Where(h => h.PlayerId.Equals(playerId));
+                return  orderedHandicaps.OrderByDescending(h => h.Date).Take(100);
             }
             catch
             {
@@ -53,7 +53,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Handicaps.Add(handicap);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
