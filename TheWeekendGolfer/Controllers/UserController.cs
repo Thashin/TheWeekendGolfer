@@ -15,9 +15,9 @@ namespace TheWeekendGolfer.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private PlayerAccessLayer _playerAccessLayer;
+        IPlayerAccessLayer _playerAccessLayer;
 
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, PlayerAccessLayer playerAccessLayer)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IPlayerAccessLayer playerAccessLayer)
         {
             _userManager = userManager;
             _signInManager = signInManager;

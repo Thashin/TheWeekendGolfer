@@ -7,7 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
-    public class PlayerAccessLayer
+    public class PlayerAccessLayer:IPlayerAccessLayer
     {
         GolfDbContext _context;
 
@@ -16,7 +16,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public Player GetPlayer(Guid id)
+        public async Task<Player> GetPlayer(Guid id)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Player GetPlayerByUserId(Guid id)
+        public async Task<Player> GetPlayerByUserId(Guid id)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Player> GetAllPlayers()
+        public async Task<IEnumerable<Player>> GetAllPlayers()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Guid AddPlayer(Player player)
+        public async Task<Guid> AddPlayer(Player player)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean UpdatePlayer(Player player)
+        public async Task<Boolean> UpdatePlayer(Player player)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean DeletePlayer(Player player)
+        public async Task<Boolean> DeletePlayer(Player player)
         {
             try
             {

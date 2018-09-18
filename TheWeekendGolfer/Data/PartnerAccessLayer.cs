@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Models;
+using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Data
 {
-    public class PartnerAccessLayer
+    public class PartnerAccessLayer:IPartnerAccessLayer
     {
         GolfDbContext _context;
 
@@ -15,7 +16,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public IEnumerable<Player> GetPartners(Guid playerId)
+        public async Task<IEnumerable<Player>> GetPartners(Guid playerId)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace TheWeekendGolfer.Data
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        public IEnumerable<Player> GetPotentialPartners(Guid playerId)
+        public async Task<IEnumerable<Player>> GetPotentialPartners(Guid playerId)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddPartner(Partner player)
+        public async Task<Boolean> AddPartner(Partner player)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean UpdatePartner(Partner partner)
+        public async Task<Boolean> UpdatePartner(Partner partner)
         {
             try
             {
@@ -101,7 +102,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean DeletePartner(Partner partner)
+        public async Task<Boolean> DeletePartner(Partner partner)
         {
             try
             {

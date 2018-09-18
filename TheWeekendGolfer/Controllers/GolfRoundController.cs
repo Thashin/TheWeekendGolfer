@@ -18,13 +18,13 @@ namespace TheWeekendGolfer.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class GolfRoundController : Controller
     {
-        GolfRoundAccessLayer _golfRoundAccessLayer;
-        ScoreAccessLayer _scoreAccessLayer;
-        PlayerAccessLayer _playerAccessLayer;
-        CourseAccessLayer _courseAccessLayer;
-        HandicapAccessLayer _handicapAccessLayer;
+        IGolfRoundAccessLayer _golfRoundAccessLayer;
+        IScoreAccessLayer _scoreAccessLayer;
+        IPlayerAccessLayer _playerAccessLayer;
+        ICourseAccessLayer _courseAccessLayer;
+        IHandicapAccessLayer _handicapAccessLayer;
 
-        public GolfRoundController(GolfRoundAccessLayer golfRoundAccessLayer, ScoreAccessLayer scoreAccessLayer, PlayerAccessLayer playerAccessLayer, CourseAccessLayer courseAccessLayer, HandicapAccessLayer handicapAccessLayer)
+        public GolfRoundController(IGolfRoundAccessLayer golfRoundAccessLayer, IScoreAccessLayer scoreAccessLayer, IPlayerAccessLayer playerAccessLayer, ICourseAccessLayer courseAccessLayer, IHandicapAccessLayer handicapAccessLayer)
         {
             _golfRoundAccessLayer = golfRoundAccessLayer;
             _scoreAccessLayer = scoreAccessLayer;
@@ -40,9 +40,9 @@ namespace TheWeekendGolfer.Web.Controllers
             {
 
                 var coursesTask = _courseAccessLayer.GetAllCourses();
-                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
-                var scores = _scoreAccessLayer.GetAllScores();
-                var players = _playerAccessLayer.GetAllPlayers();
+                var playersTask = _playerAccessLayer.GetAllPlayers();
+                var rounds = await _golfRoundAccessLayer.GetAllGolfRounds();
+                var scores = await _scoreAccessLayer.GetAllScores();
 
 
                 var joinRoundScores = from round in rounds
@@ -56,7 +56,7 @@ namespace TheWeekendGolfer.Web.Controllers
                                      join course in courses on round.CourseId equals course.Id
                                      where course.Id.Equals(round.CourseId)
                                      select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes,course.Par,course.ScratchRating,course.Slope, round.PlayerId, round.Value };
-
+                var players = await playersTask;
                 var resolvePlayers = from round in resolveCourses
                                      join player in players on round.PlayerId equals player.Id
                                      where player.Id.Equals(round.PlayerId)
@@ -129,15 +129,15 @@ namespace TheWeekendGolfer.Web.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         //TODO: Figure out how to separate responsibilities
-        public ActionResult Create([FromBody]AddGolfRound golfRound)
+        public async Task<IActionResult> Create([FromBody]AddGolfRound golfRound)
         {
             try
             {
-                Guid golfRoundId = _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
+                Guid golfRoundId = await _golfRoundAccessLayer.AddGolfRound(new GolfRound { Date = golfRound.Date, CourseId = golfRound.CourseId });
                 foreach (Score score in golfRound.Scores)
                 {
                     score.GolfRoundId = golfRoundId;
-                    if (!AddScore(golfRound.Date, score, golfRound.CourseId))
+                    if (!await AddScore(golfRound.Date, score, golfRound.CourseId))
                         return BadRequest();
                 }
 
@@ -154,9 +154,9 @@ namespace TheWeekendGolfer.Web.Controllers
         // POST: GolfRound/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(GolfRound golfRound)
+        public async Task<IActionResult> Edit(GolfRound golfRound)
         {
-            if (_golfRoundAccessLayer.UpdateGolfRound(golfRound))
+            if (await _golfRoundAccessLayer.UpdateGolfRound(golfRound))
             {
                 return Ok();
             }
@@ -167,10 +167,10 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
 
-        private Boolean AddScore(DateTime date, Score score, Guid courseId)
+        private async Task<Boolean> AddScore(DateTime date, Score score, Guid courseId)
         {
 
-            if (!_scoreAccessLayer.AddScore(score))
+            if (! await _scoreAccessLayer.AddScore(score))
             {
                 return false;
             }
@@ -182,9 +182,9 @@ namespace TheWeekendGolfer.Web.Controllers
 
         }
 
-        private Boolean AddHandicap(Handicap handicap)
+        private async Task<Boolean> AddHandicap(Handicap handicap)
         {
-            return _handicapAccessLayer.AddHandicap(handicap);
+            return await _handicapAccessLayer.AddHandicap(handicap);
         }
 
         private async Task<Boolean> CalculateHandicap(DateTime date, Score score, Guid courseId)
@@ -201,14 +201,13 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 handicap.Value = handicap.Value * 2;
             }
-            return RecalculateHandicap(handicap);
+            return await RecalculateHandicap(handicap);
         }
 
-        private Boolean RecalculateHandicap(Handicap handicap)
+        private async Task<Boolean> RecalculateHandicap(Handicap handicap)
         {
-            IEnumerable<Handicap> handicaps = _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId)
-                                                                 .OrderBy(h => h.Value);
-
+            IEnumerable<Handicap> handicaps = await _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId);
+            handicaps = handicaps.OrderBy(h => h.Value);
             int roundsPlayed = handicaps.Count();
             Decimal newHandicap;
 
@@ -246,16 +245,16 @@ namespace TheWeekendGolfer.Web.Controllers
             }
             handicap.CurrentHandicap = newHandicap;
             AddHandicap(handicap);
-            return Edit(handicap.PlayerId, newHandicap);
+            return await Edit(handicap.PlayerId, newHandicap);
 
         }
 
-        private Boolean Edit(Guid playerId, Decimal handicap)
+        private async  Task<Boolean> Edit(Guid playerId, Decimal handicap)
         {
-            Player player = _playerAccessLayer.GetPlayer(playerId);
+            Player player = await _playerAccessLayer.GetPlayer(playerId);
             player.Handicap = handicap;
             player.Modified = DateTime.Now;
-            return _playerAccessLayer.UpdatePlayer(player);
+            return await _playerAccessLayer.UpdatePlayer(player);
         }
 
 

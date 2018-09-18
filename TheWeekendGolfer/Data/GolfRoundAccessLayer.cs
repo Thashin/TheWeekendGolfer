@@ -7,7 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
-    public class GolfRoundAccessLayer
+    public class GolfRoundAccessLayer:IGolfRoundAccessLayer
     {
         GolfDbContext _context;
 
@@ -16,7 +16,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public GolfRound GetGolfRound(Guid id)
+        public async Task<GolfRound> GetGolfRound(Guid id)
         {
             var round = _context.GolfRounds.Where(s => s.Id.Equals(id)).First();
 
@@ -30,7 +30,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Guid> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds)
+        public async Task<IEnumerable<Guid>> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<GolfRound> GetAllGolfRounds()
+        public async Task<IEnumerable<GolfRound>> GetAllGolfRounds()
         {
             try
             {
@@ -54,7 +54,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Guid AddGolfRound(GolfRound golfRound)
+        public async Task<Guid> AddGolfRound(GolfRound golfRound)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean UpdateGolfRound(GolfRound golfRound)
+        public async Task<Boolean> UpdateGolfRound(GolfRound golfRound)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean DeleteGolfRound(GolfRound golfRound)
+        public async Task<Boolean> DeleteGolfRound(GolfRound golfRound)
         {
             try
             {

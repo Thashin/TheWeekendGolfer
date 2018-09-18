@@ -12,11 +12,11 @@ namespace TheWeekendGolfer.Controllers
     [Route("api/[controller]/[action]")]
     public class PartnerController : Controller
     {
-        PlayerAccessLayer _playerAccessLayer;
-        PartnerAccessLayer _partnerAccessLayer;
+        IPlayerAccessLayer _playerAccessLayer;
+        IPartnerAccessLayer _partnerAccessLayer;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public PartnerController(PartnerAccessLayer partnerAccessLayer, PlayerAccessLayer playerAccessLayer, UserManager<ApplicationUser> userManager)
+        public PartnerController(IPartnerAccessLayer partnerAccessLayer, IPlayerAccessLayer playerAccessLayer, UserManager<ApplicationUser> userManager)
         {
             _partnerAccessLayer = partnerAccessLayer;
             _playerAccessLayer = playerAccessLayer;
@@ -28,7 +28,8 @@ namespace TheWeekendGolfer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if(user != null)
             {
-                partner.PlayerId = _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id;
+                var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
+                partner.PlayerId = playerIdTask.Id;
                 _partnerAccessLayer.AddPartner(partner);
             }
             return Ok();
@@ -52,7 +53,8 @@ namespace TheWeekendGolfer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                Partner.PlayerId = _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)).Id; 
+                var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
+                Partner.PlayerId = playerIdTask.Id; 
                 _partnerAccessLayer.DeletePartner(Partner);
             }
                 return Ok();

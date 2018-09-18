@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TheWeekendGolfer.Models;
 using TheWeekendGolfer.Web.Data;
 
 namespace TheWeekendGolfer.Data
 {
-    public class HandicapAccessLayer
+    public class HandicapAccessLayer:IHandicapAccessLayer
     {
         GolfDbContext _context;
 
@@ -15,12 +16,13 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public Handicap GetLatestHandicap(Guid playerId)
+        public async Task<Handicap> GetLatestHandicap(Guid playerId)
         {
             try
             {
-                return GetOrderedHandicaps(playerId)
-                                  .FirstOrDefault();
+                var orderedHandicaps = await GetOrderedHandicaps(playerId);
+
+                return orderedHandicaps.FirstOrDefault();
             }
             catch
             {
@@ -33,7 +35,7 @@ namespace TheWeekendGolfer.Data
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        public IEnumerable<Handicap> GetOrderedHandicaps(Guid playerId)
+        public async Task<IEnumerable<Handicap>> GetOrderedHandicaps(Guid playerId)
         {
             try
             {
@@ -46,7 +48,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddHandicap(Handicap handicap)
+        public async Task<Boolean> AddHandicap(Handicap handicap)
         {
             try
             {

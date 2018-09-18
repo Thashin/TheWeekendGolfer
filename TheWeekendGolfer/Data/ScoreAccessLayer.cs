@@ -7,7 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
-    public class ScoreAccessLayer
+    public class ScoreAccessLayer:IScoreAccessLayer
     {
         GolfDbContext _context;
 
@@ -16,7 +16,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public Score GetScore(Guid id)
+        public async Task<Score> GetScore(Guid id)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Score> GetAllScores()
+        public async Task<IEnumerable<Score>> GetAllScores()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public IEnumerable<Score> GetAllPlayerScores(Guid playerId)
+        public async Task<IEnumerable<Score>> GetAllPlayerScores(Guid playerId)
         {
             var scores  = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
             if(0<scores.Count())
@@ -53,7 +53,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddScore(Score score)
+        public async Task<Boolean> AddScore(Score score)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean AddScores(IEnumerable<Score> scores)
+        public async Task<Boolean> AddScores(IEnumerable<Score> scores)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace TheWeekendGolfer.Data
 
         }
 
-        public Boolean UpdateScore(Score score)
+        public async Task<Boolean> UpdateScore(Score score)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public Boolean DeleteScore(Score score)
+        public async Task<Boolean> DeleteScore(Score score)
         {
             try
             {
