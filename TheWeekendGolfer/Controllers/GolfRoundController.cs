@@ -110,19 +110,6 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-        [HttpGet]
-        // GET: GolfRound/Details/5
-        public ActionResult Details(Guid id)
-        {
-            try
-            {
-                return Ok(_golfRoundAccessLayer.GetGolfRound(id));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
 
         // POST: GolfRound/Create
         [Authorize]
@@ -141,7 +128,7 @@ namespace TheWeekendGolfer.Web.Controllers
                         return BadRequest();
                 }
 
-                return Ok();
+                return Ok("Done");
             }
             catch
             {
@@ -176,8 +163,8 @@ namespace TheWeekendGolfer.Web.Controllers
             }
             else
             {
-                CalculateHandicap(date, score, courseId);
-                return true;
+                
+                return await CalculateHandicap(date, score, courseId);
             }
 
         }
@@ -206,45 +193,47 @@ namespace TheWeekendGolfer.Web.Controllers
 
         private async Task<Boolean> RecalculateHandicap(Handicap handicap)
         {
-            IEnumerable<Handicap> handicaps = await _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId);
-            handicaps = handicaps.OrderBy(h => h.Value);
-            int roundsPlayed = handicaps.Count();
+            IEnumerable<Handicap> allHandicaps = await _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId);
+            var handicapsList = allHandicaps.Take(19).ToList();
+            handicapsList.Add(handicap);
+            handicapsList = handicapsList.OrderBy(h => h.Value).ToList();
+            int roundsPlayed = handicapsList.Count();
             Decimal newHandicap;
 
             if (roundsPlayed >= 19)
             {
-                newHandicap = handicaps.Take(8).Sum(h => h.Value) / 8;
+                newHandicap = handicapsList.Take(8).Sum(h => h.Value) / 8;
             }
             else if (roundsPlayed >= 17)
             {
-                newHandicap = handicaps.Take(7).Sum(h => h.Value) / 7;
+                newHandicap = handicapsList.Take(7).Sum(h => h.Value) / 7;
             }
             else if (roundsPlayed >= 15)
             {
-                newHandicap = handicaps.Take(6).Sum(h => h.Value) / 6;
+                newHandicap = handicapsList.Take(6).Sum(h => h.Value) / 6;
             }
             else if (roundsPlayed >= 13)
             {
-                newHandicap = handicaps.Take(5).Sum(h => h.Value) / 5;
+                newHandicap = handicapsList.Take(5).Sum(h => h.Value) / 5;
             }
             else if (roundsPlayed >= 11)
             {
-                newHandicap = handicaps.Take(4).Sum(h => h.Value) / 4;
+                newHandicap = handicapsList.Take(4).Sum(h => h.Value) / 4;
             }
             else if (roundsPlayed >= 9)
             {
-                newHandicap = handicaps.Take(3).Sum(h => h.Value) / 3;
+                newHandicap = handicapsList.Take(3).Sum(h => h.Value) / 3;
             }
             else if (roundsPlayed >= 7)
             {
-                newHandicap = handicaps.Take(2).Sum(h => h.Value) / 2;
+                newHandicap = handicapsList.Take(2).Sum(h => h.Value) / 2;
             }
             else
             {
-                newHandicap = handicaps.Take(1).Sum(h => h.Value) / 1;
+                newHandicap = handicapsList.Take(1).Sum(h => h.Value) / 1;
             }
             handicap.CurrentHandicap = newHandicap;
-            AddHandicap(handicap);
+            await AddHandicap(handicap);
             return await Edit(handicap.PlayerId, newHandicap);
 
         }
