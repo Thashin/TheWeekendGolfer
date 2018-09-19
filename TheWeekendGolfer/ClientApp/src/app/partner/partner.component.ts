@@ -1,11 +1,7 @@
 import { Component, Inject, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { PartnerService } from '../services/partner.service'
 import { Partner } from '../models/partner.model'
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { merge } from 'rxjs';
-import { startWith, switchMap, map } from 'rxjs/operators';
 import { Player } from '../models/player.model';
 import { UserService } from '../services/user.service';
 
@@ -23,7 +19,7 @@ export class PartnerComponent{
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public http: HttpClient, private _router: Router, private _userService: UserService, private _partnerService: PartnerService) {
+  constructor(private _userService: UserService, private _partnerService: PartnerService) {
     this.getPartners();
   }
 

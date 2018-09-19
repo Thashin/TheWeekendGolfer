@@ -1,6 +1,4 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { PlayerService } from '../services/player.service'
 import { Player } from '../models/player.model'
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
@@ -19,7 +17,7 @@ export class PlayerComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public http: HttpClient, private _router: Router, private _playerService: PlayerService) {
+  constructor(private _playerService: PlayerService) {
     this.getPlayers();
   }
 

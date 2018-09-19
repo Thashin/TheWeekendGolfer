@@ -22,7 +22,7 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 export class AddGolfRoundComponent implements AfterViewInit {
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService, public dialog: MatDialog) {
+  constructor(private formBuilder: FormBuilder, private _router: Router, private _golfRoundService: GolfRoundService, private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService, public dialog: MatDialog) {
 
     this.createGolfRoundForm = this.formBuilder.group({
       id: [],
@@ -74,7 +74,7 @@ export class AddGolfRoundComponent implements AfterViewInit {
         scores: scoreData
       };
       this._golfRoundService.createGolfRound(golfRoundData).subscribe(data => {
-        this.router.navigate(['golf-rounds']);
+        this._router.navigate(['golf-rounds']);
       });
     });
   }
@@ -114,7 +114,6 @@ export class AddGolfRoundDialog {
     this._userService.getPlayerid().subscribe(player => {
       this._playerService.getPlayerById(player.id).subscribe(data => {
         this.player = data;
-        console.log(this.player);
       })
     });
   }

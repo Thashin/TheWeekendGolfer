@@ -1,6 +1,4 @@
 import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
 import { GolfRoundService } from '../services/golfRound.service'
 import { GolfRound } from '../models/golfRound.model'
 import { Course } from '../models/course.model';
@@ -8,7 +6,6 @@ import { ScoreView } from '../models/scoreView.model';
 import { UserService } from '../services/user.service';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Player } from '../models/player.model';
-import { style } from '@angular/animations';
 
 @Component({
   templateUrl: './golfRound.component.html',
@@ -23,7 +20,7 @@ export class GolfRoundComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
-  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService) {
+  constructor(private _golfRoundService: GolfRoundService, private _userService: UserService) {
 
     this.getGolfRounds();
 

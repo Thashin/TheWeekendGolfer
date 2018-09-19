@@ -1,14 +1,10 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CourseService } from '../services/course.service';
-import { Router } from '@angular/router';
 import { Course } from '../models/course.model';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from '../services/user.service';
 import { PlayerService } from '../services/player.service';
 import { PartnerService } from '../services/partner.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { a } from '@angular/core/src/render3';
 import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
 import { GolfRoundService } from '../services/golfRound.service';
@@ -27,7 +23,7 @@ export class HomeComponent {
   public playerId = "";
   public partners: Player[] = [];
 
-  constructor(public http: HttpClient, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
+  constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
     this.checkLogin();
     this.getHistoricalHandicaps();
 
