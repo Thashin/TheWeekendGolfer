@@ -30,21 +30,21 @@ namespace TheWeekendGolfer.Controllers
             {
                 var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
                 partner.PlayerId = playerIdTask.Id;
-                _partnerAccessLayer.AddPartner(partner);
+                await _partnerAccessLayer.AddPartner(partner);
             }
-            return Ok();
+            return Ok(true);
         }
 
         [HttpGet]
-        public IActionResult GetPartners(Guid playerId)
+        public async Task<IActionResult> GetPartners(Guid playerId)
         {
-            return Ok(_partnerAccessLayer.GetPartners(playerId));
+            return Ok(await _partnerAccessLayer.GetPartners(playerId));
         }
 
         [HttpGet]
-        public IActionResult GetPotentialPartners(Guid playerId)
+        public async Task<IActionResult> GetPotentialPartners(Guid playerId)
         {
-            return Ok(_partnerAccessLayer.GetPotentialPartners(playerId));
+            return Ok(await _partnerAccessLayer.GetPotentialPartners(playerId));
         }
 
         [HttpPost]
@@ -55,9 +55,9 @@ namespace TheWeekendGolfer.Controllers
             {
                 var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
                 Partner.PlayerId = playerIdTask.Id; 
-                _partnerAccessLayer.DeletePartner(Partner);
+                await _partnerAccessLayer.DeletePartner(Partner);
             }
-                return Ok();
+                return Ok(true);
         }
     }
 }
