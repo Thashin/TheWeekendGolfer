@@ -5,15 +5,15 @@
     <span style="flex: 1 1 auto;"></span>
     <div class="toolbar-icons">
       <button mat-icon-button *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]'>
-        <mat-icon class="icon">input</mat-icon>
+        <img src="../../assets/icons/login.png" />
         <span class="label">Login</span>
       </button>
       <button mat-icon-button *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]'>
-        <mat-icon class="icon">person_add</mat-icon>
+        <img src="../../assets/icons/register.png" />
         <span class="label">Sign Up</span>
       </button>
       <button mat-icon-button *ngIf="isLoggedIn" [routerLink]='["/"]' (click)='logout()'>
-        <mat-icon class="icon">input</mat-icon>
+        <img src="../../assets/icons/logout.png" />
         <span class="label">Logout</span>
       </button>
     </div>
@@ -25,26 +25,30 @@
 
       <mat-nav-list class="navigation-items">
         <a mat-list-item [routerLink]='["/"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">home</mat-icon>
-          <span class="label">Home</span>
+              <img src="../../assets/icons/home.png" />
+            <span class="label" >Home</span>
         </a>
 
         <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">golf_course</mat-icon>
+            <img src="../../assets/icons/rounds.png" />
           <span class="label">Golf Rounds</span>
         </a>
         <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/partners"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">people</mat-icon>
+          <img src="../../assets/icons/crowd.png" />
           <span class="label">Partners</span>
         </a>
         <a mat-list-item [routerLink]='["/players"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">people</mat-icon>
+<img src="../../assets/icons/players.png" />
           <span class="label">Players</span>
         </a>
         <a mat-list-item [routerLink]='["/courses"]' (click)='snav.toggle()'>
-          <mat-icon class="icon">streetview</mat-icon>
+          <img src="../../assets/icons/courses.png" />
           <span class="label">Courses</span>
         </a>
+        <div mat-list-item class="contact-me">
+          <a href="https://github.com/Thashin/TheWeekendGolfer"><img class="social-media" src="../../assets/icons/github.png" /></a>
+          <a href="https://www.linkedin.com/in/thashin-naidoo/"><img class="social-media" src="../../assets/icons/linkedin.png"/></a>
+        </div>
       </mat-nav-list>
 
     </mat-sidenav>
@@ -53,4 +57,6 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+
 </div>
+

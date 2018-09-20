@@ -1,4 +1,4 @@
-<div class="weekend-golfer-container">
+<div class="weekend-golfer-container" >
   <div *ngIf="isLoggedIn">
     <div class="button-container">
       <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
@@ -24,14 +24,17 @@
                              [showYAxisLabel]="showYAxisLabel"
                              [xAxisLabel]="xAxisLabel"
                              [yAxisLabel]="yAxisLabel"
-                             [timeline]="timeline">
+                             [timeline]="timeline"
+                             class="ngx-charts">
       </ngx-charts-line-chart>
     </mat-card>
     <mat-card *ngIf="courseStats">
-      <ngx-charts-pie-grid    [scheme]="colorScheme"
-                              [results]="courseStats"
-                             >
+      <ngx-charts-pie-grid [scheme]="colorScheme"
+                           [results]="courseStats">
       </ngx-charts-pie-grid>
     </mat-card>
   </div>
-  </div>
+
+</div>
+
+

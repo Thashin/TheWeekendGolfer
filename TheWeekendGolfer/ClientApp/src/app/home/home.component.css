@@ -6,3 +6,8 @@ mat-card {
   display: flex;
   padding: 10px;
 }
+
+
+.footer {
+  flex: 1;
+}

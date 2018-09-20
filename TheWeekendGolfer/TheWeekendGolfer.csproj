@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\services\course.service.spec.ts" />
+    <None Remove="ClientApp\src\app\course\course.component.spec.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,6 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\course\course.component.spec.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\handicap.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\partner.model.ts" />
@@ -56,7 +57,6 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\score.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\partner\add-partner.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\player\add-player.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\services\course.service.spec.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\partner.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\golfRound.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\player.service.ts" />
