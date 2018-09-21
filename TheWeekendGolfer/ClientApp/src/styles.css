@@ -32,3 +32,10 @@ td, th {
   flex: 0 0 100px;
 }
 
+mat-form-field {
+  width: 100%;
+}
+
+.sign-up-container {
+  width: 500px;
+}

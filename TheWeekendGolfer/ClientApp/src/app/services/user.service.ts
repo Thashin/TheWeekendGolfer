@@ -74,6 +74,7 @@ export class UserService {
         if (data["Result"] == "Login Successful") {
           this.isLoggedInEvent.emit();
           this.router.navigate(['/']);
+
         }
       });
     return result;

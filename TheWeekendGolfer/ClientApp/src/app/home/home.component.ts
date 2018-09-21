@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CourseService } from '../services/course.service';
 import { Course } from '../models/course.model';
@@ -14,7 +14,8 @@ import { GolfRoundService } from '../services/golfRound.service';
   templateUrl: './home.component.html',
   styleUrls:['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent{
+
 
   public lineChartData: any[] = [];
   public currentHandicaps: any[] = [];
@@ -29,10 +30,10 @@ export class HomeComponent {
 
   }
 
-
   checkLogin(): void {
-    this._userService.isLoggedIn().subscribe(
-      data => this.isLoggedIn = data
+    this._userService.getEmitter().subscribe(data => {
+      this.isLoggedIn = !this.isLoggedIn
+    }
     )
   }
 

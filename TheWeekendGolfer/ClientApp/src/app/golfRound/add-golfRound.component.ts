@@ -61,18 +61,20 @@ export class AddGolfRoundComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      for (let score of result.value.scores) {
-        var currentScore: Score = {
-          playerId: score.player,
-          value: score.value
+      if (result != null) {
+        for (let score of result.value.scores) {
+          var currentScore: Score = {
+            playerId: score.player,
+            value: score.value
+          }
+          scoreData.push(currentScore)
         }
-        scoreData.push(currentScore)
+        var golfRoundData: AddGolfRound = {
+          date: new Date(result.value.date),
+          courseId: result.value.holes,
+          scores: scoreData
+        };
       }
-      var golfRoundData: AddGolfRound = {
-        date: new Date(result.value.date),
-        courseId: result.value.holes,
-        scores: scoreData
-      };
       this._golfRoundService.createGolfRound(golfRoundData).subscribe(data => {
         this._router.navigate(['golf-rounds']);
       });

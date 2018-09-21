@@ -1,4 +1,4 @@
-<div class="sign-up-container">
+<div class="sign-up-container" >
   <mat-card>
     <h1 mat-dialog-title class="text-center">Add User</h1>
 
@@ -6,7 +6,7 @@
       <div mat-dialog-content>
         <div class="row">
           <mat-form-field>
-            <input matInput formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+            <input matInput formControlName="firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName" >
           </mat-form-field>
         </div>
         <div class="row">
@@ -27,12 +27,13 @@
         <div class="row">
           <mat-form-field>
             <input matInput type="password" formControlName="password" placeholder="Password" name="password" class="form-control" id="password">
+            <mat-hint><strong>Must containg a capital letter, a symbol and a number</strong> </mat-hint>
           </mat-form-field>
         </div>
       </div>
       <div mat-dialog-actions>
         <div class="button-row">
-          <button [mat-dialog-close]="data" mat-raised-button color="primary">Sign Up</button>
+          <button [mat-dialog-close]="data" mat-raised-button color="primary" cdkFocusInitial>Sign Up</button>
         </div>
         </div>
     </form>

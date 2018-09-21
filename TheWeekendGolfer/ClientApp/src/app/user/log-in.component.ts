@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, Inject, AfterViewInit, OnChanges, AfterContentChecked, AfterContentInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit, Output, Inject, AfterViewInit, OnChanges, AfterContentChecked, AfterContentInit, ChangeDetectorRef, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
 import { PlayerService } from "../services/player.service";
 import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -13,18 +13,19 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './../home/home.component.html',
   styleUrls: ['./log-in.component.css']
 })
-export class LogInComponent implements AfterViewInit {
+export class LogInComponent implements AfterContentInit {
 
   loginForm: FormGroup;
+  @Output() loggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private _userService: UserService, public dialog: MatDialog) {
+  constructor(private router: Router,private formBuilder: FormBuilder,  private _userService: UserService, public dialog: MatDialog) {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+      password: new FormControl('', [Validators.required])
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
 
     this.openDialog();
   }
@@ -37,12 +38,18 @@ export class LogInComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      var user: User = {
-        email: result.value.email,
-        password: result.value.password,
-        player: null
+
+      if (result != null) {
+        var user: User = {
+          email: result.value.email,
+          password: result.value.password,
+          player: null
+        }
+        this._userService.loginUser(user);
+
+        
       }
-      this._userService.loginUser(user)
+      this.router.navigate(['/']);
     });
   }
 
@@ -53,7 +60,7 @@ export class LogInComponent implements AfterViewInit {
   })
   export class LoginDialog {
 
-  constructor(
+    constructor(
     public dialog: MatDialogRef <LoginDialog> ,
     @Inject(MAT_DIALOG_DATA) public data:User) { }
 

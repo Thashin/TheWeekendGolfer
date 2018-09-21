@@ -10,7 +10,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-sign-up',
-  templateUrl: './../home/home.component.html'
+  templateUrl: './../home/home.component.html',
+  styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements AfterViewInit {
 
@@ -39,23 +40,29 @@ export class SignUpComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      var player: Player = {
-        id: null,
-        firstName: result.value.firstName,
-        lastName: result.value.lastName,
-        handicap: result.value.handicap
-      }
+      if (result != null) {
+        var player: Player = {
+          id: null,
+          firstName: result.value.firstName,
+          lastName: result.value.lastName,
+          handicap: result.value.handicap
+        }
 
-      var user: User = {
-        email: result.value.email,
-        password: result.value.password,
-        player: player
-      }
+        var user: User = {
+          email: result.value.email,
+          password: result.value.password,
+          player: player
+        }
 
-      this._userService.createUser(user)
-        .subscribe(data => {
-          this.router.navigate(['players']);
-        });
+        this._userService.createUser(user)
+          .subscribe(data => {
+            this.router.navigate(['players']);
+          });
+      }
+      else {
+
+        this.router.navigate(['/']);
+      }
     });
   }
 

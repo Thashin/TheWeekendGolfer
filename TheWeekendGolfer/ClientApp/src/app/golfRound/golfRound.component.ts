@@ -54,7 +54,6 @@ export class GolfRoundComponent {
         }
 
         this.golfRoundViews.sort = this.sort;
-        console.log(this.golfRoundViews);
       })
   }
 
