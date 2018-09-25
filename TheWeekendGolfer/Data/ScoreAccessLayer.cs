@@ -57,7 +57,8 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                if (_context.Scores.Where(s => s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 4)
+                if (_context.Scores.Where(s => s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 4 &&
+                    _context.Scores.Where(s=> s.PlayerId.Equals(score.PlayerId) && s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 1)
                 {
                     _context.Scores.Add(score);
                     _context.SaveChanges();
