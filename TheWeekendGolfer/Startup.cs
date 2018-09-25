@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,8 +35,12 @@ namespace TheWeekendGolfer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+            });
             //This line adds Swagger generation services to our container.
             services.AddSwaggerGen(c =>
             {
@@ -82,7 +88,7 @@ namespace TheWeekendGolfer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, GolfDbContext golfDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery, GolfDbContext golfDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -109,6 +115,19 @@ namespace TheWeekendGolfer
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "The Weekend Golfer v1");
             });
+
+            app.Use(next => context =>
+            {
+                //if (context.Request.Path == "/")
+                {
+                    //send the request token as a JavaScript-readable cookie, and Angular will use it by default
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false,
+                        Secure = true
+                    });
+                }
+                return next(context);
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -128,6 +147,7 @@ namespace TheWeekendGolfer
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
 
         }
     }

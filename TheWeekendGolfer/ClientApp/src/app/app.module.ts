@@ -20,9 +20,9 @@ import {
   MatSidenavModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
+import {FlexLayoutModule} from '@angular/flex-layout';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -66,7 +66,12 @@ import { PartnerComponent } from './partner/partner.component';
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-CSRF-TOKEN'
+    }),
     BrowserAnimationsModule,
+    FlexLayoutModule,
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,

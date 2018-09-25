@@ -19,8 +19,8 @@ export class LogInComponent implements AfterContentInit {
   @Output() loggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private router: Router,private formBuilder: FormBuilder,  private _userService: UserService, public dialog: MatDialog) {
-    this.loginForm = this.formBuilder.group({
-      email: new FormControl('', Validators.compose([Validators.required, Validators.email])),
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
     });
   }
@@ -53,11 +53,17 @@ export class LogInComponent implements AfterContentInit {
     });
   }
 
+  getErrorMessage() {
+    return this.loginForm.controls['email'].hasError('required') ? 'You must enter a value' :
+      this.loginForm.controls['email'].hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
 }
 
   @Component({
     templateUrl: './log-in.component.html',
-  })
+  })  
   export class LoginDialog {
 
     constructor(
