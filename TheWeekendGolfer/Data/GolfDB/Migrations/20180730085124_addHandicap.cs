@@ -40,26 +40,24 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                     table.PrimaryKey("PK_GolfRounds", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Handicaps",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    PlayerId = table.Column<Guid>(nullable: false),
-                    Value = table.Column<decimal>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Handicaps", x => x.Id);
-                });
+            migrationBuilder.AddForeignKey(
+            name: "FK_GolfRounds_Courses_CourseId",
+            table: "GolfRounds",
+            column: "CourseId",
+            principalTable: "Courses",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
+
+
+
+
 
             migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 450, nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Handicap = table.Column<decimal>(nullable: true),
@@ -70,6 +68,35 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
                 });
+            migrationBuilder.AddForeignKey(
+name: "FK_Players_AspNetUser",
+table: "Players",
+column: "UserId",
+principalTable: "AspNetUsers",
+principalColumn: "Id",
+onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.CreateTable(
+    name: "Handicaps",
+    columns: table => new
+    {
+        Id = table.Column<Guid>(nullable: false),
+        PlayerId = table.Column<Guid>(nullable: false),
+        Value = table.Column<decimal>(nullable: false),
+        Date = table.Column<DateTime>(nullable: false)
+    },
+    constraints: table =>
+    {
+        table.PrimaryKey("PK_Handicaps", x => x.Id);
+    });
+
+            migrationBuilder.AddForeignKey(
+            name: "FK_Handicaps_Players",
+            table: "Handicaps",
+            column: "PlayerId",
+            principalTable: "Players",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.CreateTable(
                 name: "Scores",
@@ -85,6 +112,23 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 {
                     table.PrimaryKey("PK_Scores", x => x.Id);
                 });
+
+            migrationBuilder.AddForeignKey(
+            name: "FK_Scores_Players",
+            table: "Scores",
+            column: "PlayerId",
+            principalTable: "Players",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+            name: "FK_Scores_GolfRounds",
+            table: "Scores",
+            column: "GolfRoundId",
+            principalTable: "GolfRounds",
+            principalColumn: "Id",
+            onDelete: ReferentialAction.Cascade);
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
