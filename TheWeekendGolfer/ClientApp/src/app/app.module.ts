@@ -42,6 +42,7 @@ import { LogInComponent, LoginDialog } from './user/log-in.component';
 import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
 import { PartnerComponent } from './partner/partner.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { PartnerComponent } from './partner/partner.component';
     SignUpDialog,
     LogInComponent,
     LoginDialog,
-    AddPartnerComponent
+    AddPartnerComponent,
+    AboutComponent
   ],
   entryComponents: [LoginDialog, SignUpDialog, AddGolfRoundDialog, AddPartnerDialog],
   imports: [
@@ -103,6 +105,7 @@ import { PartnerComponent } from './partner/partner.component';
       { path: 'login', component: LogInComponent },
       { path: 'logout', component: LogInComponent },
       { path: 'add-partner', component: AddPartnerComponent },
+      { path: 'about', component: AboutComponent },
       { path: 'partners', component: PartnerComponent }
     ])
   ],

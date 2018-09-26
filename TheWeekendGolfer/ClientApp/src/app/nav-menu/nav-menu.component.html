@@ -25,12 +25,12 @@
 
       <mat-nav-list class="navigation-items">
         <a mat-list-item [routerLink]='["/"]' (click)='snav.toggle()'>
-              <img src="../../assets/icons/home.png" />
-            <span class="label" >Home</span>
+          <img src="../../assets/icons/home.png" />
+          <span class="label">Home</span>
         </a>
 
         <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='snav.toggle()'>
-            <img src="../../assets/icons/rounds.png" />
+          <img src="../../assets/icons/rounds.png" />
           <span class="label">Golf Rounds</span>
         </a>
         <a mat-list-item *ngIf="isLoggedIn" [routerLink]='["/partners"]' (click)='snav.toggle()'>
@@ -38,16 +38,20 @@
           <span class="label">Partners</span>
         </a>
         <a mat-list-item [routerLink]='["/players"]' (click)='snav.toggle()'>
-<img src="../../assets/icons/players.png" />
+          <img src="../../assets/icons/players.png" />
           <span class="label">Players</span>
         </a>
         <a mat-list-item [routerLink]='["/courses"]' (click)='snav.toggle()'>
           <img src="../../assets/icons/courses.png" />
           <span class="label">Courses</span>
         </a>
+        <a mat-list-item [routerLink]='["/about"]' (click)='snav.toggle()'>
+          <img src="../../assets/icons/about.png" />
+          <span class="label">About</span>
+        </a>
         <div mat-list-item class="contact-me">
           <a href="https://github.com/Thashin/TheWeekendGolfer"><img class="social-media" src="../../assets/icons/github.png" /></a>
-          <a href="https://www.linkedin.com/in/thashin-naidoo/"><img class="social-media" src="../../assets/icons/linkedin.png"/></a>
+          <a href="https://www.linkedin.com/in/thashin-naidoo/"><img class="social-media" src="../../assets/icons/linkedin.png" /></a>
         </div>
       </mat-nav-list>
 

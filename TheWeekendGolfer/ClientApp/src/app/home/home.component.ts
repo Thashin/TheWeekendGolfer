@@ -21,7 +21,7 @@ export class HomeComponent{
   public currentHandicaps: any[] = [];
   public courseStats: any[] = [];
   public isLoggedIn = false;
-  public playerId = "76eb9280-2888-4963-7999-08d61143260b";
+  public playerId = "";
   public partners: Player[] = [];
 
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
@@ -81,54 +81,50 @@ export class HomeComponent{
       player => {
         if (player !== null) {
           this.playerId = player.id;
-        }
-        else {
-          player = new Player();
-          player.firstName = "Thashin";
-          player.lastName = "Naidoo"
-        }
-       
-        this.getCourseStats();
-        this._playerService.getPlayerHandicaps(this.playerId).subscribe(
-          handicaps => {
-            this.lineChartData.push({
-              name: player.firstName + " " + player.lastName,
-              series: handicaps.map(item => {
-                return {
-                  name: new Date(item.date),
-                  value: item.currentHandicap
-                }
-              })
-            });
-            this.lineChartData = [... this.lineChartData];
-          });
-        this._partnerService.getPartners(this.playerId).subscribe(
-          partners => {
-            this.partners = partners;
-            this.getCurrentHandicaps();
-            partners.forEach(
-              partner => {
-                this._playerService.getPlayerHandicaps(partner.id).subscribe(
-                  handicaps => {
-                    this.lineChartData.push({
-                      name: partner.firstName + " " + partner.lastName, series: handicaps.map(item => {
-                        return {
-                          name: new Date(item.date),
-                          value: item.currentHandicap
-                        }
-                      })
-                    })
-                    this.lineChartData = this.lineChartData.sort((a, b) => {
-                      if (a.name < b.name) return -1;
-                      else if (a.name > b.name) return 1;
-                      else return 0;
-                    });
-                    this.lineChartData = [... this.lineChartData];
+
+          this.getCourseStats();
+          this._playerService.getPlayerHandicaps(this.playerId).subscribe(
+            handicaps => {
+              this.lineChartData.push({
+                name: player.firstName + " " + player.lastName,
+                series: handicaps.map(item => {
+                  return {
+                    name: new Date(item.date),
+                    value: item.currentHandicap
                   }
-                );
+                })
               });
-          });
+              this.lineChartData = [... this.lineChartData];
+            });
+          this._partnerService.getPartners(this.playerId).subscribe(
+            partners => {
+              this.partners = partners;
+              this.getCurrentHandicaps();
+              partners.forEach(
+                partner => {
+                  this._playerService.getPlayerHandicaps(partner.id).subscribe(
+                    handicaps => {
+                      this.lineChartData.push({
+                        name: partner.firstName + " " + partner.lastName, series: handicaps.map(item => {
+                          return {
+                            name: new Date(item.date),
+                            value: item.currentHandicap
+                          }
+                        })
+                      })
+                      this.lineChartData = this.lineChartData.sort((a, b) => {
+                        if (a.name < b.name) return -1;
+                        else if (a.name > b.name) return 1;
+                        else return 0;
+                      });
+                      this.lineChartData = [... this.lineChartData];
+                    }
+                  );
+                });
+            });
+        }
       });
+
 
   }
 
