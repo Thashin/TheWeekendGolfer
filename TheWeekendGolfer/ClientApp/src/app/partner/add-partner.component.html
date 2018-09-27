@@ -2,19 +2,19 @@
   <h1 mat-dialog-title>Add Partner</h1>
   <div [formGroup]="data" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
-    <div class="row">
-      <mat-form-field>
-        <mat-select matInput formControlName="partnerId" placeholder="Partner" name="partnerId" class="form-control" id="partnerId">
-          <mat-option *ngIf="!allPlayers"><em>Loading...</em></mat-option>
-          <mat-option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="row">
+        <mat-form-field>
+          <mat-select matInput formControlName="partnerId" placeholder="Partner" name="partnerId" class="form-control" id="partnerId">
+            <mat-option *ngIf="!allPlayers"><em>Loading...</em></mat-option>
+            <mat-option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
-  <div mat-dialog-actions>
-    <div class="button-row">
-      <button mat-raised-button color="primary" [mat-dialog-close]="data">Add Partner</button>
+    <div mat-dialog-actions>
+      <div class="button-row">
+        <button mat-raised-button color="primary" [mat-dialog-close]="data">Add Partner</button>
+      </div>
     </div>
-  </div>
   </div>
 </mat-card>

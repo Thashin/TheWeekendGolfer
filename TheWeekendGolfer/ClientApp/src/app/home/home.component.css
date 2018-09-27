@@ -1,7 +1,8 @@
 
-.button-container{
-  padding:10px;
+.button-container {
+  padding: 10px;
 }
+
 mat-card {
   display: flex;
   padding: 10px;
@@ -11,4 +12,3 @@ mat-card {
 .footer {
   flex: 1;
 }
-

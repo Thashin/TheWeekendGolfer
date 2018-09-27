@@ -8,15 +8,15 @@ namespace TheWeekendGolfer.Data
 {
     public interface IGolfRoundAccessLayer
     {
-         Task<GolfRound> GetGolfRound(Guid id);
+        Task<GolfRound> GetGolfRound(Guid id);
 
-         Task<IEnumerable<Guid>> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds);
+        Task<IEnumerable<Guid>> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds);
 
-         Task<IEnumerable<GolfRound>> GetAllGolfRounds();
-         Task<Guid> AddGolfRound(GolfRound golfRound);
+        Task<IEnumerable<GolfRound>> GetAllGolfRounds();
+        Task<Guid> AddGolfRound(GolfRound golfRound);
 
-         Task<Boolean> UpdateGolfRound(GolfRound golfRound);
+        Task<Boolean> UpdateGolfRound(GolfRound golfRound);
 
-         Task<Boolean> DeleteGolfRound(GolfRound golfRound);
+        Task<Boolean> DeleteGolfRound(GolfRound golfRound);
     }
 }

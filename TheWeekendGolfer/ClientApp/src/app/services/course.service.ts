@@ -8,11 +8,11 @@ import { Course } from '../models/course.model';
 export class CourseService {
   theWeekendGolferUrl: string = "";
 
-  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string,private _router:Router) {
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string, private _router: Router) {
     this.theWeekendGolferUrl = baseUrl;
   }
 
-  getCourses(){
+  getCourses() {
     return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/Index');
   }
 
@@ -24,12 +24,12 @@ export class CourseService {
   getCourseTees(courseName: string) {
     return this._http.get<string[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName);
   }
-  getCourseHoles(courseName:string,courseTee:string) {
+  getCourseHoles(courseName: string, courseTee: string) {
     return this._http.get<Course[]>(this.theWeekendGolferUrl + 'api/Course/GetCourseDetails?CourseName=' + courseName + "&Tee=" + courseTee);
   }
 
   getCourseById(id: string) {
     return this._http.get<Course>(this.theWeekendGolferUrl + "api/Course/Details/" + id);
   }
- 
+
 }  

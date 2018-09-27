@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { Player } from '../models/player.model';
 export class PartnerService {
   theWeekendGolferUrl: string = "";
 
-  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string,private _router:Router) {
+  constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string, private _router: Router) {
     this.theWeekendGolferUrl = baseUrl;
   }
 
@@ -60,5 +60,5 @@ export class PartnerService {
     return observableThrowError(error);
   }
 
- 
+
 }  

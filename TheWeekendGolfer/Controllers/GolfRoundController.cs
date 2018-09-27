@@ -55,7 +55,7 @@ namespace TheWeekendGolfer.Web.Controllers
                 var resolveCourses = from round in joinRoundScores
                                      join course in courses on round.CourseId equals course.Id
                                      where course.Id.Equals(round.CourseId)
-                                     select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes,course.Par,course.ScratchRating,course.Slope, round.PlayerId, round.Value };
+                                     select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes, course.Par, course.ScratchRating, course.Slope, round.PlayerId, round.Value };
                 var players = await playersTask;
                 var resolvePlayers = from round in resolveCourses
                                      join player in players on round.PlayerId equals player.Id
@@ -102,7 +102,7 @@ namespace TheWeekendGolfer.Web.Controllers
                 }
 
 
-                    return Ok(roundsforDisplay.Values);
+                return Ok(roundsforDisplay.Values);
             }
             catch
             {
@@ -157,13 +157,13 @@ namespace TheWeekendGolfer.Web.Controllers
         private async Task<Boolean> AddScore(DateTime date, Score score, Guid courseId)
         {
 
-            if (! await _scoreAccessLayer.AddScore(score))
+            if (!await _scoreAccessLayer.AddScore(score))
             {
                 return false;
             }
             else
             {
-                
+
                 return await CalculateHandicap(date, score, courseId);
             }
 
@@ -238,7 +238,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         }
 
-        private async  Task<Boolean> Edit(Guid playerId, Decimal handicap)
+        private async Task<Boolean> Edit(Guid playerId, Decimal handicap)
         {
             Player player = await _playerAccessLayer.GetPlayer(playerId);
             player.Handicap = handicap;

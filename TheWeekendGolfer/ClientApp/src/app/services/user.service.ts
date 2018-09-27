@@ -1,5 +1,5 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -30,14 +30,14 @@ export class UserService {
     this._http.get(this.theWeekendGolferUrl + 'api/User/Logout').subscribe(data => {
       result = data["Result"];
       if (data["Result"] == "Logout Successful") {
-          this.isLoggedInEvent.emit();
-          this.router.navigate(['/']);
-        }
-      });
+        this.isLoggedInEvent.emit();
+        this.router.navigate(['/']);
+      }
+    });
     return result;
   }
 
-  createUser(user:User) {
+  createUser(user: User) {
     let options = {
       headers: new HttpHeaders(
         { 'Content-Type': 'application/json; charset=utf-8' }
@@ -67,7 +67,7 @@ export class UserService {
         'Email': user.email,
         'Password': user.password,
       });
-   return this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options);
+    return this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options);
 
   }
 

@@ -7,7 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
-    public class ScoreAccessLayer:IScoreAccessLayer
+    public class ScoreAccessLayer : IScoreAccessLayer
     {
         GolfDbContext _context;
 
@@ -42,8 +42,8 @@ namespace TheWeekendGolfer.Data
 
         public async Task<IEnumerable<Score>> GetAllPlayerScores(Guid playerId)
         {
-            var scores  = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
-            if(0<scores.Count())
+            var scores = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
+            if (0 < scores.Count())
             {
                 return scores;
             }
@@ -58,12 +58,12 @@ namespace TheWeekendGolfer.Data
             try
             {
                 if (_context.Scores.Where(s => s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 4 &&
-                    _context.Scores.Where(s=> s.PlayerId.Equals(score.PlayerId) && s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 1)
+                    _context.Scores.Where(s => s.PlayerId.Equals(score.PlayerId) && s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 1)
                 {
                     _context.Scores.Add(score);
                     _context.SaveChanges();
                 }
-                    return true;
+                return true;
             }
             catch
             {

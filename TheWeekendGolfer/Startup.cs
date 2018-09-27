@@ -72,7 +72,7 @@ namespace TheWeekendGolfer
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped(typeof(IHandicapAccessLayer), typeof(HandicapAccessLayer));
-            services.AddScoped(typeof(ICourseAccessLayer),typeof(CourseAccessLayer));
+            services.AddScoped(typeof(ICourseAccessLayer), typeof(CourseAccessLayer));
             services.AddScoped(typeof(IGolfRoundAccessLayer), typeof(GolfRoundAccessLayer));
             services.AddScoped(typeof(IPlayerAccessLayer), typeof(PlayerAccessLayer));
             services.AddScoped(typeof(IScoreAccessLayer), typeof(ScoreAccessLayer));
@@ -124,7 +124,9 @@ namespace TheWeekendGolfer
                 {
                     //send the request token as a JavaScript-readable cookie, and Angular will use it by default
                     var tokens = antiforgery.GetAndStoreTokens(context);
-                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false,
+                    context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions
+                    {
+                        HttpOnly = false,
                         Secure = true
                     });
                 }

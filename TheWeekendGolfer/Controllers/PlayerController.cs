@@ -29,7 +29,7 @@ namespace TheWeekendGolfer.Web.Controllers
             _scoreAccessLayer = scoreAccessLayer;
             _golfRoundAccessLayer = golfRoundAccessLayer;
         }
-        
+
 
 
 
@@ -70,7 +70,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         // POST: Player/Create
         [HttpPost]
-   //     [ValidateAntiForgeryToken]
+        //     [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromBody]Player player)
         {
             Guid playerId = await _playerAccessLayer.AddPlayer(player);
@@ -88,13 +88,13 @@ namespace TheWeekendGolfer.Web.Controllers
                             Value = player.Handicap.Value,
                             CurrentHandicap = player.Handicap.Value
                         }))
-                    {
-                        return BadRequest();
-                    }
-                    else
-                    {
-                        return Ok(playerId);
-                    }
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    return Ok(playerId);
+                }
             }
             else
             {
@@ -107,7 +107,7 @@ namespace TheWeekendGolfer.Web.Controllers
         public async Task<IActionResult> GetAllPlayerRoundCourses(Guid playerId)
         {
             var rounds = await _scoreAccessLayer.GetAllPlayerScores(playerId);
-            var courses = await  _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
+            var courses = await _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
             return Ok(await _courseAccessLayer.GetCourseStats(courses.ToList()));
         }
 

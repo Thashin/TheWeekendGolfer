@@ -8,9 +8,9 @@ namespace TheWeekendGolfer.Web.Data
     /// <summary>
     /// Used to create structure for golf DB
     /// </summary>
-    public class GolfDbContext: DbContext
+    public class GolfDbContext : DbContext
     {
-        public GolfDbContext(DbContextOptions<GolfDbContext> options):base(options)
+        public GolfDbContext(DbContextOptions<GolfDbContext> options) : base(options)
         {
 
         }

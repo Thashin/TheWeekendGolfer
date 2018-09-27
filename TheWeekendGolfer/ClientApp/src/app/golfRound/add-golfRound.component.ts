@@ -50,7 +50,7 @@ export class AddGolfRoundComponent implements AfterViewInit {
 
   }
 
- 
+
 
   openDialog(): void {
 
@@ -87,7 +87,7 @@ export class AddGolfRoundComponent implements AfterViewInit {
   templateUrl: './add-golfRound.component.html',
 })
 export class AddGolfRoundDialog {
-  
+
   public currentPlayers: Player[];
 
   public courseNames: string[];
@@ -102,7 +102,7 @@ export class AddGolfRoundDialog {
   numScores: number;
 
 
-  constructor(private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService,private formBuilder: FormBuilder,
+  constructor(private _courseService: CourseService, private _playerService: PlayerService, private _scoreService: ScoreService, private _userService: UserService, private formBuilder: FormBuilder,
     public dialog: MatDialogRef<AddGolfRoundDialog>,
     @Inject(MAT_DIALOG_DATA) public data: FormArray) {
     console.log(data);

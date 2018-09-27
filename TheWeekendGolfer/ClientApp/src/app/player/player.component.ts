@@ -40,17 +40,17 @@ export class PlayerComponent {
   getPlayers() {
 
     this._playerService.getPlayers().subscribe(
-       data => {
-         this.players = new MatTableDataSource(data);
-         this.players.paginator = this.paginator;
-         this.players.sortingDataAccessor = (player, property) => {
-           switch (property) {
-             case 'name': return player.lastName.toLowerCase();
-             default: return player[property];
-           }
-         };
-         this.players.sort = this.sort;
-       }
-     );
-        }
+      data => {
+        this.players = new MatTableDataSource(data);
+        this.players.paginator = this.paginator;
+        this.players.sortingDataAccessor = (player, property) => {
+          switch (property) {
+            case 'name': return player.lastName.toLowerCase();
+            default: return player[property];
+          }
+        };
+        this.players.sort = this.sort;
+      }
+    );
+  }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Data
 {
-    public class PartnerAccessLayer:IPartnerAccessLayer
+    public class PartnerAccessLayer : IPartnerAccessLayer
     {
         GolfDbContext _context;
 
@@ -21,7 +21,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 var partnerIds = _context.Partners.Where(s => s.PlayerId.Equals(playerId)).Select(p => p.PartnerId);
-                return _context.Players.Where(p => partnerIds.Contains(p.Id)).Select(p => new Player{ Id= p.Id,FirstName= p.FirstName, LastName = p.LastName }).ToList();
+                return _context.Players.Where(p => partnerIds.Contains(p.Id)).Select(p => new Player { Id = p.Id, FirstName = p.FirstName, LastName = p.LastName }).ToList();
             }
             catch
             {
@@ -39,7 +39,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 var player = _context.Partners.Where(s => s.PlayerId.Equals(playerId));
-                if (0<player.Count())
+                if (0 < player.Count())
                 {
                     var partners = player.Select(p => p.PartnerId);
                     return _context.Players.Where(p => !p.Id.Equals(playerId) && !partners.Contains(p.Id)).ToList();

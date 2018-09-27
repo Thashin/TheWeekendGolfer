@@ -4,12 +4,12 @@ import { Course } from '../models/course.model'
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 @Component({
-  selector:'courses',
+  selector: 'courses',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
 
-export class CourseComponent{
+export class CourseComponent {
   public courses: MatTableDataSource<Course>;
   displayedColumns: string[] = ['name', 'location', 'teeName', 'holes', 'par', 'scratchRating', 'slope'];
 
@@ -30,7 +30,7 @@ export class CourseComponent{
         this.courses = new MatTableDataSource(data);
         this.courses.paginator = this.paginator;
         this.courses.sort = this.sort;
-  })
+      })
   }
 
 

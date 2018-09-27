@@ -7,7 +7,7 @@ using TheWeekendGolfer.Web.Data;
 
 namespace TheWeekendGolfer.Data
 {
-    public class HandicapAccessLayer:IHandicapAccessLayer
+    public class HandicapAccessLayer : IHandicapAccessLayer
     {
         GolfDbContext _context;
 
@@ -40,7 +40,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 var orderedHandicaps = _context.Handicaps.Where(h => h.PlayerId.Equals(playerId));
-                return  orderedHandicaps.OrderByDescending(h => h.Date).Take(100);
+                return orderedHandicaps.OrderByDescending(h => h.Date).Take(100);
             }
             catch
             {

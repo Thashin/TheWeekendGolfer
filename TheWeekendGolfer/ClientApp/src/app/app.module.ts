@@ -5,7 +5,7 @@ import {
   MatMenuModule,
   MatToolbarModule,
   MatIconModule,
-  MatCardModule, 
+  MatCardModule,
   MatTableModule,
   MatStepperModule,
   MatDatepickerModule,
@@ -19,12 +19,13 @@ import {
   MatPaginatorModule,
   MatSidenavModule,
   MatSnackBar,
-  MatSnackBarModule} from '@angular/material';
+  MatSnackBarModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -38,13 +39,13 @@ import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
 import { AddGolfRoundComponent, AddGolfRoundDialog } from './golfRound/add-golfRound.component';
 import { ScoreService } from './services/scores.service';
-import { SignUpComponent, SignUpDialog } from './user/sign-up.component';
 import { UserService } from './services/user.service';
 import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
 import { PartnerComponent } from './partner/partner.component';
 import { AboutComponent } from './about/about.component';
 import { LoginDialogComponent } from './user/loginDialog.component';
+import { SignUpDialogComponent } from './user/signUpDialog.component';
 
 @NgModule({
   declarations: [
@@ -59,13 +60,12 @@ import { LoginDialogComponent } from './user/loginDialog.component';
     AddGolfRoundDialog,
     AddPlayerComponent,
     AddPartnerDialog,
-    SignUpComponent,
-    SignUpDialog,
+    SignUpDialogComponent,
     LoginDialogComponent,
     AddPartnerComponent,
     AboutComponent
   ],
-  entryComponents: [LoginDialogComponent, SignUpDialog, AddGolfRoundDialog, AddPartnerDialog],
+  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialog, AddPartnerDialog],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -98,12 +98,12 @@ import { LoginDialogComponent } from './user/loginDialog.component';
     NgxChartsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'courses', component: CourseComponent },  
+      { path: 'courses', component: CourseComponent },
       { path: 'players', component: PlayerComponent },
       { path: 'add-player', component: AddPlayerComponent },
       { path: 'golf-rounds', component: GolfRoundComponent },
       { path: 'add-golf-round', component: AddGolfRoundComponent },
-      { path: 'sign-up', component: SignUpComponent },
+      { path: 'sign-up', component: SignUpDialogComponent },
       { path: 'login', component: LoginDialogComponent },
       { path: 'logout', component: NavMenuComponent },
       { path: 'add-partner', component: AddPartnerComponent },

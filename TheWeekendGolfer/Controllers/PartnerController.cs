@@ -26,7 +26,7 @@ namespace TheWeekendGolfer.Controllers
         public async Task<IActionResult> AddPartnerAsync([FromBody]Partner partner)
         {
             var user = await _userManager.GetUserAsync(User);
-            if(user != null)
+            if (user != null)
             {
                 var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
                 partner.PlayerId = playerIdTask.Id;
@@ -54,10 +54,10 @@ namespace TheWeekendGolfer.Controllers
             if (user != null)
             {
                 var playerIdTask = await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id));
-                Partner.PlayerId = playerIdTask.Id; 
+                Partner.PlayerId = playerIdTask.Id;
                 await _partnerAccessLayer.DeletePartner(Partner);
             }
-                return Ok(true);
+            return Ok(true);
         }
     }
 }

@@ -7,48 +7,35 @@ import { UserService } from '../services/user.service';
 import { Player } from '../models/player.model';
 import { User } from '../models/User.model';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-/*
+
 @Component({
-  selector: 'app-log-in',
-  templateUrl: './../home/home.component.html',
-  styleUrls: ['./log-in.component.css']
+  templateUrl: './loginDialog.component.html',
 })
-export class LogInComponent{
+export class LoginDialogComponent {
+
+  email: FormControl = new FormControl('', [Validators.required, Validators.email]);
+  password: FormControl = new FormControl('', [Validators.required]);
+  user: User = new User;
 
 
-  @Output() loggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private router: Router,private formBuilder: FormBuilder,  private _userService: UserService, public dialog: MatDialog) {
+  constructor(
+    public dialogRef: MatDialogRef<LoginDialogComponent>) {
+
   }
 
-}*/
+  getErrorMessage() {
+    return this.email.hasError('required') ? 'You must enter a value' :
+      this.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
 
-  @Component({
-    templateUrl: './loginDialog.component.html',
-  })  
-  export class LoginDialogComponent {
-    
-  email: FormControl =  new FormControl('', [Validators.required, Validators.email]);
-  password: FormControl = new FormControl('', [Validators.required]);
-    user: User = new User; 
-    constructor(
-      public dialogRef: MatDialogRef<LoginDialogComponent>) {
+  login() {
+    this.dialogRef.close(this.user);
+  }
 
-    }
-
-    getErrorMessage() {
-      return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-          '';
-    }
-
-    login() {
-      console.log(this.user);
-        this.dialogRef.close(this.user);
-    }
-
-    onNoClick(): void {
-      this.dialogRef.close();
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
 }

@@ -12,9 +12,9 @@ import { GolfRoundService } from '../services/golfRound.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls:['./home.component.css']
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent{
+export class HomeComponent {
 
 
   public lineChartData: any[] = [];
@@ -42,7 +42,7 @@ export class HomeComponent{
     this._playerService.getPlayerById(this.playerId).subscribe(player => {
       this.currentHandicaps.push({
         name: player.firstName + " " + player.lastName,
-        value: Math.round(player.handicap*10)/10
+        value: Math.round(player.handicap * 10) / 10
       });
       this.currentHandicaps = [... this.currentHandicaps];
     }
@@ -59,8 +59,8 @@ export class HomeComponent{
           else return 0;
         });
         this.currentHandicaps = [... this.currentHandicaps];
-        }
-        )
+      }
+      )
     )
   }
 
@@ -73,7 +73,7 @@ export class HomeComponent{
       }
     }
     )
-    }
+  }
 
 
   getHistoricalHandicaps() {

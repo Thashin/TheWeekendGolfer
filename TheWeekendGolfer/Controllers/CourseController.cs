@@ -25,7 +25,7 @@ namespace TheWeekendGolfer.Controllers
         public async Task<IActionResult> Index()
         {
             var courses = await _courseAccessLayer.GetAllCourses();
-            if(courses.Count()>0)
+            if (courses.Count() > 0)
             {
                 return Ok(courses);
             }
@@ -42,7 +42,7 @@ namespace TheWeekendGolfer.Controllers
         {
             var courseNames = await _courseAccessLayer.GetCourseNames();
 
-            if(courseNames.Count()>0)
+            if (courseNames.Count() > 0)
             {
                 return Ok(courseNames);
             }
@@ -56,11 +56,11 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCourseDetails(string courseName,string tee = null)
+        public async Task<IActionResult> GetCourseDetails(string courseName, string tee = null)
         {
-                
-                if(tee!=null)
-                {
+
+            if (tee != null)
+            {
                 var holes = await _courseAccessLayer.GetCourseHoles(courseName, tee);
                 if (holes.Count() > 0)
                 {
@@ -70,9 +70,9 @@ namespace TheWeekendGolfer.Controllers
                 {
                     return NotFound("Could not find holes for course");
                 }
-                }
-                else
-                {
+            }
+            else
+            {
                 var tees = await _courseAccessLayer.GetCourseTees(courseName);
                 if (tees.Count() > 0)
                 {
@@ -82,18 +82,18 @@ namespace TheWeekendGolfer.Controllers
                 {
                     return NotFound("Could not find tees for course");
                 }
-                }
-                
+            }
 
-         }
-        
+
+        }
+
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Details(Guid id)
         {
             var details = await _courseAccessLayer.GetCourse(id);
-            if(details!=null)
+            if (details != null)
             {
                 return Ok(details);
             }

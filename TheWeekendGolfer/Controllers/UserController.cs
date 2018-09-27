@@ -36,22 +36,10 @@ namespace TheWeekendGolfer.Controllers
                     Email = model.Email
                 };
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
-                
+
                 if (result.Succeeded)
                 {
-                    var isSignedIn = await _signInManager.PasswordSignInAsync(model.Email,
-                                            model.Password, false,false);
-                   
-                    model.Player.UserId = new Guid(user.Id);
-                    _playerAccessLayer.AddPlayer(model.Player);
-                    if (isSignedIn.Succeeded)
-                    {
-                        return Ok("{\"Result\":\"Login Successful\"}");
-                    }
-                    else
-                    {
-                        return Ok("{\"Result\":\"Login Failed\"}");
-                    }
+                    return Ok(result.Succeeded);
                 }
                 else
                 {
@@ -69,9 +57,9 @@ namespace TheWeekendGolfer.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync([FromBody]User user)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var isSignedIn = await _signInManager.PasswordSignInAsync(user.Email,user.Password
+                var isSignedIn = await _signInManager.PasswordSignInAsync(user.Email, user.Password
          , false, false);
                 if (isSignedIn.Succeeded)
                 {

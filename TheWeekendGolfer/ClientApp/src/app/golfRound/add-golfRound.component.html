@@ -1,4 +1,4 @@
-<mat-card >
+<mat-card>
   <h1 mat-dialog-title>Add Golf Round</h1>
   <form [formGroup]="data" (ngSubmit)="onSubmit()">
     <div mat-dialog-content>
@@ -32,43 +32,40 @@
             <mat-option [value]="holes.id" *ngFor="let holes of holesNames">{{holes.holes}}</mat-option>
           </mat-select>
         </mat-form-field>
-        </div>
-          <div formArrayName="scores"
-               *ngFor="let score of data.get('scores').controls; let i = index;">
-            <div [formGroupName]="i">
-                <!--<select *ngIf="i==0" (change)="addPlayer(player.id)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
-    <option *ngIf="!allPlayers"><em>Loading...</em></option>
-    <option [value]="player.id">{{player.firstName}} {{player.lastName}} </option>
-  </select>--><table cellspacing="0">
-                <tr>
-                  <td>
-                  <mat-form-field>
-                    <mat-select matInput (change)="addPlayer($event.value)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
-                      <mat-option *ngIf="!allPlayers"><em>Loading...</em></mat-option>
-                      <mat-option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                    </td>
-                  <td style="padding-left:15px">
-                    <mat-form-field>
-                      <input matInput type="number" formControlName="value" class="form-control" placeholder="Score" name="score" id="score">
-                    </mat-form-field>
-                  </td>
-                  <td style="padding-left:15px">
-                    <button *ngIf="i>0" (click)="removeScore(i)" mat-raised-button color="secondary"> Remove </button>
-                  </td>
-                    </tr>
-</table>
-            </div>
-          </div>
-        <div class="button-row">
-          <button mat-raised-button color="primary" *ngIf="numScores<4" type="button" (click)="addScore()">Add Score</button>
+      </div>
+      <div formArrayName="scores"
+           *ngFor="let score of data.get('scores').controls; let i = index;">
+        <div [formGroupName]="i">
+          <table cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field>
+                  <mat-select matInput (change)="addPlayer($event.value)" formControlName="player" placeholder="Player" name="player" class="form-control" id="player">
+                    <mat-option *ngIf="!allPlayers"><em>Loading...</em></mat-option>
+                    <mat-option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              <td style="padding-left:15px">
+                <mat-form-field>
+                  <input matInput type="number" formControlName="value" class="form-control" placeholder="Score" name="score" id="score">
+                </mat-form-field>
+              </td>
+              <td style="padding-left:15px">
+                <button *ngIf="i>0" (click)="removeScore(i)" mat-raised-button color="secondary"> Remove </button>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
-      <div mat-dialog-actions>
-        <div class="button-row">
-          <button mat-raised-button color="primary" [mat-dialog-close]="data">Create Golf Round</button>
-        </div>
+      <div class="button-row">
+        <button mat-raised-button color="primary" *ngIf="numScores<4" type="button" (click)="addScore()">Add Score</button>
       </div>
-</form>
-  </mat-card>
+    </div>
+    <div mat-dialog-actions>
+      <div class="button-row">
+        <button mat-raised-button color="primary" [mat-dialog-close]="data">Create Golf Round</button>
+      </div>
+    </div>
+  </form>
+</mat-card>

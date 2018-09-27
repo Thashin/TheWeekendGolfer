@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheWeekendGolfer.Data
 {
-    public class CourseAccessLayer:ICourseAccessLayer
+    public class CourseAccessLayer : ICourseAccessLayer
     {
         GolfDbContext _context;
 
@@ -42,9 +42,9 @@ namespace TheWeekendGolfer.Data
 
         public async Task<IEnumerable<string>> GetCourseNames()
         {
-            var names =  _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
+            var names = _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
 
-            if(names!=null)
+            if (names != null)
             {
                 return names;
             }
@@ -59,7 +59,7 @@ namespace TheWeekendGolfer.Data
             var tees = _context.Courses.Where(c => c.Name.Equals(courseName)).
                                         GroupBy(c => c.TeeName).
                                         Select(c => c.First().TeeName);
-            if(0<tees.Count())
+            if (0 < tees.Count())
             {
                 return tees;
             }
@@ -74,7 +74,7 @@ namespace TheWeekendGolfer.Data
             var holes = _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
                                        .Select(c => c);
-            if(0<holes.Count())
+            if (0 < holes.Count())
             {
                 return holes;
             }
@@ -86,14 +86,14 @@ namespace TheWeekendGolfer.Data
 
 
 
-        public async Task<IDictionary<string,int>> GetCourseStats(IList<Guid> courseIds)
+        public async Task<IDictionary<string, int>> GetCourseStats(IList<Guid> courseIds)
         {
             try
             {
                 var a = from c in _context.Courses
                         join i in courseIds on c.Id equals i
                         select c.Name;
-                return a.GroupBy(c => c).OrderByDescending(c=>c.Count()).ToDictionary(c => c.Key, c => c.Count());
+                return a.GroupBy(c => c).OrderByDescending(c => c.Count()).ToDictionary(c => c.Key, c => c.Count());
             }
             catch
             {

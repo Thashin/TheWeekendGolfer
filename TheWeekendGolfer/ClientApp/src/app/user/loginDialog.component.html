@@ -2,23 +2,23 @@
   <mat-card>
     <h1 mat-dialog-title>Login</h1>
 
-      <div mat-dialog-content>
-        <div class="row">
-          <mat-form-field>
-            <input matInput type="email" [formControl]="email" placeholder="Email" [(ngModel)]="user.email" name="email" id="email">
-            <mat-error class="error-message" *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field>
-            <input matInput type="password" [(ngModel)]="user.password" [formControl]="password" placeholder="Password" name="password" class="form-control" id="password">
-          </mat-form-field>
-        </div>
+    <div mat-dialog-content>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="email" [formControl]="email" placeholder="Email" [(ngModel)]="user.email" name="email" id="email">
+          <mat-error class="error-message" *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
       </div>
-        <div mat-dialog-actions>
-          <div class="button-row">
-            <button mat-raised-button color="primary" (click)="login()">Login</button>
-        </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="password" [(ngModel)]="user.password" [formControl]="password" placeholder="Password" name="password" class="form-control" id="password">
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <div class="button-row">
+        <button mat-raised-button color="primary" (click)="login()" cdkFocusInitial>Login</button>
+      </div>
     </div>
   </mat-card>
 </div>

@@ -7,7 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
-    public class GolfRoundAccessLayer:IGolfRoundAccessLayer
+    public class GolfRoundAccessLayer : IGolfRoundAccessLayer
     {
         GolfDbContext _context;
 
@@ -20,7 +20,7 @@ namespace TheWeekendGolfer.Data
         {
             var round = _context.GolfRounds.Where(s => s.Id.Equals(id)).First();
 
-            if(round!=null)
+            if (round != null)
             {
                 return round;
             }
@@ -34,7 +34,7 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                return _context.GolfRounds.Where(g => golfRoundIds.Contains(g.Id)).Select(c => c.CourseId); 
+                return _context.GolfRounds.Where(g => golfRoundIds.Contains(g.Id)).Select(c => c.CourseId);
             }
             catch
             {

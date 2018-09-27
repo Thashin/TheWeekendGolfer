@@ -8,7 +8,7 @@
         <img src="../../assets/icons/login.png" />
         <span class="label">Login</span>
       </button>
-      <button mat-icon-button *ngIf="!isLoggedIn" [routerLink]='["/sign-up"]'>
+      <button mat-icon-button *ngIf="!isLoggedIn" (click)="openSignUpDialog()">
         <img src="../../assets/icons/register.png" />
         <span class="label">Sign Up</span>
       </button>

@@ -8,7 +8,7 @@ namespace TheWeekendGolfer.Data
 {
     public interface ICourseAccessLayer
     {
-        
+
         Task<Course> GetCourse(Guid id);
 
 

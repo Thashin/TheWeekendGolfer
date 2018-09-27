@@ -7,14 +7,14 @@ import { UserService } from '../services/user.service';
 
 @Component({
   templateUrl: './partner.component.html',
-  styleUrls:['./partner.component.css']
+  styleUrls: ['./partner.component.css']
 })
 
-export class PartnerComponent{
+export class PartnerComponent {
 
 
   public partners: MatTableDataSource<Player> | null;
-  displayedColumns: string[] = ['name','edit'];
+  displayedColumns: string[] = ['name', 'edit'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

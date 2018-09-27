@@ -19,7 +19,7 @@ export class GolfRoundComponent {
   isLoggedIn = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService) {
 
     this.getGolfRounds();
@@ -57,7 +57,7 @@ export class GolfRoundComponent {
       })
   }
 
-  filterNames(players, filter): boolean{
+  filterNames(players, filter): boolean {
     var found: boolean = false;
     players.data.forEach(player => {
       if (found) {
@@ -67,14 +67,14 @@ export class GolfRoundComponent {
       }
     });
     return found;
-}
+  }
 
   applyFilter(filterValue: string) {
     this.golfRoundViews.filterPredicate = (data, filter) =>
       (
         data.course.name.trim().toLowerCase().indexOf(filter) !== -1 ||
         data.course.holes.trim().toLowerCase().indexOf(filter) !== -1 ||
-        data.course.teeName.trim().toLowerCase().indexOf(filter) !== -1 
+        data.course.teeName.trim().toLowerCase().indexOf(filter) !== -1
       );
 
 

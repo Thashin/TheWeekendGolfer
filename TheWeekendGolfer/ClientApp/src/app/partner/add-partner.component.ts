@@ -30,7 +30,7 @@ export class AddPartnerComponent implements OnInit {
   }
 
   openDialog(): void {
-    
+
     const dialogRef = this.dialog.open(AddPartnerDialog, {
       minWidth: '500px',
       data: this.createPartnerForm
@@ -55,10 +55,10 @@ export class AddPartnerComponent implements OnInit {
 @Component({
   templateUrl: './add-partner.component.html',
 })
-export class AddPartnerDialog{
+export class AddPartnerDialog {
   allPlayers: Player[]
 
-  constructor(private _partnerService: PartnerService,  private _userService: UserService, private formBuilder: FormBuilder,
+  constructor(private _partnerService: PartnerService, private _userService: UserService, private formBuilder: FormBuilder,
     public dialog: MatDialogRef<AddPartnerDialog>, @Inject(MAT_DIALOG_DATA) public data: FormArray) {
     this.getPlayers();
   }
@@ -70,7 +70,7 @@ export class AddPartnerDialog{
         this.allPlayers = potentialPartners;
       });
     });
-      }
+  }
 
   onNoClick(): void {
     this.dialog.close();

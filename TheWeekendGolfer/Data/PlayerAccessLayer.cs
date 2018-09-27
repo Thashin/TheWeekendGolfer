@@ -8,7 +8,7 @@ using TheWeekendGolfer.Data.ApplicationUserDB;
 
 namespace TheWeekendGolfer.Data
 {
-    public class PlayerAccessLayer:IPlayerAccessLayer
+    public class PlayerAccessLayer : IPlayerAccessLayer
     {
         GolfDbContext _context;
         ApplicationDbContext _userContext;
@@ -57,7 +57,7 @@ namespace TheWeekendGolfer.Data
 
         public async Task<Guid> AddPlayer(Player player)
         {
-            if(_userContext.Users.Where(u=> (new Guid(u.Id)).Equals(player.UserId)).Count()>0)
+            if (_userContext.Users.Where(u => (new Guid(u.Id)).Equals(player.UserId)).Count() > 0)
             {
                 try
                 {

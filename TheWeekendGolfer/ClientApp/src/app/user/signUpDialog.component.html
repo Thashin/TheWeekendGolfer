@@ -1,0 +1,39 @@
+<div class="sign-up-container">
+  <mat-card>
+    <h1 mat-dialog-title class="text-center">Add User</h1>
+
+    <div mat-dialog-content>
+      <div class="row">
+        <mat-form-field>
+          <input matInput [formControl]="firstName" [(ngModel)]="player.firstName" placeholder="First Name" name="firstName" class="form-control" id="firstName">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput [formControl]="lastName" [(ngModel)]="player.lastName" placeholder="Last name" name="lastName" class="form-control" id="lastName">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="number" [formControl]="handicap" [(ngModel)]="player.handicap" placeholder="Handicap" name="handicap" class="form-control" id="handicap">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="email" [formControl]="email" [(ngModel)]="user.email" placeholder="Email" name="email" class="form-control" id="email">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput type="password" [formControl]="password" [(ngModel)]="user.password" placeholder="Password" name="password" class="form-control" id="password">
+          <mat-hint><strong>Must containg a capital letter, a symbol and a number</strong> </mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+    <div mat-dialog-actions>
+      <div class="button-row">
+        <button (click)="signUp()" mat-raised-button color="primary" cdkFocusInitial>Sign Up</button>
+      </div>
+    </div>
+  </mat-card>
+</div>

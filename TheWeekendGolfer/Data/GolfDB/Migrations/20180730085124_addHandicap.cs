@@ -57,7 +57,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable:false),
+                    UserId = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Handicap = table.Column<decimal>(nullable: true),

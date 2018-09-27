@@ -64,7 +64,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\services\course.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\user.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\user\loginDialog.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\user\sign-up.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\user\signUpDialog.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

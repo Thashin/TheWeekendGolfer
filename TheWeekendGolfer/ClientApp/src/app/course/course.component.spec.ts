@@ -18,7 +18,7 @@ describe('CourseComponent', () => {
   })
   class FakeCourseComponent {
     // @Output() delete = new EventEmitter();
-  }  
+  }
 
   beforeEach(() => {
     courses = [
