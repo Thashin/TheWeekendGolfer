@@ -67,17 +67,8 @@ export class UserService {
         'Email': user.email,
         'Password': user.password,
       });
-    var result = "";
-    this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options)
-      .subscribe(data => {
-        result = data["Result"];
-        if (data["Result"] == "Login Successful") {
-          this.isLoggedInEvent.emit();
-          this.router.navigate(['/']);
+   return this._http.post(this.theWeekendGolferUrl + 'api/user/LoginAsync', body, options);
 
-        }
-      });
-    return result;
   }
 
   getEmitter() {

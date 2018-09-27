@@ -93,7 +93,7 @@ namespace TheWeekendGolfer.Data.ApplicationDb.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId")
+                    b.Property<Guid>("UserId")
                         .IsRequired();
 
                     b.HasKey("LoginProvider", "ProviderKey");
@@ -105,7 +105,7 @@ namespace TheWeekendGolfer.Data.ApplicationDb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("RoleId");
 
@@ -118,7 +118,7 @@ namespace TheWeekendGolfer.Data.ApplicationDb.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128);
@@ -135,7 +135,7 @@ namespace TheWeekendGolfer.Data.ApplicationDb.Migrations
 
             modelBuilder.Entity("TheWeekendGolfer.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");

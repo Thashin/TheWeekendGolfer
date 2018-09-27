@@ -17,7 +17,9 @@ import {
   MatSelectModule,
   MatNativeDateModule,
   MatPaginatorModule,
-  MatSidenavModule} from '@angular/material';
+  MatSidenavModule,
+  MatSnackBar,
+  MatSnackBarModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
@@ -38,11 +40,11 @@ import { AddGolfRoundComponent, AddGolfRoundDialog } from './golfRound/add-golfR
 import { ScoreService } from './services/scores.service';
 import { SignUpComponent, SignUpDialog } from './user/sign-up.component';
 import { UserService } from './services/user.service';
-import { LogInComponent, LoginDialog } from './user/log-in.component';
 import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
 import { PartnerService } from './services/partner.service';
 import { PartnerComponent } from './partner/partner.component';
 import { AboutComponent } from './about/about.component';
+import { LoginDialogComponent } from './user/loginDialog.component';
 
 @NgModule({
   declarations: [
@@ -59,12 +61,11 @@ import { AboutComponent } from './about/about.component';
     AddPartnerDialog,
     SignUpComponent,
     SignUpDialog,
-    LogInComponent,
-    LoginDialog,
+    LoginDialogComponent,
     AddPartnerComponent,
     AboutComponent
   ],
-  entryComponents: [LoginDialog, SignUpDialog, AddGolfRoundDialog, AddPartnerDialog],
+  entryComponents: [LoginDialogComponent, SignUpDialog, AddGolfRoundDialog, AddPartnerDialog],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -87,6 +88,7 @@ import { AboutComponent } from './about/about.component';
     MatPaginatorModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatSortModule,
     MatStepperModule,
     MatTableModule,
@@ -102,14 +104,14 @@ import { AboutComponent } from './about/about.component';
       { path: 'golf-rounds', component: GolfRoundComponent },
       { path: 'add-golf-round', component: AddGolfRoundComponent },
       { path: 'sign-up', component: SignUpComponent },
-      { path: 'login', component: LogInComponent },
-      { path: 'logout', component: LogInComponent },
+      { path: 'login', component: LoginDialogComponent },
+      { path: 'logout', component: NavMenuComponent },
       { path: 'add-partner', component: AddPartnerComponent },
       { path: 'about', component: AboutComponent },
       { path: 'partners', component: PartnerComponent }
     ])
   ],
-  providers: [CourseService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService],
+  providers: [CourseService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService, MatSnackBar],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

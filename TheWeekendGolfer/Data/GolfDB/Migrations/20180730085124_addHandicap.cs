@@ -57,7 +57,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<string>(maxLength: 450, nullable: true),
+                    UserId = table.Column<Guid>(nullable:false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Handicap = table.Column<decimal>(nullable: true),
@@ -68,13 +68,7 @@ namespace TheWeekendGolfer.Data.GolfDb.Migrations
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
                 });
-            migrationBuilder.AddForeignKey(
-name: "FK_Players_AspNetUser",
-table: "Players",
-column: "UserId",
-principalTable: "AspNetUsers",
-principalColumn: "Id",
-onDelete: ReferentialAction.Cascade);
+
 
             migrationBuilder.CreateTable(
     name: "Handicaps",

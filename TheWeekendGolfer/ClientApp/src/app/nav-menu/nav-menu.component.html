@@ -4,7 +4,7 @@
     <h1 class="app-name">The Weekend Golfer</h1>
     <span style="flex: 1 1 auto;"></span>
     <div class="toolbar-icons">
-      <button mat-icon-button *ngIf="!isLoggedIn" [routerLinkActive]='["link-active"]' [routerLink]='["/login"]'>
+      <button mat-icon-button *ngIf="!isLoggedIn" (click)="openLoginDialog()">
         <img src="../../assets/icons/login.png" />
         <span class="label">Login</span>
       </button>

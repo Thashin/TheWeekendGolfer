@@ -40,12 +40,24 @@ namespace TheWeekendGolfer.Controllers
                 if (result.Succeeded)
                 {
                     var isSignedIn = await _signInManager.PasswordSignInAsync(model.Email,
-         model.Password, false,false);
+                                            model.Password, false,false);
                    
                     model.Player.UserId = new Guid(user.Id);
                     _playerAccessLayer.AddPlayer(model.Player);
+                    if (isSignedIn.Succeeded)
+                    {
+                        return Ok("{\"Result\":\"Login Successful\"}");
+                    }
+                    else
+                    {
+                        return Ok("{\"Result\":\"Login Failed\"}");
+                    }
                 }
-                return Ok();
+                else
+                {
+
+                    return BadRequest();
+                }
             }
             else
             {

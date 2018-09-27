@@ -81,7 +81,7 @@ export class HomeComponent{
       player => {
         if (player !== null) {
           this.playerId = player.id;
-
+          console.log(player.id);
           this.getCourseStats();
           this._playerService.getPlayerHandicaps(this.playerId).subscribe(
             handicaps => {

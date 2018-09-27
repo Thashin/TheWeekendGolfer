@@ -2,6 +2,9 @@ import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { User } from '../models/User.model';
+import { MatSnackBarRef, SimpleSnackBar, MatDialog, MatSnackBar } from '@angular/material';
+import { LoginDialogComponent } from '../user/loginDialog.component';
 
 @Component({
   selector: 'app-nav-menu',
@@ -14,7 +17,8 @@ export class NavMenuComponent implements OnInit, OnDestroy {
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router,private _userService: UserService) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService,  private dialog: MatDialog,
+    private snackBar: MatSnackBar) {
     this.checkLogin()
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -40,6 +44,33 @@ export class NavMenuComponent implements OnInit, OnDestroy {
 
   public logout() {
     this._userService.logout();
+  }
+
+  public openLoginDialog(): void {
+    let dialogRef = this.dialog.open(LoginDialogComponent, {
+      minWidth: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(user => {
+
+      if (user) {
+        this._userService.loginUser(user).subscribe(data => {
+          if (data["Result"] == "Login Successful") {
+            this.isLoggedIn = !this.isLoggedIn;
+            this.router.navigate(['/']);
+          }
+          else {
+            this.openLoginDialog();
+          }
+          this.openSnackBar(data["Result"]);
+        });
+      }
+    });
+  }
+  openSnackBar(message: string): MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(message, "",{
+      duration: 5000,
+    });
   }
 
 }

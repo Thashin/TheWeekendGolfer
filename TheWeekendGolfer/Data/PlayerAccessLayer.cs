@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Models;
+using TheWeekendGolfer.Data.ApplicationUserDB;
 
 namespace TheWeekendGolfer.Data
 {
     public class PlayerAccessLayer:IPlayerAccessLayer
     {
         GolfDbContext _context;
+        ApplicationDbContext _userContext;
 
-        public PlayerAccessLayer(GolfDbContext context)
+        public PlayerAccessLayer(GolfDbContext context, ApplicationDbContext userContext)
         {
             _context = context;
+            _userContext = userContext;
         }
 
         public async Task<Player> GetPlayer(Guid id)
@@ -54,17 +57,25 @@ namespace TheWeekendGolfer.Data
 
         public async Task<Guid> AddPlayer(Player player)
         {
-            try
+            if(_userContext.Users.Where(u=> (new Guid(u.Id)).Equals(player.UserId)).Count()>0)
             {
-                player.Modified = DateTime.Now;
-                _context.Players.Add(player);
-                _context.SaveChanges();
-                return player.Id;
+                try
+                {
+                    player.Modified = DateTime.Now;
+                    _context.Players.Add(player);
+                    _context.SaveChanges();
+                    return player.Id;
+                }
+                catch
+                {
+                    throw new Exception("Could not add Player for " + player.Id.ToString());
+                }
             }
-            catch
+            else
             {
-                throw new Exception("Could not add Player for " + player.Id.ToString());
+                throw new Exception("User does not exist " + player.Id.ToString());
             }
+
         }
 
         public async Task<Boolean> UpdatePlayer(Player player)

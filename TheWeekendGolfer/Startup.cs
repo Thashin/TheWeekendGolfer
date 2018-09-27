@@ -69,6 +69,8 @@ namespace TheWeekendGolfer
             //Inject dependencies
             services.AddDbContext<GolfDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped(typeof(IHandicapAccessLayer), typeof(HandicapAccessLayer));
             services.AddScoped(typeof(ICourseAccessLayer),typeof(CourseAccessLayer));
             services.AddScoped(typeof(IGolfRoundAccessLayer), typeof(GolfRoundAccessLayer));

@@ -9,6 +9,7 @@ using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Data;
 using FluentAssertions;
 using System.Threading.Tasks;
+using TheWeekendGolfer.Data.ApplicationUserDB;
 
 namespace TheWeekendGolfer.Tests
 {
@@ -53,7 +54,13 @@ namespace TheWeekendGolfer.Tests
 
             _context.Players.AddRange(players);
             _context.SaveChanges();
-            _sut = new PlayerAccessLayer(_context);
+            var userOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                         .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                         .Options;
+            var userContext = new ApplicationDbContext(userOptions);
+            userContext.Add(new ApplicationUser() { Id = "00000000-0000-0000-0003-000000000000" });
+            userContext.SaveChanges();
+            _sut = new PlayerAccessLayer(_context,userContext);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
