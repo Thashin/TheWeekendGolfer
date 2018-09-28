@@ -1,5 +1,5 @@
 
-import { throwError as observableThrowError, Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable, Subject } from 'rxjs';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -13,15 +13,16 @@ import { Player } from '../models/player.model';
 
 @Injectable()
 export class UserService {
-
-  isLoggedInEvent: EventEmitter<any> = new EventEmitter<any>();
+  public observableIsLoggedIn = new Subject<boolean>();
   theWeekendGolferUrl: string = "";
-
+  public isLoggedIn: boolean = false;
   constructor(private _http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router) {
     this.theWeekendGolferUrl = baseUrl;
+    this.observableIsLoggedIn.asObservable();
+    this.observableIsLoggedIn.next(this.isLoggedIn);
   }
 
-  isLoggedIn() {
+  checkIsLoggedIn() {
     return this._http.get<boolean>(this.theWeekendGolferUrl + 'api/User/isLoggedIn');
   }
 
@@ -30,7 +31,6 @@ export class UserService {
     this._http.get(this.theWeekendGolferUrl + 'api/User/Logout').subscribe(data => {
       result = data["Result"];
       if (data["Result"] == "Logout Successful") {
-        this.isLoggedInEvent.emit();
         this.router.navigate(['/']);
       }
     });
@@ -71,8 +71,16 @@ export class UserService {
 
   }
 
-  getEmitter() {
-    return this.isLoggedInEvent;
+
+
+
+  setIsLoggedIn(isLoggedIn) {
+    this.isLoggedIn = isLoggedIn;
+    this.observableIsLoggedIn.next(this.isLoggedIn);
+  }
+
+  getIsLoggedIn() {
+    return this.isLoggedIn;
   }
 
   getPlayerid() {

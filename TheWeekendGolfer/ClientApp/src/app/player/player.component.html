@@ -7,12 +7,6 @@
 
   <p *ngIf="!players"><em>Loading...</em></p>
 
-  <div class="button-row">
-    <button mat-raised-button color="primary" [routerLink]='["/add-player"]'>
-      <mat-icon class="icon">person_add</mat-icon>
-      <span class='label'></span> Add Player
-    </button>
-  </div>
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>

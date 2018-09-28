@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Input, OnChanges, ChangeDetectorRef, Output } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CourseService } from '../services/course.service';
 import { Course } from '../models/course.model';
@@ -8,13 +8,14 @@ import { PartnerService } from '../services/partner.service';
 import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
 import { GolfRoundService } from '../services/golfRound.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
 
   public lineChartData: any[] = [];
@@ -25,18 +26,13 @@ export class HomeComponent {
   public partners: Player[] = [];
 
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
-    this.checkLogin();
     this.getHistoricalHandicaps();
-
+    _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
   }
 
-  checkLogin(): void {
-    this._userService.getEmitter().subscribe(data => {
-      this.isLoggedIn = !this.isLoggedIn
-    }
-    )
+  ngOnInit() {
+    this.isLoggedIn = this._userService.getIsLoggedIn();
   }
-
 
   getCurrentHandicaps() {
     this._playerService.getPlayerById(this.playerId).subscribe(player => {
@@ -81,7 +77,6 @@ export class HomeComponent {
       player => {
         if (player !== null) {
           this.playerId = player.id;
-          console.log(player.id);
           this.getCourseStats();
           this._playerService.getPlayerHandicaps(this.playerId).subscribe(
             handicaps => {

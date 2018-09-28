@@ -1,0 +1,66 @@
+<mat-card>
+  <h1 mat-dialog-title>Add Golf Round</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <mat-form-field>
+        <input matInput class="form-control" [matDatepicker]="date" [(ngModel)]="addGolfRound.date" [formControl]="datePlayed" placeholder="Date" name="date" id="date">
+        <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+        <mat-datepicker #date></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-select matInput class="form-control" (selectionChange)="getCourseTees($event.value)" [formControl]="course" placeholder="Course" name="course" id="course">
+          <mat-option *ngIf="!courseNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="course" *ngFor="let course of courseNames">{{course}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-select matInput (selectionChange)="getCourseHoles($event.value)" [formControl]="tee" placeholder="Tee" name="tee" class="form-control" id="tee">
+          <mat-option *ngIf="!tees"><em>Loading...</em></mat-option>
+          <mat-option [value]="tee" *ngFor="let tee of tees">{{tee}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-select matInput [(ngModel)]="addGolfRound.courseId" [formControl]="holes" placeholder="Holes" name="holes" class="form-control" id="holes">
+          <mat-option *ngIf="!holesNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="holes.id" *ngFor="let holes of holesNames">{{holes.holes}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngFor="let score of scores.controls; let i = index;">
+      <table cellspacing="0">
+        <tr>
+          <td class="player">
+            <mat-form-field >
+              <mat-select matInput (change)="addPlayer($event.value)" [(ngModel)]="scores.at(i).value.playerId" placeholder="Player" name="player" class="form-control" id="player">
+                <mat-option *ngIf="!allPlayers"><em>Loading...</em></mat-option>
+                <mat-option [value]="player.id" *ngFor="let player of allPlayers">{{player.firstName}} {{player.lastName}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+          <td class="score"style="padding-left:15px">
+            <mat-form-field>
+              <input matInput type="number" [(ngModel)]="scores.at(i).value.value"  class="form-control" placeholder="Score" name="score" id="score">
+            </mat-form-field>
+          </td>
+          <td class="remove"style="padding-left:15px">
+            <button *ngIf="i>0" (click)="removeScore(i)" mat-raised-button color="secondary"> Remove </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button color="primary" *ngIf="numScores<4" type="button" (click)="addScore()">Add Score</button>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <div class="button-row">
+      <button mat-raised-button color="primary" (click)="submitGolfRound()" cdkFocusInitial>Create Golf Round</button>
+    </div>
+  </div>
+</mat-card>

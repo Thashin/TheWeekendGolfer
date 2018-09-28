@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, Output } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -6,45 +6,39 @@ import { User } from '../models/User.model';
 import { MatSnackBarRef, SimpleSnackBar, MatDialog, MatSnackBar } from '@angular/material';
 import { LoginDialogComponent } from '../user/loginDialog.component';
 import { SignUpDialogComponent } from '../user/signUpDialog.component';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit, OnDestroy {
-
-  isLoggedIn = false;
+export class NavMenuComponent implements OnInit,  OnDestroy {
+  public isLoggedIn = false;
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService, private dialog: MatDialog,
     private snackBar: MatSnackBar) {
-    this.checkLogin()
+    _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit(): void {
-    this._userService.getEmitter().subscribe(data => {
-      this.isLoggedIn = !this.isLoggedIn
-    }
-    )
+    ngOnInit() {
+      this.isLoggedIn = this._userService.getIsLoggedIn();
   }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
 
-  checkLogin(): void {
-    this._userService.isLoggedIn().subscribe(
-      data => this.isLoggedIn = data
-    )
-  }
 
   public logout() {
     this._userService.logout();
+    this._userService.setIsLoggedIn(false);
+    this.router.navigate(['/']);
   }
 
   public openLoginDialog(): void {
@@ -57,8 +51,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
       if (user !== null) {
         this._userService.loginUser(user).subscribe(data => {
           if (data["Result"] == "Login Successful") {
-            this.isLoggedIn = !this.isLoggedIn;
-            this.router.navigate(['/']);
+            this._userService.setIsLoggedIn(true);
           }
           else {
             this.openLoginDialog();
@@ -85,8 +78,8 @@ export class NavMenuComponent implements OnInit, OnDestroy {
           if (data = true) {
             this._userService.loginUser(user).subscribe(login => {
               if (login["Result"] == "Login Successful") {
-                this.isLoggedIn = !this.isLoggedIn;
-                this.router.navigate(['/']);
+                this._userService.setIsLoggedIn(true);
+                  this.router.navigate(["/"]);
                 this.openSnackBar("Login Successful");
               }
               else {

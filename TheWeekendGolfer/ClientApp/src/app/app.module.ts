@@ -37,7 +37,6 @@ import { PlayerService } from './services/player.service';
 import { GolfRoundService } from './services/golfRound.service';
 import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
-import { AddGolfRoundComponent, AddGolfRoundDialog } from './golfRound/add-golfRound.component';
 import { ScoreService } from './services/scores.service';
 import { UserService } from './services/user.service';
 import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
@@ -46,6 +45,7 @@ import { PartnerComponent } from './partner/partner.component';
 import { AboutComponent } from './about/about.component';
 import { LoginDialogComponent } from './user/loginDialog.component';
 import { SignUpDialogComponent } from './user/signUpDialog.component';
+import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,8 +56,7 @@ import { SignUpDialogComponent } from './user/signUpDialog.component';
     PartnerComponent,
     CourseComponent,
     GolfRoundComponent,
-    AddGolfRoundComponent,
-    AddGolfRoundDialog,
+    AddGolfRoundDialogComponent,
     AddPlayerComponent,
     AddPartnerDialog,
     SignUpDialogComponent,
@@ -65,7 +64,7 @@ import { SignUpDialogComponent } from './user/signUpDialog.component';
     AddPartnerComponent,
     AboutComponent
   ],
-  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialog, AddPartnerDialog],
+  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialog],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -102,7 +101,7 @@ import { SignUpDialogComponent } from './user/signUpDialog.component';
       { path: 'players', component: PlayerComponent },
       { path: 'add-player', component: AddPlayerComponent },
       { path: 'golf-rounds', component: GolfRoundComponent },
-      { path: 'add-golf-round', component: AddGolfRoundComponent },
+      { path: 'add-golf-round', component: AddGolfRoundDialogComponent },
       { path: 'sign-up', component: SignUpDialogComponent },
       { path: 'login', component: LoginDialogComponent },
       { path: 'logout', component: NavMenuComponent },

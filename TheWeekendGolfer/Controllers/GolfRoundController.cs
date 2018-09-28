@@ -128,11 +128,11 @@ namespace TheWeekendGolfer.Web.Controllers
                         return BadRequest();
                 }
 
-                return Ok("Done");
+                return Ok(true);
             }
             catch
             {
-                return BadRequest();
+                return BadRequest(false);
             }
         }
 
