@@ -13,6 +13,9 @@ namespace TheWeekendGolfer.Models
     /// </summary>
     public class AddUser
     {
+        /// <summary>
+        /// This is an automatically generated property 
+        /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [DataType(DataType.Password)]
@@ -21,7 +24,13 @@ namespace TheWeekendGolfer.Models
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
         public string Email { get; set; }
+        /// <summary>
+        /// This is an automatically generated property 
+        /// </summary>
         public Player Player { get; set; }
+        /// <summary>
+        /// This is an automatically generated property 
+        /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime Created { get; set; } = DateTime.Now;
     }

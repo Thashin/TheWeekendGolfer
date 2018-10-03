@@ -13,8 +13,17 @@ namespace TheWeekendGolfer.Models
     /// </summary>
     public class AddGolfRound
     {
+        /// <summary>
+        /// Date when the round was played
+        /// </summary>
         public DateTime Date { get; set; }
+        /// <summary>
+        /// The id of the course played
+        /// </summary>
         public Guid CourseId { get; set; }
+        /// <summary>
+        /// List of scores for the round
+        /// </summary>
         public List<Score> Scores { get; set; }
     }
 }
