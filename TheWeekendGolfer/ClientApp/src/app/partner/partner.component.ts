@@ -59,7 +59,6 @@ export class PartnerComponent {
   }
 
   removePartner(partnerId) {
-    console.log(partnerId);
     this._partnerService.removePartner(partnerId).subscribe(data => this.getPartners());
   }
 }

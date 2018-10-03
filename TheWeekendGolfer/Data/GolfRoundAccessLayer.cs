@@ -7,6 +7,7 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class GolfRoundAccessLayer : IGolfRoundAccessLayer
     {
         GolfDbContext _context;

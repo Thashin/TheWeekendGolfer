@@ -8,6 +8,7 @@ using TheWeekendGolfer.Data.ApplicationUserDB;
 
 namespace TheWeekendGolfer.Data
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class PlayerAccessLayer : IPlayerAccessLayer
     {
         GolfDbContext _context;

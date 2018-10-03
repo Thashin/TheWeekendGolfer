@@ -7,8 +7,11 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Data
 {
+
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class ScoreAccessLayer : IScoreAccessLayer
-    {
+  {
         GolfDbContext _context;
 
         public ScoreAccessLayer(GolfDbContext context)
@@ -16,11 +19,12 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public async Task<Score> GetScore(Guid id)
+
+        public Score GetScore(Guid id)
         {
             try
             {
-                return _context.Scores.Where(s => s.Id.Equals(id)).First();
+                return  _context.Scores.Where(s => s.Id.Equals(id)).First();
             }
             catch
             {
@@ -28,7 +32,8 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Score>> GetAllScores()
+
+        public IEnumerable<Score> GetAllScores()
         {
             try
             {
@@ -40,7 +45,8 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Score>> GetAllPlayerScores(Guid playerId)
+
+        public IEnumerable<Score> GetAllPlayerScores(Guid playerId)
         {
             var scores = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
             if (0 < scores.Count())
@@ -53,6 +59,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+
         public async Task<Boolean> AddScore(Score score)
         {
             try
@@ -60,10 +67,13 @@ namespace TheWeekendGolfer.Data
                 if (_context.Scores.Where(s => s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 4 &&
                     _context.Scores.Where(s => s.PlayerId.Equals(score.PlayerId) && s.GolfRoundId.Equals(score.GolfRoundId)).Count() < 1)
                 {
-                    _context.Scores.Add(score);
-                    _context.SaveChanges();
+                    await _context.Scores.AddAsync(score);
+                    return 0 < await _context.SaveChangesAsync();
                 }
-                return true;
+                else
+                {
+                    return false;
+                }
             }
             catch
             {
@@ -71,13 +81,18 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+
+
         public async Task<Boolean> AddScores(IEnumerable<Score> scores)
         {
             try
             {
                 foreach (Score score in scores)
                 {
-                    AddScore(score);
+                    if(!await AddScore(score))
+                    {
+                        return false;
+                    }
                 }
                 return true;
             }
@@ -86,34 +101,6 @@ namespace TheWeekendGolfer.Data
                 throw new Exception("Could not add score any scores");
             }
 
-        }
-
-        public async Task<Boolean> UpdateScore(Score score)
-        {
-            try
-            {
-                _context.Scores.Update(score);
-                _context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                throw new Exception("Could not update score for " + score.Id.ToString());
-            }
-        }
-
-        public async Task<Boolean> DeleteScore(Score score)
-        {
-            try
-            {
-                _context.Scores.Remove(score);
-                _context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                throw new Exception("Could not delete score for " + score.Id.ToString());
-            }
         }
 
     }

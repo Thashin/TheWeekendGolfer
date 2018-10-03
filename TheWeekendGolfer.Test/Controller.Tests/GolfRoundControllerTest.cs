@@ -106,7 +106,7 @@ namespace TheWeekendGolfer.Tests
                 }
             });
 
-            _mockScoreAccessLayer.Setup(x => x.GetAllScores()).ReturnsAsync(new List<Score>()
+            _mockScoreAccessLayer.Setup(x => x.GetAllScores()).Returns(new List<Score>()
             {
                 new Score(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),

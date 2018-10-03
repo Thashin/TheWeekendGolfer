@@ -15,6 +15,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
 {
+    /// <summary>
+    /// Manages the CRUD operations for GolfRounds
+    /// </summary>
     [Route("api/[controller]/[action]")]
     public class GolfRoundController : Controller
     {
@@ -24,7 +27,9 @@ namespace TheWeekendGolfer.Web.Controllers
         ICourseAccessLayer _courseAccessLayer;
         IHandicapAccessLayer _handicapAccessLayer;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public GolfRoundController(IGolfRoundAccessLayer golfRoundAccessLayer, IScoreAccessLayer scoreAccessLayer, IPlayerAccessLayer playerAccessLayer, ICourseAccessLayer courseAccessLayer, IHandicapAccessLayer handicapAccessLayer)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             _golfRoundAccessLayer = golfRoundAccessLayer;
             _scoreAccessLayer = scoreAccessLayer;
@@ -33,6 +38,11 @@ namespace TheWeekendGolfer.Web.Controllers
             _handicapAccessLayer = handicapAccessLayer;
         }
 
+
+        /// <summary>
+        /// Retrieves all golf rounds in a human-readable format. This is done by resolvng all Guid's to names.
+        /// </summary>
+        /// <returns>List of human-readable golf rounds</returns>
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -42,7 +52,7 @@ namespace TheWeekendGolfer.Web.Controllers
                 var coursesTask = _courseAccessLayer.GetAllCourses();
                 var playersTask = _playerAccessLayer.GetAllPlayers();
                 var rounds = await _golfRoundAccessLayer.GetAllGolfRounds();
-                var scores = await _scoreAccessLayer.GetAllScores();
+                var scores = _scoreAccessLayer.GetAllScores();
 
 
                 var joinRoundScores = from round in rounds
@@ -111,11 +121,17 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
 
-        // POST: GolfRound/Create
+        /// <summary>
+        /// Adds a golf round.
+        /// Only users who are logged in can create a golf round
+        /// </summary>
+        /// <param name="golfRound">
+        /// Cannot contain multiple scores for the same player
+        /// Cannot contain more than 4 scores
+        /// </param>
+        /// <returns>Whether the round was created successfully or not</returns>
         [Authorize]
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        //TODO: Figure out how to separate responsibilities
         public async Task<IActionResult> Create([FromBody]AddGolfRound golfRound)
         {
             try
@@ -136,22 +152,6 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-
-
-        // POST: GolfRound/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(GolfRound golfRound)
-        {
-            if (await _golfRoundAccessLayer.UpdateGolfRound(golfRound))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
 
 
         private async Task<Boolean> AddScore(DateTime date, Score score, Guid courseId)

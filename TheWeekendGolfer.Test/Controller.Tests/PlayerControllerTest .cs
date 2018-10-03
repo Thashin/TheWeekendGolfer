@@ -202,7 +202,7 @@ namespace TheWeekendGolfer.Tests
         [TestCase("00000000-0000-0000-0000-000000000001")]
         public async Task TestAllPlayerRoundCourses(string playerId)
         {
-            _mockScoreAccessLayer.Setup(x => x.GetAllPlayerScores(new Guid(playerId))).ReturnsAsync(new List<Score>()
+            _mockScoreAccessLayer.Setup(x => x.GetAllPlayerScores(new Guid(playerId))).Returns(new List<Score>()
             {
                 new Score(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),

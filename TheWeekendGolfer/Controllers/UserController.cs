@@ -10,6 +10,9 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Controllers
 {
+    /// <summary>
+    /// Controls the CRUD operations for a user
+    /// </summary>
     [Route("api/[controller]/[action]")]
     public class UserController : Controller
     {
@@ -17,13 +20,21 @@ namespace TheWeekendGolfer.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         IPlayerAccessLayer _playerAccessLayer;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IPlayerAccessLayer playerAccessLayer)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _playerAccessLayer = playerAccessLayer;
         }
 
+
+        /// <summary>
+        /// Create a user to login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody]AddUser model)
         {
@@ -54,6 +65,11 @@ namespace TheWeekendGolfer.Controllers
             }
         }
 
+        /// <summary>
+        /// Used to login a user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> LoginAsync([FromBody]User user)
         {
@@ -76,12 +92,20 @@ namespace TheWeekendGolfer.Controllers
             }
         }
 
+        /// <summary>
+        /// Checks if a user is logged in
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult isLoggedIn()
         {
             return Ok(User.Identity.IsAuthenticated);
         }
 
+        /// <summary>
+        /// Retrieve the player which the logged in user is associated with.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetPlayer()
         {
@@ -90,9 +114,13 @@ namespace TheWeekendGolfer.Controllers
             {
                 return Ok(await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)));
             }
-            return Ok();
+            return BadRequest();
         }
 
+        /// <summary>
+        /// Logs out the current user
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Logout()
         {

@@ -9,7 +9,8 @@ import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
 import { GolfRoundService } from '../services/golfRound.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,12 +19,16 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit {
 
 
+  public playerHandicapsCount: number;
+  public playerHandicap: any[];
   public lineChartData: any[] = [];
   public currentHandicaps: any[] = [];
   public courseStats: any[] = [];
   public isLoggedIn = false;
   public playerId = "";
+  public onlyPlayer = false;
   public partners: Player[] = [];
+  public guageView=[200,400]
 
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
     this.getHistoricalHandicaps();
@@ -89,11 +94,19 @@ export class HomeComponent implements OnInit {
                   }
                 })
               });
+              this.playerHandicapsCount = handicaps.length;
+              this.guageView.forEach(dimension=>dimension*2);
               this.lineChartData = [... this.lineChartData];
             });
           this._partnerService.getPartners(this.playerId).subscribe(
             partners => {
               this.partners = partners;
+              if (this.partners.length < 1) {
+                this.onlyPlayer = true;
+              }
+              else {
+                this.onlyPlayer = false;
+              }
               this.getCurrentHandicaps();
               partners.forEach(
                 partner => {

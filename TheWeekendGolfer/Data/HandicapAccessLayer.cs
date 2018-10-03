@@ -7,6 +7,7 @@ using TheWeekendGolfer.Web.Data;
 
 namespace TheWeekendGolfer.Data
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class HandicapAccessLayer : IHandicapAccessLayer
     {
         GolfDbContext _context;
@@ -31,7 +32,7 @@ namespace TheWeekendGolfer.Data
         }
 
         /// <summary>
-        /// Get the latest 20 handicaps for a player
+        /// Get the latest handicaps for a player
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
@@ -40,7 +41,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 var orderedHandicaps = _context.Handicaps.Where(h => h.PlayerId.Equals(playerId));
-                return orderedHandicaps.OrderByDescending(h => h.Date).Take(100);
+                return orderedHandicaps.OrderByDescending(h => h.Date);
             }
             catch
             {

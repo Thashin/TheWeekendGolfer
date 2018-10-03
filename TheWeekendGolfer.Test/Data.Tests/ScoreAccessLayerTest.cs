@@ -67,23 +67,23 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000004")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetScore(string id)
+        public void TestGetScore(string id)
         {
-            var actual = await _sut.GetScore(new Guid(id));
+            var actual = _sut.GetScore(new Guid(id));
 
             actual.Should().BeOfType<Score>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetScoreException(string id)
+        public void TestGetScoreException(string id)
         {
-            Func<Task> action = async () => await _sut.GetScore(new Guid(id));
+            Action action =  () => _sut.GetScore(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public async Task TestGetAllScores()
+        public void TestGetAllScores()
         {
             var expected = new List<Score>()
             {
@@ -117,14 +117,14 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetAllScores();
+            var actual = _sut.GetAllScores();
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public async Task TestGetAllPlayerScores(string playerId)
+        public void TestGetAllPlayerScores(string playerId)
         {
             var expected = new List<Score>()
             {
@@ -145,7 +145,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetAllPlayerScores(new Guid(playerId));
+            var actual = _sut.GetAllPlayerScores(new Guid(playerId));
 
             actual.Should().BeEquivalentTo(expected);
         }
@@ -153,7 +153,7 @@ namespace TheWeekendGolfer.Tests
         [TestCase("00000000-0000-0000-0000-000000000005")]
         public async Task TestGetAllPlayerScoresException(string id)
         {
-            Func<Task> action = async () => await _sut.GetAllPlayerScores(new Guid(id));
+            Action action = () => _sut.GetAllPlayerScores(new Guid(id));
 
             action.Should().Throw<Exception>();
         }

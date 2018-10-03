@@ -9,16 +9,30 @@ using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Controllers
 {
+
+    /// <summary>
+    /// Manages CRUD operations for Courses
+    /// </summary>
     [Route("api/[controller]/[action]")]
     public class CourseController : Controller
     {
         ICourseAccessLayer _courseAccessLayer;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public CourseController(ICourseAccessLayer courseAccessLayer)
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
             _courseAccessLayer = courseAccessLayer;
         }
 
+
+        /// <summary>
+        /// Retrieves all available courses
+        /// </summary>
+        /// <returns>
+        /// All available courses.
+        /// Throws an exception if there are no courses found
+        /// </returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -35,6 +49,14 @@ namespace TheWeekendGolfer.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Retrieves all available course names
+        /// </summary>
+        /// <returns>
+        /// All available courses.
+        /// Throws an exception if there are no courses found
+        /// </returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -52,13 +74,18 @@ namespace TheWeekendGolfer.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Given a course name, retrieve the tees available for that course(Red Women, Blue Men etc)
+        /// Given a course name and a tee name, retrive all possible hole configurations(18, 1-9, 10-18)
+        /// </summary>
+        /// <param name="courseName">Name of the course</param>
+        /// <param name="tee">(Optional) Name of the tee</param>
+        /// <returns>List of tees or hole configurations</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetCourseDetails(string courseName, string tee = null)
         {
-
             if (tee != null)
             {
                 var holes = await _courseAccessLayer.GetCourseHoles(courseName, tee);
@@ -83,10 +110,14 @@ namespace TheWeekendGolfer.Controllers
                     return NotFound("Could not find tees for course");
                 }
             }
-
-
         }
 
+        /// <summary>
+        /// Retrieve details of a course by Id
+        /// Name, Location, Tee Name, Holes, Slope, Scratch Rating, Par
+        /// </summary>
+        /// <param name="id">Guid of course</param>
+        /// <returns>A course by Id</returns>
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
