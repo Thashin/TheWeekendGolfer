@@ -17,7 +17,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public async Task<IEnumerable<Player>> GetPartners(Guid playerId)
+        public IEnumerable<Player> GetPartners(Guid playerId)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace TheWeekendGolfer.Data
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Player>> GetPotentialPartners(Guid playerId)
+        public IEnumerable<Player> GetPotentialPartners(Guid playerId)
         {
             try
             {
@@ -59,10 +59,10 @@ namespace TheWeekendGolfer.Data
             {
                 if (!CheckPartner(player))
                 {
-                    _context.Partners.Add(player);
-                    _context.SaveChanges();
+                    await _context.Partners.AddAsync(player);
+                    return (0 < await _context.SaveChangesAsync());
                 }
-                return true;
+                return false;
             }
             catch
             {
@@ -94,8 +94,8 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Partners.Update(partner);
-                _context.SaveChanges();
-                return true;
+                return (0<await _context.SaveChangesAsync());
+                
             }
             catch
             {
@@ -109,8 +109,7 @@ namespace TheWeekendGolfer.Data
             {
                 partner = _context.Partners.Where(p => partner.PartnerId.Equals(p.PartnerId) && partner.PlayerId.Equals(p.PlayerId)).FirstOrDefault();
                 _context.Remove(partner);
-                _context.SaveChanges();
-                return true;
+                return (0<await _context.SaveChangesAsync());
             }
             catch
             {

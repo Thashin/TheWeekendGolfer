@@ -29,9 +29,9 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase]
-        public async Task TestGetCourseNames()
+        public void TestGetCourseNames()
         {
-            _mockCourseAccessLayer.Setup(x => x.GetCourseNames()).ReturnsAsync(new List<string>(){
+            _mockCourseAccessLayer.Setup(x => x.GetCourseNames()).Returns(new List<string>(){
                     "Wembley Golf Course",
                     "Point Walter"
             });
@@ -40,7 +40,7 @@ namespace TheWeekendGolfer.Tests
                     "Point Walter"
             };
 
-            var actual = await _sut.GetCourseNames() as ObjectResult;
+            var actual = _sut.GetCourseNames() as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -48,9 +48,9 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public async Task TestIndex()
+        public void TestIndex()
         {
-            _mockCourseAccessLayer.Setup(x => x.GetAllCourses()).ReturnsAsync(new List<Course>(){
+            _mockCourseAccessLayer.Setup(x => x.GetAllCourses()).Returns(new List<Course>(){
                 new Course(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     Name = "Wembley Golf Course",
@@ -144,7 +144,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.Index() as ObjectResult;
+            var actual = _sut.Index() as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -152,9 +152,9 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("Point Walter", "Blue Men")]
-        public async Task TestGetCourseDetails(string courseName, string tee)
+        public void TestGetCourseDetails(string courseName, string tee)
         {
-            _mockCourseAccessLayer.Setup(x => x.GetCourseHoles(courseName,tee)).ReturnsAsync(new List<Course>(){
+            _mockCourseAccessLayer.Setup(x => x.GetCourseHoles(courseName,tee)).Returns(new List<Course>(){
                 new Course(){
                     Id = new Guid("00000000-0000-0000-0000-000000000002"),
                     Name = "Point Walter",
@@ -204,16 +204,16 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetCourseDetails(courseName, tee) as ObjectResult;
+            var actual = _sut.GetCourseDetails(courseName, tee) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("Point Walter")]
-        public async Task TestGetCourseTeeDetails(string courseName)
+        public void TestGetCourseTeeDetails(string courseName)
         {
-            _mockCourseAccessLayer.Setup(x => x.GetCourseTees(courseName)).ReturnsAsync(new List<string>(){
+            _mockCourseAccessLayer.Setup(x => x.GetCourseTees(courseName)).Returns(new List<string>(){
                 "Blue Men",
                 "Red Women"
             });
@@ -223,16 +223,16 @@ namespace TheWeekendGolfer.Tests
             };
 
 
-            var actual = await _sut.GetCourseDetails(courseName, null) as ObjectResult;
+            var actual = _sut.GetCourseDetails(courseName, null) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestDetails(string id)
+        public void TestDetails(string id)
         {
-            _mockCourseAccessLayer.Setup(x => x.GetCourse(new Guid(id))).ReturnsAsync(new Course()
+            _mockCourseAccessLayer.Setup(x => x.GetCourse(new Guid(id))).Returns(new Course()
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000001"),
                 Name = "Point Walter",
@@ -257,7 +257,7 @@ namespace TheWeekendGolfer.Tests
                 Slope = 115,
                 TeeName = "Blue Men"
             };
-            var actual = await _sut.Details(new Guid(id)) as ObjectResult;
+            var actual = _sut.Details(new Guid(id)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);

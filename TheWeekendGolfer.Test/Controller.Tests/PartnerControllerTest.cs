@@ -49,9 +49,9 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestGetPartners(string playerId)
+        public void TestGetPartners(string playerId)
         {
-            _mockPartnerAccessLayer.Setup(x => x.GetPartners(new Guid(playerId))).ReturnsAsync(new List<Player>(){
+            _mockPartnerAccessLayer.Setup(x => x.GetPartners(new Guid(playerId))).Returns(new List<Player>(){
                 new Player(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     UserId = new Guid("00000000-0000-0000-0001-000000000000"),
@@ -93,7 +93,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetPartners(new Guid(playerId)) as ObjectResult;
+            var actual = _sut.GetPartners(new Guid(playerId)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -102,9 +102,9 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestGetPotentialPartners(string playerId)
+        public void TestGetPotentialPartners(string playerId)
         {
-            _mockPartnerAccessLayer.Setup(x => x.GetPotentialPartners(new Guid(playerId))).ReturnsAsync(new List<Player>(){
+            _mockPartnerAccessLayer.Setup(x => x.GetPotentialPartners(new Guid(playerId))).Returns(new List<Player>(){
                 new Player(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     UserId = new Guid("00000000-0000-0000-0001-000000000000"),
@@ -146,7 +146,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetPotentialPartners(new Guid(playerId)) as ObjectResult;
+            var actual = _sut.GetPotentialPartners(new Guid(playerId)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -167,7 +167,7 @@ namespace TheWeekendGolfer.Tests
                 PartnerId = new Guid("00000000-0000-0003-0000-000000000000"),
             };
             _mockPlayerAccessLayer.Setup(x => x.GetPlayerByUserId(It.IsAny<Guid>())).
-                ReturnsAsync(new Player()
+                Returns(new Player()
                 {
                     Id = new Guid("00000000-0000-0000-0002-000000000000"),
                     UserId = new Guid("00000000-0000-0000-0002-000000000000"),
@@ -201,7 +201,7 @@ namespace TheWeekendGolfer.Tests
                 PartnerId = new Guid("00000000-0000-0003-0000-000000000000"),
             };
             _mockPlayerAccessLayer.Setup(x => x.GetPlayerByUserId(It.IsAny<Guid>())).
-                ReturnsAsync(new Player()
+                Returns(new Player()
                 {
                     Id = new Guid("00000000-0000-0000-0002-000000000000"),
                     UserId = new Guid("00000000-0000-0000-0002-000000000000"),

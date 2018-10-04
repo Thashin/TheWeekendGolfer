@@ -36,9 +36,9 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var courses = await _courseAccessLayer.GetAllCourses();
+            var courses = _courseAccessLayer.GetAllCourses();
             if (courses.Count() > 0)
             {
                 return Ok(courses);
@@ -60,9 +60,9 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCourseNames()
+        public IActionResult GetCourseNames()
         {
-            var courseNames = await _courseAccessLayer.GetCourseNames();
+            var courseNames = _courseAccessLayer.GetCourseNames();
 
             if (courseNames.Count() > 0)
             {
@@ -84,11 +84,11 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetCourseDetails(string courseName, string tee = null)
+        public IActionResult GetCourseDetails(string courseName, string tee = null)
         {
             if (tee != null)
             {
-                var holes = await _courseAccessLayer.GetCourseHoles(courseName, tee);
+                var holes = _courseAccessLayer.GetCourseHoles(courseName, tee);
                 if (holes.Count() > 0)
                 {
                     return Ok(holes);
@@ -100,7 +100,7 @@ namespace TheWeekendGolfer.Controllers
             }
             else
             {
-                var tees = await _courseAccessLayer.GetCourseTees(courseName);
+                var tees =  _courseAccessLayer.GetCourseTees(courseName);
                 if (tees.Count() > 0)
                 {
                     return Ok(tees);
@@ -121,9 +121,9 @@ namespace TheWeekendGolfer.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> Details(Guid id)
+        public IActionResult Details(Guid id)
         {
-            var details = await _courseAccessLayer.GetCourse(id);
+            var details = _courseAccessLayer.GetCourse(id);
             if (details != null)
             {
                 return Ok(details);

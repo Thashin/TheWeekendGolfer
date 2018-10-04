@@ -9,14 +9,14 @@ namespace TheWeekendGolfer.Data
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IHandicapAccessLayer
     {
-        Task<Handicap> GetLatestHandicap(Guid playerId);
+        Handicap GetLatestHandicap(Guid playerId);
 
         /// <summary>
         /// Get the latest 20 handicaps for a player
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        Task<IEnumerable<Handicap>> GetOrderedHandicaps(Guid playerId);
+        IEnumerable<Handicap> GetOrderedHandicaps(Guid playerId);
 
         Task<Boolean> AddHandicap(Handicap handicap);
     }

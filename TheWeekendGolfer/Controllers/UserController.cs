@@ -97,7 +97,7 @@ namespace TheWeekendGolfer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult isLoggedIn()
+        public IActionResult IsLoggedIn()
         {
             return Ok(User.Identity.IsAuthenticated);
         }
@@ -112,7 +112,7 @@ namespace TheWeekendGolfer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user != null)
             {
-                return Ok(await _playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)));
+                return Ok(_playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)));
             }
             return BadRequest();
         }

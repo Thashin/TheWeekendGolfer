@@ -151,7 +151,7 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetAllPlayerScoresException(string id)
+        public void TestGetAllPlayerScoresException(string id)
         {
             Action action = () => _sut.GetAllPlayerScores(new Guid(id));
 

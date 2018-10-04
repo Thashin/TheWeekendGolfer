@@ -44,9 +44,9 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public async Task TestIndex()
+        public void TestIndex()
         {
-            _mockPlayerAccessLayer.Setup(x => x.GetAllPlayers()).ReturnsAsync(new List<Player>(){
+            _mockPlayerAccessLayer.Setup(x => x.GetAllPlayers()).Returns(new List<Player>(){
                 new Player(){
                     Id = new Guid("00000000-0000-0000-0001-000000000000"),
                     UserId = new Guid("00000000-0000-0000-0001-000000000000"),
@@ -63,7 +63,7 @@ namespace TheWeekendGolfer.Tests
                 }
             });
 
-            _mockCourseAccessLayer.Setup(x => x.GetAllCourses()).ReturnsAsync(new List<Course>(){
+            _mockCourseAccessLayer.Setup(x => x.GetAllCourses()).Returns(new List<Course>(){
                 new Course(){
                     Id = new Guid("00000000-0000-0000-0001-000000000000"),
                     Name = "Wembley Golf Course",
@@ -134,7 +134,7 @@ namespace TheWeekendGolfer.Tests
                 }
             });
 
-            _mockGolfRoundAccessLayer.Setup(x => x.GetAllGolfRounds()).ReturnsAsync(new List<GolfRound>() {
+            _mockGolfRoundAccessLayer.Setup(x => x.GetAllGolfRounds()).Returns(new List<GolfRound>() {
                 new GolfRound(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     Date = _createdAt,
@@ -175,18 +175,18 @@ namespace TheWeekendGolfer.Tests
                     TeeName = "Blue Men"
                 },
                 Date = _createdAt,
-                players = new List<PlayerViewModel>()
+                Players = new List<PlayerViewModel>()
                 {
                     new PlayerViewModel()
                     {
-                        player = new Player(){
+                        Player = new Player(){
                     Id = new Guid("00000000-0000-0000-0000-000000000000"),
                     UserId = new Guid("00000000-0000-0000-0000-000000000000"),
                     FirstName = "Thashin",
                     LastName = "Naidoo",
                     Handicap = new Decimal(19.3),
                 },
-                        score = 45
+                        Score = 45
                     }
                 }
                 },
@@ -202,11 +202,11 @@ namespace TheWeekendGolfer.Tests
                     TeeName = "Blue Men"
                 },
                 Date = _createdAt,
-                players = new List<PlayerViewModel>()
+                Players = new List<PlayerViewModel>()
                 {
                     new PlayerViewModel()
                     {
-                        player =  new Player()
+                        Player =  new Player()
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             UserId = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -214,7 +214,7 @@ namespace TheWeekendGolfer.Tests
                             LastName = "Nelmes",
                             Handicap = new Decimal(24.8),
                         },
-                        score = 63
+                        Score = 63
                     }
                 }
                 },
@@ -230,11 +230,11 @@ namespace TheWeekendGolfer.Tests
                     TeeName = "Blue Men"
                 },
                 Date = _createdAt,
-                players = new List<PlayerViewModel>()
+                Players = new List<PlayerViewModel>()
                 {
                     new PlayerViewModel()
                     {
-                        player =  new Player()
+                        Player =  new Player()
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000000"),
                             UserId = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -242,11 +242,11 @@ namespace TheWeekendGolfer.Tests
                             LastName = "Nelmes",
                             Handicap = new Decimal(24.8),
                         },
-                        score = 57
+                        Score = 57
                     },
                     new PlayerViewModel()
                     {
-                        player = new Player()
+                        Player = new Player()
                         {
                     Id = new Guid("00000000-0000-0000-0000-000000000000"),
                     UserId = new Guid("00000000-0000-0000-0000-000000000000"),
@@ -254,14 +254,14 @@ namespace TheWeekendGolfer.Tests
                     LastName = "Naidoo",
                     Handicap = new Decimal(19.3),
                 },
-                        score = 40
+                        Score = 40
                     }
                 }
                 }
 
             };
 
-            var actual = await _sut.Index() as ObjectResult;
+            var actual = _sut.Index() as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected, options => options.Using<DateTime>(ctx => ctx.Subject.Should().BeWithin(2.Hours()).After(_createdAt)).WhenTypeIs<DateTime>());
@@ -302,7 +302,7 @@ namespace TheWeekendGolfer.Tests
             _mockScoreAccessLayer.Setup(x => x.AddScore(It.IsAny<Score>())).ReturnsAsync(true);
 
             _mockCourseAccessLayer.Setup(x => x.GetCourse(new Guid("00000000-0000-0000-0001-000000000000")))
-                .ReturnsAsync(new Course()
+                .Returns(new Course()
                 {
                     Id = new Guid("00000000-0000-0000-0001-000000000000"),
                     Name = "Point Walter",
@@ -314,7 +314,7 @@ namespace TheWeekendGolfer.Tests
                     TeeName = "Blue Men"
                 });
 
-            _mockHandicapAccessLayer.Setup(x => x.GetOrderedHandicaps(new Guid("00000000-0000-0000-0001-000000000000"))).ReturnsAsync(
+            _mockHandicapAccessLayer.Setup(x => x.GetOrderedHandicaps(new Guid("00000000-0000-0000-0001-000000000000"))).Returns(
                 new List<Handicap>()
                 {
                     new Handicap()
@@ -326,7 +326,7 @@ namespace TheWeekendGolfer.Tests
                 );
 
             _mockHandicapAccessLayer.Setup(x => x.AddHandicap(It.IsAny<Handicap>())).ReturnsAsync(true);
-            _mockPlayerAccessLayer.Setup(x => x.GetPlayer(It.IsAny<Guid>())).ReturnsAsync(
+            _mockPlayerAccessLayer.Setup(x => x.GetPlayer(It.IsAny<Guid>())).Returns(
                 new Player() { }
                 );
             _mockPlayerAccessLayer.Setup(x => x.UpdatePlayer(It.IsAny<Player>())).ReturnsAsync(true);

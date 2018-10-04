@@ -13,7 +13,7 @@ namespace TheWeekendGolfer.Models
      /// </remarks>
     public class PlayerViewModel
     {
-        public Player player { get; set; }
-        public int score { get; set; }
+        public Player Player { get; set; }
+        public int Score { get; set; }
     }
 }

@@ -17,11 +17,11 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public async Task<Handicap> GetLatestHandicap(Guid playerId)
+        public Handicap GetLatestHandicap(Guid playerId)
         {
             try
             {
-                var orderedHandicaps = await GetOrderedHandicaps(playerId);
+                var orderedHandicaps = GetOrderedHandicaps(playerId);
 
                 return orderedHandicaps.FirstOrDefault();
             }
@@ -36,7 +36,7 @@ namespace TheWeekendGolfer.Data
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Handicap>> GetOrderedHandicaps(Guid playerId)
+        public IEnumerable<Handicap> GetOrderedHandicaps(Guid playerId)
         {
             try
             {
@@ -53,9 +53,8 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                _context.Handicaps.Add(handicap);
-                await _context.SaveChangesAsync();
-                return true;
+                await _context.Handicaps.AddAsync(handicap);
+                return(0<await _context.SaveChangesAsync());
             }
             catch
             {

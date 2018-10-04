@@ -44,14 +44,14 @@ namespace TheWeekendGolfer.Web.Controllers
         /// </summary>
         /// <returns>List of human-readable golf rounds</returns>
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             try
             {
 
-                var coursesTask = _courseAccessLayer.GetAllCourses();
-                var playersTask = _playerAccessLayer.GetAllPlayers();
-                var rounds = await _golfRoundAccessLayer.GetAllGolfRounds();
+                var courses = _courseAccessLayer.GetAllCourses();
+                var players = _playerAccessLayer.GetAllPlayers();
+                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
                 var scores = _scoreAccessLayer.GetAllScores();
 
 
@@ -60,13 +60,11 @@ namespace TheWeekendGolfer.Web.Controllers
                                       where score.GolfRoundId.Equals(round.Id)
                                       select new { round.Id, round.Date, round.CourseId, score.PlayerId, score.Value };
 
-                var courses = await coursesTask;
-
                 var resolveCourses = from round in joinRoundScores
                                      join course in courses on round.CourseId equals course.Id
                                      where course.Id.Equals(round.CourseId)
                                      select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes, course.Par, course.ScratchRating, course.Slope, round.PlayerId, round.Value };
-                var players = await playersTask;
+
                 var resolvePlayers = from round in resolveCourses
                                      join player in players on round.PlayerId equals player.Id
                                      where player.Id.Equals(round.PlayerId)
@@ -91,24 +89,24 @@ namespace TheWeekendGolfer.Web.Controllers
                                 ScratchRating = round.ScratchRating,
                                 Slope = round.Slope
                             },
-                            players = new List<PlayerViewModel>()
+                            Players = new List<PlayerViewModel>()
                         });
                     }
-                    roundsforDisplay[roundId].players.Add(new PlayerViewModel
+                    roundsforDisplay[roundId].Players.Add(new PlayerViewModel
                     {
-                        player = new Player
+                        Player = new Player
                         {
                             FirstName = round.FirstName,
                             LastName = round.LastName,
                             Handicap = round.Handicap
                         },
-                        score = round.Value
+                        Score = round.Value
                     });
                 }
 
                 foreach (var roundId in roundsforDisplay.Keys)
                 {
-                    roundsforDisplay[roundId].players = roundsforDisplay[roundId].players.OrderBy(p => p.score).ToList();
+                    roundsforDisplay[roundId].Players = roundsforDisplay[roundId].Players.OrderBy(p => p.Score).ToList();
                 }
 
 
@@ -176,7 +174,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         private async Task<Boolean> CalculateHandicap(DateTime date, Score score, Guid courseId)
         {
-            Course course = await _courseAccessLayer.GetCourse(courseId);
+            Course course = _courseAccessLayer.GetCourse(courseId);
             Handicap handicap = new Handicap
             {
                 Date = date,
@@ -193,7 +191,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         private async Task<Boolean> RecalculateHandicap(Handicap handicap)
         {
-            IEnumerable<Handicap> allHandicaps = await _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId);
+            IEnumerable<Handicap> allHandicaps = _handicapAccessLayer.GetOrderedHandicaps(handicap.PlayerId);
             var handicapsList = allHandicaps.Take(19).ToList();
             handicapsList.Add(handicap);
             handicapsList = handicapsList.OrderBy(h => h.Value).ToList();
@@ -240,7 +238,7 @@ namespace TheWeekendGolfer.Web.Controllers
 
         private async Task<Boolean> Edit(Guid playerId, Decimal handicap)
         {
-            Player player = await _playerAccessLayer.GetPlayer(playerId);
+            Player player = _playerAccessLayer.GetPlayer(playerId);
             player.Handicap = handicap;
             player.Modified = DateTime.Now;
             return await _playerAccessLayer.UpdatePlayer(player);

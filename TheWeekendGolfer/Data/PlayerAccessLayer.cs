@@ -20,7 +20,7 @@ namespace TheWeekendGolfer.Data
             _userContext = userContext;
         }
 
-        public async Task<Player> GetPlayer(Guid id)
+        public Player GetPlayer(Guid id)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<Player> GetPlayerByUserId(Guid id)
+        public Player GetPlayerByUserId(Guid id)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayers()
+        public IEnumerable<Player> GetAllPlayers()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace TheWeekendGolfer.Data
                 {
                     player.Modified = DateTime.Now;
                     _context.Players.Add(player);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                     return player.Id;
                 }
                 catch
@@ -84,8 +84,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Players.Update(player);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
             }
             catch
             {
@@ -98,8 +97,8 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Players.Remove(player);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
+                
             }
             catch
             {

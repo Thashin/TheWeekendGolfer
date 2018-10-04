@@ -9,8 +9,8 @@ namespace TheWeekendGolfer.Data
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IPartnerAccessLayer
     {
-        Task<IEnumerable<Player>> GetPartners(Guid playerId);
-        Task<IEnumerable<Player>> GetPotentialPartners(Guid playerId);
+        IEnumerable<Player> GetPartners(Guid playerId);
+        IEnumerable<Player> GetPotentialPartners(Guid playerId);
 
         Task<Boolean> AddPartner(Partner player);
 

@@ -17,7 +17,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public async Task<GolfRound> GetGolfRound(Guid id)
+        public GolfRound GetGolfRound(Guid id)
         {
             var round = _context.GolfRounds.Where(s => s.Id.Equals(id)).First();
 
@@ -31,7 +31,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Guid>> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds)
+        public IEnumerable<Guid> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<GolfRound>> GetAllGolfRounds()
+        public IEnumerable<GolfRound> GetAllGolfRounds()
         {
             try
             {
@@ -59,8 +59,8 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                _context.GolfRounds.Add(golfRound);
-                _context.SaveChanges();
+                await _context.GolfRounds.AddAsync(golfRound);
+                await _context.SaveChangesAsync();
                 return golfRound.Id;
             }
             catch
@@ -74,8 +74,8 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.GolfRounds.Update(golfRound);
-                _context.SaveChanges();
-                return true;
+                return(0< await _context.SaveChangesAsync());
+                
             }
             catch
             {
@@ -88,8 +88,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.GolfRounds.Remove(golfRound);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
             }
             catch
             {

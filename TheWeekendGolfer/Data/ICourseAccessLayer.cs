@@ -10,23 +10,23 @@ namespace TheWeekendGolfer.Data
     public interface ICourseAccessLayer
     {
 
-        Task<Course> GetCourse(Guid id);
+        Course GetCourse(Guid id);
 
 
-        Task<IEnumerable<Course>> GetAllCourses();
+        IEnumerable<Course> GetAllCourses();
 
 
-        Task<IEnumerable<string>> GetCourseNames();
+        IEnumerable<string> GetCourseNames();
 
 
-        Task<IEnumerable<string>> GetCourseTees(string courseName);
+        IEnumerable<string> GetCourseTees(string courseName);
 
 
-        Task<IEnumerable<Course>> GetCourseHoles(string courseName, string courseTee);
+        IEnumerable<Course> GetCourseHoles(string courseName, string courseTee);
 
 
 
-        Task<IDictionary<string, int>> GetCourseStats(IList<Guid> courseIds);
+        IDictionary<string, int> GetCourseStats(IList<Guid> courseIds);
 
         Task<Boolean> AddCourse(Course course);
 

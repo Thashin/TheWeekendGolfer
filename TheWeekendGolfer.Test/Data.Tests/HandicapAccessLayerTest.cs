@@ -59,7 +59,7 @@ namespace TheWeekendGolfer.Tests
         }
         
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public async Task TestGetLatestHandicap(string id)
+        public void TestGetLatestHandicap(string id)
         {
             var expected = new Handicap()
             {
@@ -70,13 +70,13 @@ namespace TheWeekendGolfer.Tests
                 Date = _createdAt.AddDays(1)
             };
 
-            var actual = await _sut.GetLatestHandicap(new Guid(id));
+            var actual = _sut.GetLatestHandicap(new Guid(id));
 
             actual.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("00000000-0000-0000-0001-000000000000")]
-        public async Task TestGetOrderedHandicaps(string id)
+        public void TestGetOrderedHandicaps(string id)
         {
             var expected = new List<Handicap>(){
             new Handicap()
@@ -97,7 +97,7 @@ namespace TheWeekendGolfer.Tests
             }
             };
 
-            var actual = await _sut.GetOrderedHandicaps(new Guid(id));
+            var actual = _sut.GetOrderedHandicaps(new Guid(id));
 
             actual.Should().BeEquivalentTo(expected,options=>options.WithStrictOrdering());
         }

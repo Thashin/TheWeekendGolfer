@@ -43,9 +43,9 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public async Task TestIndex()
+        public void TestIndex()
         {
-            _mockPlayerAccessLayer.Setup(x => x.GetAllPlayers()).ReturnsAsync(new List<Player>(){
+            _mockPlayerAccessLayer.Setup(x => x.GetAllPlayers()).Returns(new List<Player>(){
                 new Player(){
                     Id = new Guid("00000000-0000-0000-0000-000000000001"),
                     UserId = new Guid("00000000-0000-0000-0001-000000000000"),
@@ -87,7 +87,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.Index() as ObjectResult;
+            var actual = _sut.Index() as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -95,9 +95,9 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestGetOrderedHandicaps(string playerId)
+        public void TestGetOrderedHandicaps(string playerId)
         {
-            _mockHandicapAccessLayer.Setup(x => x.GetOrderedHandicaps(new Guid(playerId))).ReturnsAsync(new List<Handicap>(){
+            _mockHandicapAccessLayer.Setup(x => x.GetOrderedHandicaps(new Guid(playerId))).Returns(new List<Handicap>(){
             new Handicap()
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000003"),
@@ -135,7 +135,7 @@ namespace TheWeekendGolfer.Tests
             }
             };
 
-            var actual = await _sut.GetOrderedHandicaps(new Guid(playerId)) as ObjectResult;
+            var actual = _sut.GetOrderedHandicaps(new Guid(playerId)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
@@ -200,7 +200,7 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestAllPlayerRoundCourses(string playerId)
+        public void TestAllPlayerRoundCourses(string playerId)
         {
             _mockScoreAccessLayer.Setup(x => x.GetAllPlayerScores(new Guid(playerId))).Returns(new List<Score>()
             {
@@ -221,7 +221,7 @@ namespace TheWeekendGolfer.Tests
             _mockGolfRoundAccessLayer.Setup(x => x.GetAllGolfRoundCourseIds(new List<Guid>() {
                 new Guid("00000000-0000-0001-0000-000000000000"),
                 new Guid("00000000-0000-0002-0000-000000000000")
-            })).ReturnsAsync(
+            })).Returns(
                 new List<Guid>() {
                 new Guid("00000000-0001-0000-0000-000000000000"),
                 new Guid("00000000-0001-0000-0000-000000000000")
@@ -229,7 +229,7 @@ namespace TheWeekendGolfer.Tests
             _mockCourseAccessLayer.Setup(x => x.GetCourseStats(new List<Guid>() {
                 new Guid("00000000-0001-0000-0000-000000000000"),
                 new Guid("00000000-0001-0000-0000-000000000000")
-            })).ReturnsAsync(new Dictionary<string,int>(){
+            })).Returns(new Dictionary<string,int>(){
                 {"Point Walter",2 }
             });
             var expected = new Dictionary<string, int>(){
@@ -237,16 +237,16 @@ namespace TheWeekendGolfer.Tests
             };
 
 
-            var actual = await _sut.GetAllPlayerRoundCourses(new Guid(playerId)) as ObjectResult;
+            var actual = _sut.GetAllPlayerRoundCourses(new Guid(playerId)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestDetails(string id)
+        public void TestDetails(string id)
         {
-            _mockPlayerAccessLayer.Setup(x => x.GetPlayer(new Guid(id))).ReturnsAsync(new Player()
+            _mockPlayerAccessLayer.Setup(x => x.GetPlayer(new Guid(id))).Returns(new Player()
             {
                 Id = new Guid("00000000-0000-0000-0000-000000000001"),
                 UserId = new Guid("00000000-0000-0000-0002-000000000000"),
@@ -267,7 +267,7 @@ namespace TheWeekendGolfer.Tests
                 Created = _createdAt,
                 Modified = _modifiedAt
             };
-            var actual = await _sut.Details(new Guid(id)) as ObjectResult;
+            var actual = _sut.Details(new Guid(id)) as ObjectResult;
 
             actual.StatusCode.Should().Be(200);
             actual.Value.Should().BeEquivalentTo(expected);

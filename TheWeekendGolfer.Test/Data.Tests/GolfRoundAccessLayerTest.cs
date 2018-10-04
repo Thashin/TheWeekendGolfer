@@ -66,23 +66,23 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetGolfRound(string id)
+        public void TestGetGolfRound(string id)
         {
-            var actual = await _sut.GetGolfRound(new Guid(id));
+            var actual = _sut.GetGolfRound(new Guid(id));
 
             actual.Should().BeOfType<GolfRound>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetGolfRoundException(string id)
+        public void TestGetGolfRoundException(string id)
         {
-            Func<Task> action = async() => await _sut.GetGolfRound(new Guid(id));
+            Action action = () => _sut.GetGolfRound(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public async Task TestGetAllGolfRoundCourseIds()
+        public void TestGetAllGolfRoundCourseIds()
         {
             var courseIds = new List<Guid>(){
                   new Guid("00000000-0000-0000-0000-000000000001"),
@@ -96,14 +96,14 @@ namespace TheWeekendGolfer.Tests
                                    new Guid("00000000-0000-0000-0001-000000000000")
             };
 
-            var actual = await _sut.GetAllGolfRoundCourseIds(courseIds);
+            var actual = _sut.GetAllGolfRoundCourseIds(courseIds);
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase]
-        public async Task TestGetAllGolfRounds()
+        public void TestGetAllGolfRounds()
         {
             var expected = new List<GolfRound>() {
                 new GolfRound(){
@@ -136,7 +136,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetAllGolfRounds();
+            var actual = _sut.GetAllGolfRounds();
 
             actual.Should().BeEquivalentTo(expected);
 

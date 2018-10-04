@@ -17,7 +17,7 @@ namespace TheWeekendGolfer.Data
             _context = context;
         }
 
-        public async Task<Course> GetCourse(Guid id)
+        public Course GetCourse(Guid id)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Course>> GetAllCourses()
+        public IEnumerable<Course> GetAllCourses()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<string>> GetCourseNames()
+        public IEnumerable<string> GetCourseNames()
         {
             var names = _context.Courses.GroupBy(c => c.Name).Select(c => c.First().Name);
 
@@ -55,7 +55,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<string>> GetCourseTees(string courseName)
+        public IEnumerable<string> GetCourseTees(string courseName)
         {
             var tees = _context.Courses.Where(c => c.Name.Equals(courseName)).
                                         GroupBy(c => c.TeeName).
@@ -70,7 +70,7 @@ namespace TheWeekendGolfer.Data
             }
         }
 
-        public async Task<IEnumerable<Course>> GetCourseHoles(string courseName, string courseTee)
+        public IEnumerable<Course> GetCourseHoles(string courseName, string courseTee)
         {
             var holes = _context.Courses.Where(c => c.Name.Equals(courseName) &&
                                                    c.TeeName.Equals(courseTee))
@@ -87,7 +87,7 @@ namespace TheWeekendGolfer.Data
 
 
 
-        public async Task<IDictionary<string, int>> GetCourseStats(IList<Guid> courseIds)
+        public IDictionary<string, int> GetCourseStats(IList<Guid> courseIds)
         {
             try
             {
@@ -107,8 +107,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Courses.Add(course);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
             }
             catch
             {
@@ -121,8 +120,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Courses.Update(course);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
             }
             catch
             {
@@ -135,8 +133,7 @@ namespace TheWeekendGolfer.Data
             try
             {
                 _context.Courses.Remove(course);
-                _context.SaveChanges();
-                return true;
+                return (0 < await _context.SaveChangesAsync());
             }
             catch
             {

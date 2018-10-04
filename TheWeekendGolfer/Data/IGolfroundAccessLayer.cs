@@ -9,11 +9,11 @@ namespace TheWeekendGolfer.Data
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IGolfRoundAccessLayer
     {
-        Task<GolfRound> GetGolfRound(Guid id);
+        GolfRound GetGolfRound(Guid id);
 
-        Task<IEnumerable<Guid>> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds);
+        IEnumerable<Guid> GetAllGolfRoundCourseIds(IList<Guid> golfRoundIds);
 
-        Task<IEnumerable<GolfRound>> GetAllGolfRounds();
+        IEnumerable<GolfRound> GetAllGolfRounds();
         Task<Guid> AddGolfRound(GolfRound golfRound);
 
         Task<Boolean> UpdateGolfRound(GolfRound golfRound);

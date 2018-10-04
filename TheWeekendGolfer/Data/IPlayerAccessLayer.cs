@@ -9,13 +9,13 @@ namespace TheWeekendGolfer.Data
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public interface IPlayerAccessLayer
     {
-        Task<Player> GetPlayer(Guid id);
+        Player GetPlayer(Guid id);
 
 
-        Task<Player> GetPlayerByUserId(Guid id);
+        Player GetPlayerByUserId(Guid id);
 
 
-        Task<IEnumerable<Player>> GetAllPlayers();
+        IEnumerable<Player> GetAllPlayers();
 
 
         Task<Guid> AddPlayer(Player player);

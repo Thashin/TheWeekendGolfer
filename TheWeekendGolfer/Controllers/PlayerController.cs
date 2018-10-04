@@ -44,9 +44,9 @@ namespace TheWeekendGolfer.Web.Controllers
         /// <param name="PlayerId">Player whose handicaps is to be retrieved</param>
         /// <returns>An ordered list of handicaps</returns>
         [HttpGet]
-        public async Task<IActionResult> GetOrderedHandicaps(Guid PlayerId)
+        public IActionResult GetOrderedHandicaps(Guid PlayerId)
         {
-            return Ok(await _handicapAccessLayer.GetOrderedHandicaps(PlayerId));
+            return Ok(_handicapAccessLayer.GetOrderedHandicaps(PlayerId));
         }
 
         /// <summary>
@@ -54,11 +54,11 @@ namespace TheWeekendGolfer.Web.Controllers
         /// </summary>
         /// <returns>A list of players</returns>
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             try
             {
-                return Ok(await _playerAccessLayer.GetAllPlayers());
+                return Ok( _playerAccessLayer.GetAllPlayers());
             }
             catch
             {
@@ -73,11 +73,11 @@ namespace TheWeekendGolfer.Web.Controllers
         /// <param name="playerId"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Details(Guid playerId)
+        public IActionResult Details(Guid playerId)
         {
             try
             {
-                return Ok(await _playerAccessLayer.GetPlayer(playerId));
+                return Ok(_playerAccessLayer.GetPlayer(playerId));
             }
             catch
             {
@@ -129,11 +129,11 @@ namespace TheWeekendGolfer.Web.Controllers
         /// <param name="playerId"></param>
         /// <returns>A list of courses with the number of times the course has been played</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAllPlayerRoundCourses(Guid playerId)
+        public IActionResult GetAllPlayerRoundCourses(Guid playerId)
         {
             var rounds = _scoreAccessLayer.GetAllPlayerScores(playerId);
-            var courses = await _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
-            return Ok(await _courseAccessLayer.GetCourseStats(courses.ToList()));
+            var courses = _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
+            return Ok(_courseAccessLayer.GetCourseStats(courses.ToList()));
         }
 
 

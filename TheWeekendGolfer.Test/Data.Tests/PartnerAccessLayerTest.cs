@@ -109,34 +109,34 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetPartners(string id)
+        public void TestGetPartners(string id)
         {
-            var actual = await _sut.GetPartners(new Guid(id));
+            var actual = _sut.GetPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(3);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetPartnersNonPlayer(string id)
+        public void TestGetPartnersNonPlayer(string id)
         {
-            var actual = await _sut.GetPartners(new Guid(id));
+            var actual = _sut.GetPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(0);
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
-        public async Task TestGetAllPotentialPartners(string playerId)
+        public void TestGetAllPotentialPartners(string playerId)
         {
-            var actual = await _sut.GetPotentialPartners(new Guid(playerId));
+            var actual = _sut.GetPotentialPartners(new Guid(playerId));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(2);
 
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetPotentialPartnersNonPlayer(string id)
+        public void TestGetPotentialPartnersNonPlayer(string id)
         {
-            var actual = await _sut.GetPotentialPartners(new Guid(id));
+            var actual = _sut.GetPotentialPartners(new Guid(id));
 
             actual.Should().BeOfType<List<Player>>().And.HaveCount(0);
         }

@@ -65,40 +65,40 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetPlayer(string id)
+        public void TestGetPlayer(string id)
         {
-            var actual = await _sut.GetPlayer(new Guid(id));
+            var actual =  _sut.GetPlayer(new Guid(id));
 
             actual.Should().BeOfType<Player>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetPlayerException(string id)
+        public void TestGetPlayerException(string id)
         {
-            Func<Task> action = async () => await _sut.GetPlayer(new Guid(id));
+            Action action = () => _sut.GetPlayer(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetPlayerByUserId(string id)
+        public void TestGetPlayerByUserId(string id)
         {
-            var actual = await _sut.GetPlayer(new Guid(id));
+            var actual = _sut.GetPlayer(new Guid(id));
 
             actual.Should().BeOfType<Player>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetPlayerByUserIdException(string id)
+        public void TestGetPlayerByUserIdException(string id)
         {
-            Func<Task> action = async () => await _sut.GetPlayer(new Guid(id));
+            Action action = () => _sut.GetPlayer(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public async Task TestGetAllPlayers()
+        public void TestGetAllPlayers()
         {
             var expected = new List<Player>(){
                 new Player(){
@@ -121,7 +121,7 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetAllPlayers();
+            var actual = _sut.GetAllPlayers();
 
             actual.Should().BeEquivalentTo(expected);
 

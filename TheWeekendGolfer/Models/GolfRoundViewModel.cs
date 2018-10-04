@@ -13,6 +13,6 @@ namespace TheWeekendGolfer.Models
     {
         public DateTime Date { get; set; }
         public Course Course { get; set; }
-        public IList<PlayerViewModel> players { get; set; }
+        public IList<PlayerViewModel> Players { get; set; }
     }
 }

@@ -83,23 +83,23 @@ namespace TheWeekendGolfer.Tests
 
         [TestCase("00000000-0000-0000-0000-000000000001")]
         [TestCase("00000000-0000-0000-0000-000000000002")]
-        public async Task TestGetCourse(string id)
+        public void TestGetCourse(string id)
         {
-            var actual = await _sut.GetCourse(new Guid(id));
+            var actual = _sut.GetCourse(new Guid(id));
 
             actual.Should().BeOfType<Course>();
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public async Task TestGetCourseException(string id)
+        public void TestGetCourseException(string id)
         {
-            Func<Task> action = async () => await _sut.GetCourse(new Guid(id));
+            Action action = () => _sut.GetCourse(new Guid(id));
 
             action.Should().Throw<Exception>();
         }
 
         [TestCase]
-        public async Task TestGetAllCourses()
+        public void TestGetAllCourses()
         {
             var expected = new List<Course>(){
                 new Course(){
@@ -148,50 +148,50 @@ namespace TheWeekendGolfer.Tests
                 }
             };
 
-            var actual = await _sut.GetAllCourses();
+            var actual =  _sut.GetAllCourses();
 
             actual.Should().BeEquivalentTo(expected);
 
         }
 
         [TestCase]
-        public async Task TestGetCourseNames()
+        public void TestGetCourseNames()
         {
             var expected = new List<string>(){
                     "Wembley Golf Course",
                     "Point Walter"
             };
 
-            var actual = await _sut.GetCourseNames();
+            var actual = _sut.GetCourseNames();
 
             actual.Should().BeEquivalentTo(expected);
         }
 
 
         [TestCase("Point Walter")]
-        public async Task TestGetCourseTees(string courseName)
+        public void TestGetCourseTees(string courseName)
         {
             var expected = new List<string>(){
                     "Blue Men",
                     "Red Women"
             };
 
-            var actual = await _sut.GetCourseTees(courseName);
+            var actual = _sut.GetCourseTees(courseName);
 
             actual.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("Joint Smalter")]
-        public async Task TestGetCourseTeesException(string courseName)
+        public void TestGetCourseTeesException(string courseName)
         {
-            Func<Task> action = async () => await _sut.GetCourseTees(courseName);
+            Action action = () => _sut.GetCourseTees(courseName);
 
             action.Should().Throw<Exception>();
         }
 
 
         [TestCase("Point Walter","Blue Men")]
-        public async Task TestGetCourseHoles(string courseName, string courseTee)
+        public void TestGetCourseHoles(string courseName, string courseTee)
         {
             var expected = new List<Course>(){
                 new Course(){
@@ -218,16 +218,16 @@ namespace TheWeekendGolfer.Tests
                 },
             };
 
-            var actual = await _sut.GetCourseHoles(courseName,courseTee);
+            var actual = _sut.GetCourseHoles(courseName,courseTee);
 
             actual.Should().BeEquivalentTo(expected);
         }
 
         [TestCase("Joint Smalter", "Blue Men")]
         [TestCase("Point Walter", "Green Men")]
-        public async Task TestGetCourseHolesException(string courseName, string courseTee)
+        public void TestGetCourseHolesException(string courseName, string courseTee)
         {
-            Func<Task> action = async() => await _sut.GetCourseHoles(courseName,courseTee);
+            Action action = () => _sut.GetCourseHoles(courseName,courseTee);
             action.Should().Throw<Exception>();
         }
 
@@ -256,7 +256,7 @@ namespace TheWeekendGolfer.Tests
 
 
         [TestCase]
-        public async Task TestGetCourseStats()
+        public void TestGetCourseStats()
         {
             var courseIds = new List<Guid>() {
                 new Guid("00000000-0000-0000-0000-000000000001"),
@@ -270,7 +270,7 @@ namespace TheWeekendGolfer.Tests
             expected.Add("Point Walter", 3);
             expected.Add("Wembley Golf Course", 2);
 
-            var actual = await _sut.GetCourseStats(courseIds);
+            var actual = _sut.GetCourseStats(courseIds);
 
             actual.Should().BeEquivalentTo(expected);
 
