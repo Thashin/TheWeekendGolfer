@@ -39,7 +39,7 @@ import { GolfRoundComponent } from './golfRound/golfRound.component';
 import { AddPlayerComponent } from './player/add-player.component';
 import { ScoreService } from './services/scores.service';
 import { UserService } from './services/user.service';
-import { AddPartnerComponent, AddPartnerDialog } from './partner/add-partner.component';
+import { AddPartnerDialogComponent } from './partner/add-partner-dialog.component';
 import { PartnerService } from './services/partner.service';
 import { PartnerComponent } from './partner/partner.component';
 import { AboutComponent } from './about/about.component';
@@ -58,13 +58,12 @@ import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.co
     GolfRoundComponent,
     AddGolfRoundDialogComponent,
     AddPlayerComponent,
-    AddPartnerDialog,
     SignUpDialogComponent,
     LoginDialogComponent,
-    AddPartnerComponent,
+    AddPartnerDialogComponent,
     AboutComponent
   ],
-  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialog],
+  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialogComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -105,7 +104,7 @@ import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.co
       { path: 'sign-up', component: SignUpDialogComponent },
       { path: 'login', component: LoginDialogComponent },
       { path: 'logout', component: NavMenuComponent },
-      { path: 'add-partner', component: AddPartnerComponent },
+      { path: 'add-partner', component: AddPartnerDialogComponent },
       { path: 'about', component: AboutComponent },
       { path: 'partners', component: PartnerComponent }
     ])

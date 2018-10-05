@@ -55,7 +55,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\golfRound.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\player.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\score.model.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\partner\add-partner.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\partner\add-partner-dialog.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\player\add-player.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\partner.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\golfRound.service.ts" />

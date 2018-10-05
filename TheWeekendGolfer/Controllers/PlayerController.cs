@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
@@ -18,6 +19,7 @@ namespace TheWeekendGolfer.Web.Controllers
     [Route("api/[controller]/[action]")]
     public class PlayerController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         IHandicapAccessLayer _handicapAccessLayer;
         IPlayerAccessLayer _playerAccessLayer;
         ICourseAccessLayer _courseAccessLayer;
@@ -26,9 +28,10 @@ namespace TheWeekendGolfer.Web.Controllers
 
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public PlayerController(IHandicapAccessLayer handicapAccessLayer, IPlayerAccessLayer playerAccessLayer, ICourseAccessLayer courseAccessLayer, IScoreAccessLayer scoreAccessLayer, IGolfRoundAccessLayer golfRoundAccessLayer)
+        public PlayerController(UserManager<ApplicationUser> userManager,IHandicapAccessLayer handicapAccessLayer, IPlayerAccessLayer playerAccessLayer, ICourseAccessLayer courseAccessLayer, IScoreAccessLayer scoreAccessLayer, IGolfRoundAccessLayer golfRoundAccessLayer)
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         {
+            _userManager = userManager;
             _handicapAccessLayer = handicapAccessLayer;
             _playerAccessLayer = playerAccessLayer;
             _courseAccessLayer = courseAccessLayer;
@@ -70,14 +73,14 @@ namespace TheWeekendGolfer.Web.Controllers
         /// <summary>
         /// Retrieves current handicap details for a player
         /// </summary>
-        /// <param name="playerId"></param>
+        /// <param name="PlayerId"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Details(Guid playerId)
+        public IActionResult Details(Guid PlayerId)
         {
             try
             {
-                return Ok(_playerAccessLayer.GetPlayer(playerId));
+                return Ok(_playerAccessLayer.GetPlayer(PlayerId));
             }
             catch
             {
@@ -94,6 +97,8 @@ namespace TheWeekendGolfer.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]Player player)
         {
+            var user = await _userManager.GetUserAsync(User);
+            player.UserId = new Guid(user.Id);
             Guid playerId = await _playerAccessLayer.AddPlayer(player);
             if (playerId != null)
             {
@@ -126,12 +131,12 @@ namespace TheWeekendGolfer.Web.Controllers
         /// <summary>
         /// Retrieve all the courses that a player has played at and the number of times he/she has played each course
         /// </summary>
-        /// <param name="playerId"></param>
+        /// <param name="PlayerId"></param>
         /// <returns>A list of courses with the number of times the course has been played</returns>
         [HttpGet]
-        public IActionResult GetAllPlayerRoundCourses(Guid playerId)
+        public IActionResult GetAllPlayerRoundCourses(Guid PlayerId)
         {
-            var rounds = _scoreAccessLayer.GetAllPlayerScores(playerId);
+            var rounds = _scoreAccessLayer.GetAllPlayerScores(PlayerId);
             var courses = _golfRoundAccessLayer.GetAllGolfRoundCourseIds(rounds.Select(s => s.GolfRoundId).ToList());
             return Ok(_courseAccessLayer.GetCourseStats(courses.ToList()));
         }

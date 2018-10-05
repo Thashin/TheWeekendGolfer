@@ -48,12 +48,13 @@ namespace TheWeekendGolfer.Data
 
         public IEnumerable<Score> GetAllPlayerScores(Guid playerId)
         {
-            var scores = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
-            if (0 < scores.Count())
+            
+            try 
             {
+                var scores = _context.Scores.Where(s => s.PlayerId.Equals(playerId));
                 return scores;
             }
-            else
+            catch
             {
                 throw new Exception("Could not retrieve all scores");
             }

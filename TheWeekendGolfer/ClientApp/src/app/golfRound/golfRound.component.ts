@@ -95,7 +95,7 @@ export class GolfRoundComponent implements OnInit {
         this._golfRoundService.createGolfRound(result).subscribe(data => {
           if (data) {
             this.openSnackBar("Golf Round Created Successfully");
-            this._router.navigate(['golf-rounds']);
+            this.getGolfRounds();
           }
           else {
             this.openDialog();

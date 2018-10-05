@@ -7,6 +7,7 @@ import { MatSnackBarRef, SimpleSnackBar, MatDialog, MatSnackBar } from '@angular
 import { LoginDialogComponent } from '../user/loginDialog.component';
 import { SignUpDialogComponent } from '../user/signUpDialog.component';
 import { EventEmitter } from 'events';
+import { PlayerService } from '../services/player.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -18,7 +19,7 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService, private dialog: MatDialog,
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService,private _playerService:PlayerService, private dialog: MatDialog,
     private snackBar: MatSnackBar) {
     _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -79,8 +80,13 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
             this._userService.loginUser(user).subscribe(login => {
               if (login["Result"] == "Login Successful") {
                 this._userService.setIsLoggedIn(true);
-                  this.router.navigate(["/"]);
-                this.openSnackBar("Login Successful");
+                this._playerService.createPlayer(user.player).subscribe(data => {
+                  if(data)
+                  {
+                    this.router.navigate(["/"]);
+                    this.openSnackBar("Login Successful");
+                  }
+                });
               }
               else {
                 this.openLoginDialog();

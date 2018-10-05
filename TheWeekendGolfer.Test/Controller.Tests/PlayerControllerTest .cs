@@ -9,13 +9,14 @@ using TheWeekendGolfer.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TheWeekendGolfer.Web.Controllers;
+using Microsoft.AspNetCore.Identity;
 
 namespace TheWeekendGolfer.Tests
 {
     [TestFixture]
     public class PlayerControllerTest
     {
-
+        //private readonly UserManager<ApplicationUser> _userManager;
         private Mock<ICourseAccessLayer> _mockCourseAccessLayer;
         private Mock<IHandicapAccessLayer> _mockHandicapAccessLayer;
         private Mock<IPlayerAccessLayer> _mockPlayerAccessLayer;
@@ -29,6 +30,7 @@ namespace TheWeekendGolfer.Tests
         [SetUp]
         public void Setup()
         {
+            //_userManager = new UserManager<ApplicationUser>();
             _mockCourseAccessLayer = new Mock<ICourseAccessLayer>();
             _mockHandicapAccessLayer = new Mock<IHandicapAccessLayer>();
             _mockPlayerAccessLayer = new  Mock<IPlayerAccessLayer>() ;

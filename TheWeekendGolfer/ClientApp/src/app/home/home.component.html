@@ -7,20 +7,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="isLoggedIn">
-    <div *ngIf="currentHandicaps&&onlyPlayer">
-      <mat-card>
-        <ngx-charts-gauge [view]="guageView"
-                          [min]="0"
-                          [max]="45"
-                          [results]="currentHandicaps"
-                          [units]="Handicap"
-                          [legend]="true">
-        </ngx-charts-gauge>
-      </mat-card>
-    </div>
-  </div>
-  <div *ngIf="currentHandicaps&&!onlyPlayer">
+  <div *ngIf="currentHandicaps">
     <mat-card>
       <ngx-charts-number-card [scheme]="colorScheme"
                               [results]="currentHandicaps">

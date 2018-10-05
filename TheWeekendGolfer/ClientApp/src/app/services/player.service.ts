@@ -32,7 +32,7 @@ export class PlayerService {
 
 
   getPlayerById(id: string) {
-    return this._http.get<Player>(this.theWeekendGolferUrl + "api/Player/Details?id=" + id);
+    return this._http.get<Player>(this.theWeekendGolferUrl + "api/Player/Details?PlayerId=" + id);
   }
 
   createPlayer(player: Player) {
