@@ -1,7 +1,7 @@
 <div class="weekend-golfer-container">
   <div *ngIf="isLoggedIn">
     <div class="button-container">
-      <button mat-raised-button color="primary" [routerLink]='["/add-partner"]'>
+      <button mat-raised-button color="primary" (click)="openPartnerDialog()">
         <mat-icon class="icon">add</mat-icon>
         <span class='label'></span> Add Partner
       </button>

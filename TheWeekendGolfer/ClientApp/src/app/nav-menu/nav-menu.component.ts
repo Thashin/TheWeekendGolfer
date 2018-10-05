@@ -49,7 +49,7 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
 
     dialogRef.afterClosed().subscribe(user => {
 
-      if (user !== null) {
+      if (user != null) {
         this._userService.loginUser(user).subscribe(data => {
           if (data["Result"] == "Login Successful") {
             this._userService.setIsLoggedIn(true);

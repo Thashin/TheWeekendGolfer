@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Inject, ViewChild, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { PartnerService } from '../services/partner.service'
 import { Partner } from '../models/partner.model'
 import { MatTableDataSource, MatPaginator, MatSort, SimpleSnackBar, MatSnackBarRef, MatSnackBar, MatDialog } from '@angular/material';

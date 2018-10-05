@@ -11,6 +11,8 @@ import { GolfRoundService } from '../services/golfRound.service';
 import { ActivatedRoute } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddPartnerDialogComponent } from '../partner/add-partner-dialog.component';
+import { MatSnackBar, MatDialog, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -26,17 +28,43 @@ export class HomeComponent implements OnInit {
   public courseStats: any[] = [];
   public isLoggedIn = false;
   public playerId = "";
-  public onlyPlayer = false;
   public partners: Player[] = [];
-  public guageView=[200,400]
 
-  constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService) {
-    this.getHistoricalHandicaps();
+  constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
   }
 
   ngOnInit() {
     this.isLoggedIn = this._userService.getIsLoggedIn();
+    this.getHistoricalHandicaps();
+  }
+
+  openPartnerDialog(): void {
+    const dialogRef = this.dialog.open(AddPartnerDialogComponent, {
+      minWidth: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(partner => {
+      console.log(partner)
+      if (partner != null) {
+        this._partnerService.addPartner(partner).subscribe(data => {
+          if (data) {
+            this.openSnackBar("Partner Created Successfully");
+            this.getHistoricalHandicaps();
+          }
+          else {
+            this.openPartnerDialog();
+            this.openSnackBar("Unable to create Partner");
+          }
+        });
+      }
+    });
+  }
+
+  openSnackBar(message: string): MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(message, "", {
+      duration: 5000,
+    });
   }
 
   getCurrentHandicaps() {
@@ -95,18 +123,11 @@ export class HomeComponent implements OnInit {
                 })
               });
               this.playerHandicapsCount = handicaps.length;
-              this.guageView.forEach(dimension=>dimension*2);
               this.lineChartData = [... this.lineChartData];
             });
           this._partnerService.getPartners(this.playerId).subscribe(
             partners => {
               this.partners = partners;
-              if (this.partners.length < 1) {
-                this.onlyPlayer = true;
-              }
-              else {
-                this.onlyPlayer = false;
-              }
               this.getCurrentHandicaps();
               partners.forEach(
                 partner => {
