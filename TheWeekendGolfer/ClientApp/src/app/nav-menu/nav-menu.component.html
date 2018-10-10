@@ -1,6 +1,8 @@
 <div class="nav-menu-container" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="toolbar">
-    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <a mat-icon-button (click)="snav.toggle()">
+      <img src="../../assets/icons/menu.png" />
+    </a>
     <h1 class="app-name">The Weekend Golfer</h1>
     <span style="flex: 1 1 auto;"></span>
     <div class="toolbar-icons">

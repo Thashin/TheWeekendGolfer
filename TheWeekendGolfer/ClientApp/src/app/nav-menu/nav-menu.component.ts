@@ -76,7 +76,7 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
           player: result.player
         }
         this._userService.createUser(user).subscribe(data => {
-          if (data = true) {
+          if (data == true) {
             this._userService.loginUser(user).subscribe(login => {
               if (login["Result"] == "Login Successful") {
                 this._userService.setIsLoggedIn(true);
@@ -84,19 +84,19 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
                   if(data)
                   {
                     this.router.navigate(["/"]);
-                    this.openSnackBar("Login Successful");
+                    this.openSnackBar("Signup Successful");
                   }
                 });
               }
               else {
                 this.openLoginDialog();
-                this.openSnackBar("Unable to login");
+                this.openSnackBar("Unable to Login");
               }
             })
           }
           else {
             this.openSignUpDialog()
-            this.openSnackBar("Unable to SignUp");
+            this.openSnackBar(data.toString());
           }
         }
 

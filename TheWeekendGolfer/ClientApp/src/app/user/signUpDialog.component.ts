@@ -18,7 +18,7 @@ export class SignUpDialogComponent {
   firstName: FormControl = new FormControl('', [Validators.required]);
   lastName: FormControl = new FormControl('', [Validators.required]);
   handicap: FormControl = new FormControl('', [Validators.required]);
-  email: FormControl = new FormControl('', [Validators.required]);
+  email: FormControl = new FormControl('', [Validators.required, Validators.email]);
   password: FormControl = new FormControl('', [Validators.required]);
 
 

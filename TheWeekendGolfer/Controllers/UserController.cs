@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TheWeekendGolfer.Data;
 using TheWeekendGolfer.Models;
 
@@ -55,13 +57,13 @@ namespace TheWeekendGolfer.Controllers
                 else
                 {
 
-                    return BadRequest();
+                    return Ok(JsonConvert.SerializeObject(result.Errors.Select(s=>s).First().Description));
                 }
             }
             else
             {
 
-                return BadRequest();
+                return Ok(false);
             }
         }
 
@@ -114,7 +116,7 @@ namespace TheWeekendGolfer.Controllers
             {
                 return Ok(_playerAccessLayer.GetPlayerByUserId(new Guid(user.Id)));
             }
-            return BadRequest();
+            return Ok(JsonConvert.SerializeObject(false));
         }
 
         /// <summary>

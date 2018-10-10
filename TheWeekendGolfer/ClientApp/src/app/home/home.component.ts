@@ -13,6 +13,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddPartnerDialogComponent } from '../partner/add-partner-dialog.component';
 import { MatSnackBar, MatDialog, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
+import { Score } from '../models/score.model';
+import { AddGolfRoundDialogComponent } from '../golfRound/add-golfRound-Dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -45,7 +47,6 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(partner => {
-      console.log(partner)
       if (partner != null) {
         this._partnerService.addPartner(partner).subscribe(data => {
           if (data) {
@@ -55,6 +56,29 @@ export class HomeComponent implements OnInit {
           else {
             this.openPartnerDialog();
             this.openSnackBar("Unable to create Partner");
+          }
+        });
+      }
+    });
+  }
+
+  openGolfRoundDialog(): void {
+
+    var scoreData: Score[] = [];
+    const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
+      minWidth: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this._golfRoundService.createGolfRound(result).subscribe(data => {
+          if (data) {
+            this.openSnackBar("Golf Round Created Successfully");
+            this.getHistoricalHandicaps();
+          }
+          else {
+            this.openGolfRoundDialog();
+            this.openSnackBar("Unable to create Golf Round");
           }
         });
       }
@@ -108,7 +132,7 @@ export class HomeComponent implements OnInit {
   getHistoricalHandicaps() {
     this._userService.getPlayerid().subscribe(
       player => {
-        if (player !== null) {
+        if (player) {
           this.playerId = player.id;
           this.getCourseStats();
           this._playerService.getPlayerHandicaps(this.playerId).subscribe(
@@ -153,8 +177,6 @@ export class HomeComponent implements OnInit {
             });
         }
       });
-
-
   }
 
   showXAxis = true;

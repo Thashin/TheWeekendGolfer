@@ -41,12 +41,22 @@ export class PlayerService {
         { 'Content-Type': 'application/json; charset=utf-8' }
       )
     };
-    const body = JSON.stringify(
-      {
-        'FirstName': player.firstName,
-        'LastName': player.lastName,
-        'Handicap': String(player.handicap)
-      });
+    let body;
+    if (player.handicap != null) {
+      body = JSON.stringify(
+        {
+          'FirstName': player.firstName,
+          'LastName': player.lastName,
+          'Handicap': String(player.handicap)
+        });
+    }
+    else {
+      body = JSON.stringify(
+        {
+          'FirstName': player.firstName,
+          'LastName': player.lastName
+        });
+    }
     return this._http.post(this.theWeekendGolferUrl + 'api/Player/Create', body, options);
   }
 

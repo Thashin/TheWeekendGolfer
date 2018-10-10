@@ -21,6 +21,7 @@
       <div class="row">
         <mat-form-field>
           <input matInput type="email" [formControl]="email" [(ngModel)]="user.email" placeholder="Email" name="email" class="form-control" id="email">
+          <mat-error class="error-message" *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
       <div class="row">

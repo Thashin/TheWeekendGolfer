@@ -1,13 +1,21 @@
 <div class="weekend-golfer-container">
   <div *ngIf="isLoggedIn">
-    <div class="button-container">
-      <button mat-raised-button color="primary" (click)="openPartnerDialog()">
-        <mat-icon class="icon">add</mat-icon>
-        <span class='label'></span> Add Partner
-      </button>
+    <div class="button-row">
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="openPartnerDialog()">
+          <img src="../../assets/icons/add.png" />
+          <span class='label'></span> Add Partner
+        </button>
+      </div>
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="openGolfRoundDialog()">
+          <img src="../../assets/icons/add.png" />
+          <span class='label'></span> Add Golf Round
+        </button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div *ngIf="currentHandicaps">
+  <div *ngIf="playerHandicapsCount>0">
     <mat-card>
       <ngx-charts-number-card [scheme]="colorScheme"
                               [results]="currentHandicaps">
@@ -30,18 +38,9 @@
                            class="ngx-charts">
     </ngx-charts-line-chart>
   </mat-card>
-  <mat-card *ngIf="courseStats">
-    <ngx-charts-pie-grid [scheme]="colorScheme"
-                         [results]="courseStats">
-    </ngx-charts-pie-grid>
-  </mat-card>
-</div>
-<div *ngIf="playerHandicapsCount==0">
-  <h1>Please add a golf round</h1>
-  <div class="button-row" *ngIf="isLoggedIn">
-    <button mat-raised-button color="primary" [routerLink]='["/add-golf-round"]'>
-      <mat-icon class="icon">add</mat-icon>
-      <span class='label'></span> Add Golf Round
-    </button>
-  </div>
+  <mat-card *ngIf="courseStats.length>0">
+     <ngx-charts-pie-grid [scheme]="colorScheme"
+                          [results]="courseStats">
+     </ngx-charts-pie-grid>
+   </mat-card>
 </div>

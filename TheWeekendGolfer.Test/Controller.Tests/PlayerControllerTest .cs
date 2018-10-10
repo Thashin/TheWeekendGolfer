@@ -36,7 +36,7 @@ namespace TheWeekendGolfer.Tests
             _mockPlayerAccessLayer = new  Mock<IPlayerAccessLayer>() ;
             _mockScoreAccessLayer = new Mock<IScoreAccessLayer>() ;
             _mockGolfRoundAccessLayer = new Mock<IGolfRoundAccessLayer>() ;
-            _sut = new PlayerController(_mockHandicapAccessLayer.Object,_mockPlayerAccessLayer.Object,_mockCourseAccessLayer.Object,
+            _sut = new PlayerController(null,_mockHandicapAccessLayer.Object,_mockPlayerAccessLayer.Object,_mockCourseAccessLayer.Object,
                                         _mockScoreAccessLayer.Object,_mockGolfRoundAccessLayer.Object);
             _createdAt = DateTime.Now;
             _modifiedAt = DateTime.Now;

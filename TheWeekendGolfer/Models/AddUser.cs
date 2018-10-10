@@ -19,10 +19,13 @@ namespace TheWeekendGolfer.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         [DataType(DataType.Password)]
+        [Required]
         public string Password { get; set; }
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         /// <summary>
         /// This is an automatically generated property 

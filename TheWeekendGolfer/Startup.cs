@@ -106,7 +106,6 @@ namespace TheWeekendGolfer
             golfDbContext.EnsureSeedDataForContext();
 
             app.UseAuthentication();
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             //This line enables the app to use Swagger, with the configuration in the ConfigureServices method.
@@ -117,7 +116,7 @@ namespace TheWeekendGolfer
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "The Weekend Golfer v1");
             });
-
+            
             app.Use(next => context =>
             {
                 //if (context.Request.Path == "/")
