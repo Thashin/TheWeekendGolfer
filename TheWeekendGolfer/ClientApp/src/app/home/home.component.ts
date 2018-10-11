@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   public partners: Player[] = [];
 
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
-    _userService.observableIsLoggedIn.subscribe(data => { this.isLoggedIn = data; this.resetStats(); this.getHistoricalHandicaps(); });
+    _userService.observableIsLoggedIn.subscribe(data => { this.isLoggedIn = data; this.getHistoricalHandicaps(); });
   }
 
   ngOnInit() {
@@ -51,7 +51,6 @@ export class HomeComponent implements OnInit {
         this._partnerService.addPartner(partner).subscribe(data => {
           if (data) {
             this.openSnackBar("Partner Created Successfully");
-            this.resetStats();
             this.getHistoricalHandicaps();
           }
           else {
@@ -84,7 +83,6 @@ export class HomeComponent implements OnInit {
         this._golfRoundService.createGolfRound(result).subscribe(data => {
           if (data) {
             this.openSnackBar("Golf Round Created Successfully");
-            this.resetStats();
             this.getHistoricalHandicaps();
           }
           else {
@@ -186,6 +184,7 @@ export class HomeComponent implements OnInit {
   getHistoricalHandicaps() {
     this._userService.getPlayerid().subscribe(
       player => {
+        this.resetStats();
         if (player) {
           this.playerId = player.id;
           this.getCourseStats();

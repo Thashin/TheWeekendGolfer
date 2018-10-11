@@ -34,7 +34,6 @@ export class PartnerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(partner => {
-      console.log(partner)
       if (partner != null) {
         this._partnerService.addPartner(partner).subscribe(data => {
           if (data) {
