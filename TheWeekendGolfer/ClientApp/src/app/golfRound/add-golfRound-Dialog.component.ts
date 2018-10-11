@@ -84,7 +84,14 @@ export class AddGolfRoundDialogComponent {
   }
 
   getPlayers() {
-    this._playerService.getPlayers().subscribe(data => this.allPlayers = data);
+    this._playerService.getPlayers().subscribe(data => {
+      this.allPlayers = data;
+      this.allPlayers.sort((a, b) => {
+        if (a.lastName < b.lastName) return -1;
+        else if (a.lastName > b.lastName) return 1;
+        else return 0;
+      });
+    });
   }
 
   addPlayer(player: Player) {

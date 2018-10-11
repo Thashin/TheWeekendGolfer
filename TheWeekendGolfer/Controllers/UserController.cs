@@ -57,7 +57,7 @@ namespace TheWeekendGolfer.Controllers
                 else
                 {
 
-                    return Ok(JsonConvert.SerializeObject(result.Errors.Select(s=>s).First().Description));
+                    return Ok(JsonConvert.SerializeObject(result.Errors.Select(s => s).First().Description));
                 }
             }
             else
@@ -127,7 +127,7 @@ namespace TheWeekendGolfer.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return Ok("{\"Result\":\"Logout Successful\"}");
+            return Ok(JsonConvert.SerializeObject(true));
         }
     }
 }

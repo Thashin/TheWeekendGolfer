@@ -14,12 +14,12 @@ import { PlayerService } from '../services/player.service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit,  OnDestroy {
+export class NavMenuComponent implements OnInit, OnDestroy {
   public isLoggedIn = false;
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService,private _playerService:PlayerService, private dialog: MatDialog,
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private router: Router, private _userService: UserService, private _playerService: PlayerService, private dialog: MatDialog,
     private snackBar: MatSnackBar) {
     _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -27,8 +27,8 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-    ngOnInit() {
-      this.isLoggedIn = this._userService.getIsLoggedIn();
+  ngOnInit() {
+    this.isLoggedIn = this._userService.getIsLoggedIn();
   }
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -37,9 +37,12 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
 
 
   public logout() {
-    this._userService.logout();
-    this._userService.setIsLoggedIn(false);
-    this.router.navigate(['/']);
+    this._userService.logout().subscribe(data => {
+      if (data == true) {
+        this._userService.setIsLoggedIn(false);
+        this.router.navigate(['/'])
+      }
+    });
   }
 
   public openLoginDialog(): void {
@@ -81,8 +84,7 @@ export class NavMenuComponent implements OnInit,  OnDestroy {
               if (login["Result"] == "Login Successful") {
                 this._userService.setIsLoggedIn(true);
                 this._playerService.createPlayer(user.player).subscribe(data => {
-                  if(data)
-                  {
+                  if (data) {
                     this.router.navigate(["/"]);
                     this.openSnackBar("Signup Successful");
                   }

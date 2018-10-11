@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   public partners: Player[] = [];
 
   constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
-    _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
+    _userService.observableIsLoggedIn.subscribe(data => { this.isLoggedIn = data; this.resetStats(); this.getHistoricalHandicaps(); });
   }
 
   ngOnInit() {
@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
         this._partnerService.addPartner(partner).subscribe(data => {
           if (data) {
             this.openSnackBar("Partner Created Successfully");
+            this.resetStats();
             this.getHistoricalHandicaps();
           }
           else {
@@ -60,6 +61,15 @@ export class HomeComponent implements OnInit {
         });
       }
     });
+  }
+  resetStats(): void {
+    this.lineChartData = [];
+    this.currentHandicaps = [];
+    this.courseStats = [];
+    this.playerHandicapsCount = 0;
+    this.playerHandicap = [];
+    this.playerId = "";
+    this.partners = [];
   }
 
   openGolfRoundDialog(): void {
@@ -74,6 +84,7 @@ export class HomeComponent implements OnInit {
         this._golfRoundService.createGolfRound(result).subscribe(data => {
           if (data) {
             this.openSnackBar("Golf Round Created Successfully");
+            this.resetStats();
             this.getHistoricalHandicaps();
           }
           else {
@@ -107,8 +118,8 @@ export class HomeComponent implements OnInit {
           value: Math.round(player.handicap * 10) / 10
         });
         this.currentHandicaps = this.currentHandicaps.sort((a, b) => {
-          if (a.name < b.name) return -1;
-          else if (a.name > b.name) return 1;
+          if (a.value < b.value) return -1;
+          else if (a.value > b.value) return 1;
           else return 0;
         });
         this.currentHandicaps = [... this.currentHandicaps];
@@ -121,13 +132,56 @@ export class HomeComponent implements OnInit {
     this._playerService.getPlayerCourseStats(this.playerId).subscribe(courses => {
       for (let name in courses) {
         this.courseStats.push({ name: name, value: courses[name] })
-
         this.courseStats = [... this.courseStats]
       }
-    }
-    )
+    });
   }
 
+  getPlayerHandicaps(player: Player) {
+    this._playerService.getPlayerHandicaps(this.playerId).subscribe(
+      handicaps => {
+        this.lineChartData.push({
+          name: player.firstName + " " + player.lastName,
+          series: handicaps.map(item => {
+            return {
+              name: new Date(item.date),
+              value: item.currentHandicap
+            }
+          })
+        });
+        this.playerHandicapsCount = handicaps.length;
+        this.lineChartData = [... this.lineChartData];
+      });
+  }
+
+  getPartnerHandicaps() {
+    this._partnerService.getPartners(this.playerId).subscribe(
+      partners => {
+        this.partners = partners;
+        this.getCurrentHandicaps();
+        partners.forEach(
+          partner => {
+            this._playerService.getPlayerHandicaps(partner.id).subscribe(
+              handicaps => {
+                this.lineChartData.push({
+                  name: partner.firstName + " " + partner.lastName, series: handicaps.map(item => {
+                    return {
+                      name: new Date(item.date),
+                      value: item.currentHandicap
+                    }
+                  })
+                })
+                this.lineChartData = this.lineChartData.sort((a, b) => {
+                  if (a.name < b.name) return -1;
+                  else if (a.name > b.name) return 1;
+                  else return 0;
+                });
+                this.lineChartData = [... this.lineChartData];
+              }
+            );
+          });
+      });
+  }
 
   getHistoricalHandicaps() {
     this._userService.getPlayerid().subscribe(
@@ -135,48 +189,20 @@ export class HomeComponent implements OnInit {
         if (player) {
           this.playerId = player.id;
           this.getCourseStats();
-          this._playerService.getPlayerHandicaps(this.playerId).subscribe(
-            handicaps => {
-              this.lineChartData.push({
-                name: player.firstName + " " + player.lastName,
-                series: handicaps.map(item => {
-                  return {
-                    name: new Date(item.date),
-                    value: item.currentHandicap
-                  }
-                })
-              });
-              this.playerHandicapsCount = handicaps.length;
-              this.lineChartData = [... this.lineChartData];
-            });
-          this._partnerService.getPartners(this.playerId).subscribe(
-            partners => {
-              this.partners = partners;
-              this.getCurrentHandicaps();
-              partners.forEach(
-                partner => {
-                  this._playerService.getPlayerHandicaps(partner.id).subscribe(
-                    handicaps => {
-                      this.lineChartData.push({
-                        name: partner.firstName + " " + partner.lastName, series: handicaps.map(item => {
-                          return {
-                            name: new Date(item.date),
-                            value: item.currentHandicap
-                          }
-                        })
-                      })
-                      this.lineChartData = this.lineChartData.sort((a, b) => {
-                        if (a.name < b.name) return -1;
-                        else if (a.name > b.name) return 1;
-                        else return 0;
-                      });
-                      this.lineChartData = [... this.lineChartData];
-                    }
-                  );
-                });
-            });
+          this.getPlayerHandicaps(player);
+          this.getPartnerHandicaps();
         }
-      });
+        else {
+          this.playerId = '2d566298-4d3d-42d8-589e-08d62e8da6fb'
+          this._playerService.getPlayerById(this.playerId).subscribe(thashin => {
+            this.getCourseStats();
+            this.getPlayerHandicaps(thashin);
+            this.getPartnerHandicaps();
+          }
+          );
+        }
+      }
+    );
   }
 
   showXAxis = true;
@@ -193,4 +219,3 @@ export class HomeComponent implements OnInit {
     domain: ["#4e31a5", "#9c25a7", "#3065ab", "#57468b", "#904497", "#46648b", "#32118d", "#a00fb3", "#1052a2", "#6e51bd", "#b63cc3", "#6c97cb", "#8671c1", "#b455be", "#7496c3"]
   };
 }
-

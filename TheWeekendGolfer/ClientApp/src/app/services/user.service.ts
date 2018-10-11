@@ -1,4 +1,3 @@
-
 import { throwError as observableThrowError, Observable, Subject } from 'rxjs';
 import { Injectable, Inject, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
@@ -27,14 +26,7 @@ export class UserService {
   }
 
   logout() {
-    var result = "";
-    this._http.get(this.theWeekendGolferUrl + 'api/User/Logout').subscribe(data => {
-      result = data["Result"];
-      if (data["Result"] == "Logout Successful") {
-        this.router.navigate(['/']);
-      }
-    });
-    return result;
+    return this._http.get<boolean>(this.theWeekendGolferUrl + 'api/User/Logout')
   }
 
   createUser(user: User) {
