@@ -1,0 +1,86 @@
+<mat-card>
+<h1 mat-dialog-title>Forecast</h1>
+  <div mat-dialog-content>
+    <div class="row">
+      <mat-form-field>
+        <mat-select matInput class="form-control" (selectionChange)="getCourseTees($event.value)" [formControl]="course" placeholder="Course" name="course" id="course">
+          <mat-option *ngIf="!courseNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="course" *ngFor="let course of courseNames">{{course}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select matInput (selectionChange)="getCourseHoles($event.value)" [formControl]="tee" placeholder="Tee" name="tee" class="form-control" id="tee">
+          <mat-option *ngIf="!tees"><em>Loading...</em></mat-option>
+          <mat-option [value]="tee" *ngFor="let tee of tees">{{tee}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select matInput (selectionChange)="getForecasts($event.value)" [formControl]="holes" placeholder="Holes" name="holes" class="form-control" id="holes">
+          <mat-option *ngIf="!holesNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="holes.id" *ngFor="let holes of holesNames">{{holes.holes}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <p *ngIf="!forecasts"><em>Loading...</em></p>
+
+      <mat-table  [dataSource]="forecasts" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="playerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Player</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.player.firstName }} {{ forecast.player.lastName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="average">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Average</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.average | number : '1.0-1' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="personalBest">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Personal Best</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.pb }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="highestScore">
+          <th mat-header-cell *matHeaderCellDef>Highest Score</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.hs }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="toLowerHandicap">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>To Lower Handicap</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.toLowerHandicap }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="sixty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>60</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.sixty | number : '1.0-1'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fiftyFive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>55</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.fiftyFive | number : '1.0-1'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fifty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>50</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.fifty | number : '1.0-1'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fortyFive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>45</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.fortyFive | number : '1.0-1'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="forty">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>40</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.forty | number : '1.0-1'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="thirtyFive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>35</th>
+          <td mat-cell *matCellDef="let forecast">{{ forecast.thirtyFive | number : '1.0-1'}}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let golfRound; columns: displayedColumns;"></tr>
+      </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]"></mat-paginator>
+  </div>
+</mat-card>

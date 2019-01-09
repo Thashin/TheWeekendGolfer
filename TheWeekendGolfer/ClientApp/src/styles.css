@@ -30,8 +30,9 @@ td, th {
   vertical-align: middle;
 }
 
+
 .mat-column {
-  flex: 0 0 100px;
+  flex: 0 0 200px;
 }
 
 mat-form-field {

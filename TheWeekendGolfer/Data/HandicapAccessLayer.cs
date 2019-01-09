@@ -49,6 +49,81 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        /// <summary>
+        /// Get playedTo scores used in handicap calculation
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
+        public IList<Handicap> GetPlayedTos(Guid playerId)
+        {
+            try
+            {
+                var orderedbyDateHandicaps = GetOrderedHandicaps(playerId).Take(20);
+                var orderedByPlayedTos = orderedbyDateHandicaps.OrderBy(h=>h.Value);
+                int roundsPlayed = orderedByPlayedTos.Count();
+                IList<Handicap> usedPlayedTos = new List<Handicap>();
+                if (roundsPlayed >= 19)
+                {
+                    if(orderedByPlayedTos.Take(8).Contains(orderedbyDateHandicaps.ElementAt(19)))
+                    {
+                        orderedByPlayedTos = orderedByPlayedTos.Where(p => !p.Equals(orderedbyDateHandicaps.ElementAt(19))).OrderBy(h=>h.Value);
+                    }
+                    usedPlayedTos = orderedByPlayedTos.Take(9).ToList();
+                }
+                else if (roundsPlayed >= 17)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(8).ToList();
+                }
+                else if (roundsPlayed >= 15)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(7).ToList();
+                }
+                else if (roundsPlayed >= 13)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(6).ToList();
+                }
+                else if (roundsPlayed >= 11)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(5).ToList();
+                }
+                else if (roundsPlayed >= 9)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(4).ToList();
+                }
+                else if (roundsPlayed >= 7)
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(3).ToList();
+                }
+                else
+                {
+                    usedPlayedTos = orderedByPlayedTos.Take(2).ToList();
+                }              
+
+                return usedPlayedTos;
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Handicap for " + playerId.ToString());
+            }
+        }
+
+        public Handicap GetHighestPlayedTo(Guid playerId)
+        {
+            var orderedByDateHandicaps = GetOrderedHandicaps(playerId).Take(20);
+            var usedPlayedTos = GetPlayedTos(playerId).OrderByDescending(p=>p.Value);
+            if(usedPlayedTos.Count()>8 &&
+               usedPlayedTos.Contains(orderedByDateHandicaps.ElementAt(19)))
+            {
+                return usedPlayedTos.ElementAt(2);
+            }
+            else
+            {
+                return usedPlayedTos.ElementAt(1);
+            }
+
+
+        }
+
         public async Task<Boolean> AddHandicap(Handicap handicap)
         {
             try

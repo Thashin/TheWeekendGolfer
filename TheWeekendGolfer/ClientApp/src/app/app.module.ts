@@ -46,6 +46,8 @@ import { AboutComponent } from './about/about.component';
 import { LoginDialogComponent } from './user/loginDialog.component';
 import { SignUpDialogComponent } from './user/signUpDialog.component';
 import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.component';
+import { ForecastDialogComponent } from './forecast/forecast-Dialog.component';
+import { ForecastService } from './services/forecast.service';
 
 @NgModule({
   declarations: [
@@ -61,9 +63,10 @@ import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.co
     SignUpDialogComponent,
     LoginDialogComponent,
     AddPartnerDialogComponent,
+    ForecastDialogComponent,
     AboutComponent
   ],
-  entryComponents: [LoginDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialogComponent],
+  entryComponents: [LoginDialogComponent, ForecastDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialogComponent],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
@@ -106,10 +109,11 @@ import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.co
       { path: 'logout', component: NavMenuComponent },
       { path: 'add-partner', component: AddPartnerDialogComponent },
       { path: 'about', component: AboutComponent },
-      { path: 'partners', component: PartnerComponent }
+      { path: 'partners', component: PartnerComponent },
+      { path: 'forecast', component: ForecastDialogComponent }
     ])
   ],
-  providers: [CourseService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService, MatSnackBar],
+  providers: [CourseService, ForecastService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService, MatSnackBar],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

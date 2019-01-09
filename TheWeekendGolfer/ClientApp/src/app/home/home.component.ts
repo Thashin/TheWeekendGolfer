@@ -15,6 +15,7 @@ import { AddPartnerDialogComponent } from '../partner/add-partner-dialog.compone
 import { MatSnackBar, MatDialog, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { Score } from '../models/score.model';
 import { AddGolfRoundDialogComponent } from '../golfRound/add-golfRound-Dialog.component';
+import { ForecastDialogComponent } from '../forecast/forecast-Dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -75,6 +76,28 @@ export class HomeComponent implements OnInit {
 
     var scoreData: Score[] = [];
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
+      minWidth: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this._golfRoundService.createGolfRound(result).subscribe(data => {
+          if (data) {
+            this.openSnackBar("Golf Round Created Successfully");
+            this.getHistoricalHandicaps();
+          }
+          else {
+            this.openGolfRoundDialog();
+            this.openSnackBar("Unable to create Golf Round");
+          }
+        });
+      }
+    });
+  }
+
+  openForecastDialog(): void {
+    
+    const dialogRef = this.dialog.open(ForecastDialogComponent, {
       minWidth: '1000px',
     });
 

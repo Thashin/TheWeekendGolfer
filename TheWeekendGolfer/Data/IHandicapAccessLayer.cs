@@ -18,6 +18,16 @@ namespace TheWeekendGolfer.Data
         /// <returns></returns>
         IEnumerable<Handicap> GetOrderedHandicaps(Guid playerId);
 
+        /// <summary>
+        /// Get the highest played to value that is included in the handicap calculation from the last 19 rounds.
+        /// 
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
+        Handicap GetHighestPlayedTo(Guid playerId);
+
+        IList<Handicap> GetPlayedTos(Guid playerId);
+
         Task<Boolean> AddHandicap(Handicap handicap);
     }
 }
