@@ -48,6 +48,7 @@ import { SignUpDialogComponent } from './user/signUpDialog.component';
 import { AddGolfRoundDialogComponent } from './golfRound/add-golfRound-Dialog.component';
 import { ForecastDialogComponent } from './forecast/forecast-Dialog.component';
 import { ForecastService } from './services/forecast.service';
+import { PlayerProfileComponent } from './player/playerProfile.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { ForecastService } from './services/forecast.service';
     LoginDialogComponent,
     AddPartnerDialogComponent,
     ForecastDialogComponent,
-    AboutComponent
+    AboutComponent,
+    PlayerProfileComponent
   ],
   entryComponents: [LoginDialogComponent, ForecastDialogComponent, SignUpDialogComponent, AddGolfRoundDialogComponent, AddPartnerDialogComponent],
   imports: [
@@ -110,7 +112,8 @@ import { ForecastService } from './services/forecast.service';
       { path: 'add-partner', component: AddPartnerDialogComponent },
       { path: 'about', component: AboutComponent },
       { path: 'partners', component: PartnerComponent },
-      { path: 'forecast', component: ForecastDialogComponent }
+      { path: 'forecast', component: ForecastDialogComponent },
+      { path: 'player-profile', component: PlayerProfileComponent }
     ])
   ],
   providers: [CourseService, ForecastService, PlayerService, GolfRoundService, ScoreService, UserService, PartnerService, MatSnackBar],

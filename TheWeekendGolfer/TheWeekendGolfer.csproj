@@ -10,6 +10,7 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <UserSecretsId>dff8ff2c-5b34-4c6d-a367-edcbacf53eec</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,6 +24,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\course\course.component.spec.ts" />
+    <None Remove="ClientApp\src\app\models\courseStat.model.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +55,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.spec.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\course\course.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\courseStat.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\handicap.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\partner.model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\scoreView.model.ts" />

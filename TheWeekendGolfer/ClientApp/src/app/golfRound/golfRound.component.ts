@@ -1,13 +1,9 @@
-import { Component, Inject, OnInit, ViewChild, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild,  ChangeDetectorRef } from '@angular/core';
 import { GolfRoundService } from '../services/golfRound.service'
-import { GolfRound } from '../models/golfRound.model'
 import { Course } from '../models/course.model';
 import { ScoreView } from '../models/scoreView.model';
 import { UserService } from '../services/user.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog, SimpleSnackBar, MatSnackBarRef, MatSnackBar } from '@angular/material';
-import { Player } from '../models/player.model';
-import { Score } from '../models/score.model';
-import { AddGolfRound } from '../models/addGolfRound.model';
 import { Router } from '@angular/router';
 import { AddGolfRoundDialogComponent } from './add-golfRound-Dialog.component';
 
@@ -84,10 +80,9 @@ export class GolfRoundComponent implements OnInit {
   }
 
   openDialog(): void {
-
-    var scoreData: Score[] = [];
+    
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
-      minWidth: '1000px',
+      minWidth: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

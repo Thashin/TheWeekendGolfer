@@ -1,19 +1,13 @@
-import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
-import { GolfRoundService } from '../services/golfRound.service'
-import { GolfRound } from '../models/golfRound.model'
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { Course } from '../models/course.model';
 import { CourseService } from '../services/course.service';
 import { PlayerService } from '../services/player.service';
-import { Score } from '../models/score.model';
 import { Player } from '../models/player.model';
-import { forEach } from '@angular/router/src/utils/collection';
 import { ScoreService } from '../services/scores.service';
 import { AddGolfRound } from '../models/addGolfRound.model';
 import { UserService } from '../services/user.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   templateUrl: './add-golfRound-Dialog.component.html',

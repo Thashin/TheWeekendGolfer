@@ -1,21 +1,15 @@
-import { Component, AfterViewInit, OnInit, Input, OnChanges, ChangeDetectorRef, Output } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CourseService } from '../services/course.service';
-import { Course } from '../models/course.model';
+import { Component,  OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { PlayerService } from '../services/player.service';
 import { PartnerService } from '../services/partner.service';
-import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
 import { GolfRoundService } from '../services/golfRound.service';
-import { ActivatedRoute } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddPartnerDialogComponent } from '../partner/add-partner-dialog.component';
 import { MatSnackBar, MatDialog, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { Score } from '../models/score.model';
 import { AddGolfRoundDialogComponent } from '../golfRound/add-golfRound-Dialog.component';
 import { ForecastDialogComponent } from '../forecast/forecast-Dialog.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -33,7 +27,7 @@ export class HomeComponent implements OnInit {
   public playerId = "";
   public partners: Player[] = [];
 
-  constructor(private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
+  constructor(private router: Router,private _golfRoundService: GolfRoundService, private _userService: UserService, private _playerService: PlayerService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     _userService.observableIsLoggedIn.subscribe(data => { this.isLoggedIn = data; this.getHistoricalHandicaps(); });
   }
 
@@ -44,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   openPartnerDialog(): void {
     const dialogRef = this.dialog.open(AddPartnerDialogComponent, {
-      minWidth: '1000px',
+      minWidth: '500px',
     });
 
     dialogRef.afterClosed().subscribe(partner => {
@@ -73,10 +67,9 @@ export class HomeComponent implements OnInit {
   }
 
   openGolfRoundDialog(): void {
-
-    var scoreData: Score[] = [];
+    
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
-      minWidth: '1000px',
+      minWidth: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -98,7 +91,7 @@ export class HomeComponent implements OnInit {
   openForecastDialog(): void {
     
     const dialogRef = this.dialog.open(ForecastDialogComponent, {
-      minWidth: '1000px',
+      minWidth: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -127,7 +120,8 @@ export class HomeComponent implements OnInit {
     this._playerService.getPlayerById(this.playerId).subscribe(player => {
       this.currentHandicaps.push({
         name: player.firstName + " " + player.lastName,
-        value: Math.round(player.handicap * 10) / 10
+        value: Math.round(player.handicap * 10) / 10,
+        playerId: this.playerId
       });
       this.currentHandicaps = [... this.currentHandicaps];
     }
@@ -136,7 +130,8 @@ export class HomeComponent implements OnInit {
       this._playerService.getPlayerById(partner.id).subscribe(player => {
         this.currentHandicaps.push({
           name: player.firstName + " " + player.lastName,
-          value: Math.round(player.handicap * 10) / 10
+          value: Math.round(player.handicap * 10) / 10,
+          playerId: partner.id
         });
         this.currentHandicaps = this.currentHandicaps.sort((a, b) => {
           if (a.value < b.value) return -1;
@@ -166,7 +161,7 @@ export class HomeComponent implements OnInit {
           series: handicaps.map(item => {
             return {
               name: new Date(item.date),
-              value: item.currentHandicap
+              value: item.currentHandicap,
             }
           })
         });
@@ -225,6 +220,13 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+  }
+
+  getProfile(event: any) {
+    console.log(event);
+    var playerId = this.currentHandicaps.find(player => (player.name === event.name) && (player.value === event.value)
+    ).playerId;
+    this.router.navigate(['/player-profile'], { queryParams: { PlayerId: playerId } });
   }
 
   showXAxis = true;

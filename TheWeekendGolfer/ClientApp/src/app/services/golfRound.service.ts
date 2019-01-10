@@ -1,16 +1,11 @@
 
 import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-
-
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GolfRound } from '../models/golfRound.model';
-import { Course } from '../models/course.model';
-import { Score } from '../models/score.model';
 import { AddGolfRound } from '../models/addGolfRound.model';
 import { GolfRoundView } from '../golfRound/golfRound.component';
+import { CourseStat } from '../models/courseStat.model';
 
 @Injectable()
 export class GolfRoundService {
@@ -29,7 +24,13 @@ export class GolfRoundService {
     return this._http.get<GolfRound>(this.theWeekendGolferUrl + "api/GolfRound/Details/" + id);
   }
 
+  getGolfRoundForPlayerId(id: string) {
+    return this._http.get<GolfRoundView[]>(this.theWeekendGolferUrl + "api/GolfRound/Details?PlayerId=" + id);
+  }
 
+  getGolfRoundCourseAverages(id: string) {
+    return this._http.get<CourseStat[]>(this.theWeekendGolferUrl + "api/GolfRound/CourseAverages?PlayerId=" + id);
+  }
 
   createGolfRound(golfRound: AddGolfRound) {
     let options = {

@@ -118,6 +118,109 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves all golf rounds in a human-readable format. This is done by resolvng all Guid's to names.
+        /// </summary>
+        /// <returns>List of human-readable golf rounds</returns>
+        [HttpGet]
+        public IActionResult Details(Guid PlayerId)
+        {
+            try
+            {
+
+                var courses = _courseAccessLayer.GetAllCourses();
+                var players = _playerAccessLayer.GetAllPlayers();
+                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
+                var scores = _scoreAccessLayer.GetAllPlayerScores(PlayerId);
+
+
+                var joinRoundScores = from round in rounds
+                                      join score in scores on round.Id equals score.GolfRoundId
+                                      where score.GolfRoundId.Equals(round.Id)
+                                      select new { round.Id, round.Date, round.CourseId, score.PlayerId, score.Value };
+
+                var resolveCourses = from round in joinRoundScores
+                                     join course in courses on round.CourseId equals course.Id
+                                     where course.Id.Equals(round.CourseId)
+                                     select new { round.Id, round.Date, course.Name, course.TeeName, course.Holes, course.Par, course.ScratchRating, course.Slope, round.PlayerId, round.Value };
+
+                var resolvePlayers = from round in resolveCourses
+                                     join player in players on round.PlayerId equals player.Id
+                                     where player.Id.Equals(round.PlayerId)
+                                     select new { round.Id, round.Date, round.Name, round.TeeName, round.Holes, round.Par, round.ScratchRating, round.Slope, player.FirstName, player.LastName, player.Handicap, round.Value };
+
+                Dictionary<Guid, GolfRoundViewModel> roundsforDisplay = new Dictionary<Guid, GolfRoundViewModel>();
+
+                foreach (var round in resolvePlayers)
+                {
+                    var roundId = round.Id;
+                    if (!roundsforDisplay.ContainsKey(roundId))
+                    {
+                        roundsforDisplay.Add(roundId, new GolfRoundViewModel
+                        {
+                            Date = round.Date,
+                            Course = new Course
+                            {
+                                Name = round.Name,
+                                TeeName = round.TeeName,
+                                Holes = round.Holes,
+                                Par = round.Par,
+                                ScratchRating = round.ScratchRating,
+                                Slope = round.Slope
+                            },
+                            Players = new List<PlayerViewModel>()
+                        });
+                    }
+                    roundsforDisplay[roundId].Players.Add(new PlayerViewModel
+                    {
+                        Player = new Player
+                        {
+                            FirstName = round.FirstName,
+                            LastName = round.LastName,
+                            Handicap = round.Handicap
+                        },
+                        Score = round.Value
+                    });
+                }
+
+                foreach (var roundId in roundsforDisplay.Keys)
+                {
+                    roundsforDisplay[roundId].Players = roundsforDisplay[roundId].Players.OrderBy(p => p.Score).ToList();
+                }
+
+
+                return Ok(roundsforDisplay.Values);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult CourseAverages(Guid PlayerId)
+        {
+            try
+            {
+                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
+                var scores = _scoreAccessLayer.GetAllPlayerScores(PlayerId);
+                var courses = _courseAccessLayer.GetAllCourses();
+                var joinRoundScores = from round in rounds
+                                      join score in scores on round.Id equals score.GolfRoundId
+                                      where score.GolfRoundId.Equals(round.Id)
+                                      select new { round.CourseId,score.Value };
+                var summaryCourseIds = joinRoundScores.GroupBy(c => c.CourseId).OrderByDescending(c => c.Count()).Select(c => new { CourseId = c.Key, Count = c.Count(),Minimum = c.Min(s=>s.Value),Average = Math.Round(c.Average(s => s.Value)), Maximum = c.Max(s => s.Value) });
+   
+                    return Ok(from round in summaryCourseIds
+                                       join course in courses on round.CourseId equals (course.Id)
+                                       select new { course.Name, course.TeeName, course.Holes, round.Count, round.Minimum,round.Average,round.Maximum });
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        
+        }
 
         /// <summary>
         /// Adds a golf round.
