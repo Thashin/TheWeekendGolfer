@@ -86,12 +86,12 @@ namespace TheWeekendGolfer.Web.Controllers
 
 
 
-                    Decimal sixty = (60 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fiftyFive = (55 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fifty = (50 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fortyFive = (45 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal forty = (40 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal thirtyFive = (35 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal sixty = (120 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal fiftyFive = (110 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal fifty = (100 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal fortyFive = (90 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal forty = (80 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                    Decimal thirtyFive = (70 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
 
   
 

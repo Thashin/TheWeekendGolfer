@@ -64,7 +64,7 @@ namespace TheWeekendGolfer.Data
                 IList<Handicap> usedPlayedTos = new List<Handicap>();
                 if (roundsPlayed >= 19)
                 {
-                    if(orderedByPlayedTos.Take(8).Contains(orderedbyDateHandicaps.ElementAt(19)))
+                    if(roundsPlayed > 19 && orderedByPlayedTos.Take(8).Contains(orderedbyDateHandicaps.ElementAt(19)))
                     {
                         orderedByPlayedTos = orderedByPlayedTos.Where(p => !p.Equals(orderedbyDateHandicaps.ElementAt(19))).OrderBy(h=>h.Value);
                     }
@@ -111,7 +111,8 @@ namespace TheWeekendGolfer.Data
         {
             var orderedByDateHandicaps = GetOrderedHandicaps(playerId).Take(20);
             var usedPlayedTos = GetPlayedTos(playerId).OrderByDescending(p=>p.Value);
-            if(usedPlayedTos.Count()>8 &&
+            if(orderedByDateHandicaps.Count() > 19 &&
+               usedPlayedTos.Count()>8 &&
                usedPlayedTos.Contains(orderedByDateHandicaps.ElementAt(19)))
             {
                 return usedPlayedTos.ElementAt(2);

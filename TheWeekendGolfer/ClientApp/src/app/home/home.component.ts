@@ -215,7 +215,7 @@ export class HomeComponent implements OnInit {
           this.getPartnerHandicaps();
         }
         else {
-          this.playerId = '2d566298-4d3d-42d8-589e-08d62e8da6fb'
+          this.playerId = '22d41b0f-ca44-4cd6-6bde-08d6b051fb97'
           this._playerService.getPlayerById(this.playerId).subscribe(thashin => {
             this.getCourseStats();
             this.getPlayerHandicaps(thashin);

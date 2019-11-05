@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --extract-css",
+    "build": "ng build",
     "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
     "test": "ng test  --source-map=false",
     "lint": "ng lint",
@@ -16,6 +16,8 @@
     "@angular/animations": "7.2.0",
     "@angular/cdk": "^7.2.1",
     "@angular/common": "7.2.0",
+    "@angular/cli": "^7.2.0",
+    "@angular/compiler-cli": "7.2.0",
     "@angular/compiler": "7.2.0",
     "@angular/core": "^7.2.0",
     "@angular/flex-layout": "^7.0.0-beta.22",

@@ -10,6 +10,7 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <UserSecretsId>a6a3fa06-7c79-4d29-9aed-539249a02d6f</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,13 +29,13 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
