@@ -1,16 +1,12 @@
-import { Component, Inject, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router, ActivatedRoute } from '@angular/router';
-import { GolfRoundService } from '../services/golfRound.service'
-import { GolfRound } from '../models/golfRound.model'
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { Component, ViewChild } from '@angular/core';
+import { Validators, FormArray, FormControl } from '@angular/forms';
 import { Course } from '../models/course.model';
 import { CourseService } from '../services/course.service';
-import { PlayerService } from '../services/player.service';
 import { Player } from '../models/player.model';
-import { forEach } from '@angular/router/src/utils/collection';
-import { UserService } from '../services/user.service';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Forecast } from '../models/forecast.model';
 import { ForecastService } from '../services/forecast.service';
 
@@ -37,16 +33,15 @@ export class ForecastDialogComponent {
 
   public forecasts: MatTableDataSource<Forecast>;
   displayedColumns: string[] = ['playerName','average','personalBest','highestScore','toLowerHandicap','sixty','fiftyFive','fifty','fortyFive','forty','thirtyFive'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort
   
   numScores: number;
 
   forecast: Forecast = new Forecast;
 
 
-  constructor(private _courseService: CourseService, private _forecastService: ForecastService, private _userService: UserService, private formBuilder: FormBuilder,
-    public dialog: MatDialogRef<ForecastDialogComponent>) {
+  constructor(private _courseService: CourseService, private _forecastService: ForecastService, public dialog: MatDialogRef<ForecastDialogComponent>) {
     this.getCourseNames();
   }
 

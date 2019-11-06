@@ -1,7 +1,10 @@
-import { Component, Inject, ViewChild, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { PartnerService } from '../services/partner.service'
-import { Partner } from '../models/partner.model'
-import { MatTableDataSource, MatPaginator, MatSort, SimpleSnackBar, MatSnackBarRef, MatSnackBar, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { SimpleSnackBar, MatSnackBarRef, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Player } from '../models/player.model';
 import { UserService } from '../services/user.service';
 import { AddPartnerDialogComponent } from './add-partner-dialog.component';
@@ -18,8 +21,8 @@ export class PartnerComponent implements OnInit {
   public partners: MatTableDataSource<Player> | null;
   displayedColumns: string[] = ['name', 'edit'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(private _userService: UserService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
     this.getPartners();

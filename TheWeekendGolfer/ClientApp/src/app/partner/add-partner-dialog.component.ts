@@ -1,13 +1,11 @@
 
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormControl } from "@angular/forms";
 import { PartnerService } from "../services/partner.service";
-import { first } from "rxjs/operators";
-import { Router } from "@angular/router";
 import { PlayerService } from '../services/player.service';
 import { Player } from '../models/player.model';
 import { UserService } from '../services/user.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './add-partner-dialog.component.html'
@@ -18,8 +16,7 @@ export class AddPartnerDialogComponent implements OnInit {
 
   partner= new FormControl('', [Validators.required]);
 
-  constructor(private _playerService: PlayerService, private _partnerService: PartnerService, private _userService: UserService, private formBuilder: FormBuilder,
-    public dialog: MatDialogRef<AddPartnerDialogComponent>) {
+  constructor(private _partnerService: PartnerService, private _userService: UserService, public dialog: MatDialogRef<AddPartnerDialogComponent>) {
     
   }
 

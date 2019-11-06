@@ -1,9 +1,9 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { PlayerService } from '../services/player.service'
 import { Player } from '../models/player.model'
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { merge } from 'rxjs';
-import { startWith, switchMap, map } from 'rxjs/operators';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   templateUrl: './player.component.html'
@@ -14,8 +14,8 @@ export class PlayerComponent {
   public players: MatTableDataSource<Player> | null;
   displayedColumns: string[] = ['name', 'handicap'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   constructor(private _playerService: PlayerService) {
     this.getPlayers();

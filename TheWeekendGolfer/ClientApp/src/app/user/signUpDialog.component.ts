@@ -1,12 +1,8 @@
-import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-import { PlayerService } from "../services/player.service";
-import { first } from "rxjs/operators";
-import { Router } from "@angular/router";
-import { UserService } from '../services/user.service';
+import { Component } from '@angular/core';
+import { Validators, FormControl } from "@angular/forms";
 import { Player } from '../models/player.model';
 import { User } from '../models/User.model';
-import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './signUpDialog.component.html'

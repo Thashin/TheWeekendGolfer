@@ -1,7 +1,9 @@
-import { Component, Inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CourseService } from '../services/course.service'
 import { Course } from '../models/course.model'
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'courses',
@@ -13,7 +15,7 @@ export class CourseComponent {
   public courses: MatTableDataSource<Course>;
   displayedColumns: string[] = ['name', 'location', 'teeName', 'holes', 'par', 'scratchRating', 'slope'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
 
   constructor(private _courseService: CourseService) {
@@ -21,7 +23,7 @@ export class CourseComponent {
     this.getCourses();
   }
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
 
   getCourses() {

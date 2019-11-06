@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy, Output } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { User } from '../models/User.model';
-import { MatSnackBarRef, SimpleSnackBar, MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBarRef, SimpleSnackBar, MatSnackBar } from '@angular/material/snack-bar';
 import { LoginDialogComponent } from '../user/loginDialog.component';
 import { SignUpDialogComponent } from '../user/signUpDialog.component';
-import { EventEmitter } from 'events';
 import { PlayerService } from '../services/player.service';
 
 @Component({

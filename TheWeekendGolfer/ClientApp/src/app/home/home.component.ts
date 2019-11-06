@@ -1,18 +1,12 @@
-import { Component, AfterViewInit, OnInit, Input, OnChanges, ChangeDetectorRef, Output } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { CourseService } from '../services/course.service';
-import { Course } from '../models/course.model';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { PlayerService } from '../services/player.service';
 import { PartnerService } from '../services/partner.service';
-import { Partner } from '../models/partner.model';
 import { Player } from '../models/player.model';
 import { GolfRoundService } from '../services/golfRound.service';
-import { ActivatedRoute } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddPartnerDialogComponent } from '../partner/add-partner-dialog.component';
-import { MatSnackBar, MatDialog, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { Score } from '../models/score.model';
 import { AddGolfRoundDialogComponent } from '../golfRound/add-golfRound-Dialog.component';
 import { ForecastDialogComponent } from '../forecast/forecast-Dialog.component';
@@ -74,7 +68,6 @@ export class HomeComponent implements OnInit {
 
   openGolfRoundDialog(): void {
 
-    var scoreData: Score[] = [];
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
       minWidth: '1000px',
     });

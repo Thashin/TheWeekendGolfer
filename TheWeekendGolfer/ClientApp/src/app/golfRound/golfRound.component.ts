@@ -1,13 +1,14 @@
-import { Component, Inject, OnInit, ViewChild, AfterViewInit, OnChanges, SimpleChanges, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { GolfRoundService } from '../services/golfRound.service'
-import { GolfRound } from '../models/golfRound.model'
 import { Course } from '../models/course.model';
 import { ScoreView } from '../models/scoreView.model';
 import { UserService } from '../services/user.service';
-import { MatPaginator, MatSort, MatTableDataSource, MatDialog, SimpleSnackBar, MatSnackBarRef, MatSnackBar } from '@angular/material';
-import { Player } from '../models/player.model';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { SimpleSnackBar, MatSnackBarRef, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Score } from '../models/score.model';
-import { AddGolfRound } from '../models/addGolfRound.model';
 import { Router } from '@angular/router';
 import { AddGolfRoundDialogComponent } from './add-golfRound-Dialog.component';
 
@@ -22,10 +23,10 @@ export class GolfRoundComponent implements OnInit {
   public golfRoundViews: MatTableDataSource<GolfRoundView>;
   displayedColumns: string[] = ['date', 'course', 'teeName', 'holes', 'par', 'scratchRating', 'slope', 'player1', 'player2', 'player3', 'player4'];
   isLoggedIn: boolean;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  constructor(private cdRef: ChangeDetectorRef, private snackBar: MatSnackBar, private _router: Router, private _golfRoundService: GolfRoundService, private _userService: UserService, public dialog: MatDialog) {
+  constructor(private snackBar: MatSnackBar, private _golfRoundService: GolfRoundService, private _userService: UserService, public dialog: MatDialog) {
     _userService.observableIsLoggedIn.subscribe(data => this.isLoggedIn = data);
   }
 
@@ -57,7 +58,7 @@ export class GolfRoundComponent implements OnInit {
 
   filterNames(players, filter): boolean {
     var found: boolean = false;
-    players.data.forEach(player => {
+    players.data.forEach(() => {
       if (found) {
         if (players.firstName.trim().toLowerCase().indexOf(filter) !== -1) {
           found = true;
@@ -85,7 +86,6 @@ export class GolfRoundComponent implements OnInit {
 
   openDialog(): void {
 
-    var scoreData: Score[] = [];
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
       minWidth: '1000px',
     });
