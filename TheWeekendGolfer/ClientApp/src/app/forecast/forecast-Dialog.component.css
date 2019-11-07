@@ -1,7 +1,8 @@
-.mat-cell, .mat-header-cell {
+.mat-cell,
+.mat-header-cell {
   padding: 10px 10px 10px 0;
 }
 
-.mat-table{
-  width:100%
+.mat-table {
+  width: 100%;
 }

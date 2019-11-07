@@ -1,4 +1,3 @@
-import { Course } from './course.model';
 import { Score } from './score.model';
 
 export class AddGolfRound {

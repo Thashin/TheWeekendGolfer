@@ -3,6 +3,6 @@
   flex-direction: column;
 }
 
-  .log-in-container > * {
-    width: 100%;
-  }
+.log-in-container > * {
+  width: 100%;
+}

@@ -1,30 +1,36 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { PartnerService } from '../services/partner.service'
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { SimpleSnackBar, MatSnackBarRef, MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { Player } from '../models/player.model';
-import { UserService } from '../services/user.service';
-import { AddPartnerDialogComponent } from './add-partner-dialog.component';
+import { Component, ViewChild, OnInit } from "@angular/core";
+import { PartnerService } from "../services/partner.service";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import {
+  SimpleSnackBar,
+  MatSnackBarRef,
+  MatSnackBar
+} from "@angular/material/snack-bar";
+import { MatSort } from "@angular/material/sort";
+import { MatTableDataSource } from "@angular/material/table";
+import { Player } from "../models/player.model";
+import { UserService } from "../services/user.service";
+import { AddPartnerDialogComponent } from "./add-partner-dialog.component";
 
 @Component({
-  templateUrl: './partner.component.html',
-  styleUrls: ['./partner.component.css']
+  templateUrl: "./partner.component.html",
+  styleUrls: ["./partner.component.css"]
 })
-
 export class PartnerComponent implements OnInit {
+  isLoggedIn = false;
+  partners: MatTableDataSource<Player> | undefined;
+  displayedColumns = ["name", "edit"];
 
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  isLoggedIn: boolean = false;
-  public partners: MatTableDataSource<Player> | null;
-  displayedColumns: string[] = ['name', 'edit'];
-
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-  constructor(private _userService: UserService, private _partnerService: PartnerService, private snackBar: MatSnackBar, public dialog: MatDialog) {
+  constructor(
+    private _userService: UserService,
+    private _partnerService: PartnerService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
+  ) {
     this.getPartners();
   }
 
@@ -33,7 +39,7 @@ export class PartnerComponent implements OnInit {
   }
   openDialog(): void {
     const dialogRef = this.dialog.open(AddPartnerDialogComponent, {
-      minWidth: '1000px',
+      minWidth: "1000px"
     });
 
     dialogRef.afterClosed().subscribe(partner => {
@@ -42,8 +48,7 @@ export class PartnerComponent implements OnInit {
           if (data) {
             this.openSnackBar("Partner Created Successfully");
             this.getPartners();
-          }
-          else {
+          } else {
             this.openDialog();
             this.openSnackBar("Unable to create Partner");
           }
@@ -54,17 +59,20 @@ export class PartnerComponent implements OnInit {
 
   openSnackBar(message: string): MatSnackBarRef<SimpleSnackBar> {
     return this.snackBar.open(message, "", {
-      duration: 5000,
+      duration: 5000
     });
   }
 
   applyFilter(filterValue: string) {
     this.partners.filterPredicate = (data, filter) =>
-      (
-        data.firstName.trim().toLowerCase().indexOf(filter) !== -1 ||
-        data.lastName.trim().toLowerCase().indexOf(filter) !== -1
-      );
-
+      data.firstName
+        .trim()
+        .toLowerCase()
+        .indexOf(filter) !== -1 ||
+      data.lastName
+        .trim()
+        .toLowerCase()
+        .indexOf(filter) !== -1;
 
     this.partners.filter = filterValue.trim().toLowerCase();
 
@@ -74,22 +82,21 @@ export class PartnerComponent implements OnInit {
   }
 
   getPartners() {
-    this._userService.getPlayerid().subscribe(
-      player => {
-        this._partnerService.getPartners(player.id).subscribe(
-          data => {
-            this.partners = new MatTableDataSource(data);
-            this.partners.paginator = this.paginator;
-            this.partners.sortingDataAccessor = (partner, property) => {
-              switch (property) {
-                case 'name': return partner.lastName.toLowerCase();
-                default: return partner[property];
-              }
-            };
-            this.partners.sort = this.sort;
+    this._userService.getPlayerid().subscribe(player => {
+      this._partnerService.getPartners(player.id).subscribe(data => {
+        this.partners = new MatTableDataSource(data);
+        this.partners.paginator = this.paginator;
+        this.partners.sortingDataAccessor = (partner, property) => {
+          switch (property) {
+            case "name":
+              return partner.lastName.toLowerCase();
+            default:
+              return partner[property];
           }
-        );
-      })
+        };
+        this.partners.sort = this.sort;
+      });
+    });
   }
 
   removePartner(partnerId) {
@@ -97,8 +104,7 @@ export class PartnerComponent implements OnInit {
       if (data) {
         this.getPartners();
         this.openSnackBar("Partner Deleted Successfully");
-      }
-      else {
+      } else {
         this.openSnackBar("Unable to delete partner");
       }
     });

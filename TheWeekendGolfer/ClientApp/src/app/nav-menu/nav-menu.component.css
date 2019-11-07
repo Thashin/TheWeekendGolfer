@@ -26,7 +26,6 @@ h1.app-name {
   margin-left: 8px;
 }
 
-
 .sidenav-container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
@@ -45,7 +44,7 @@ mat-sidenav {
 }
 
 .navigation-items .label {
-  padding-left: 15px
+  padding-left: 15px;
 }
 
 .navigation-items {
@@ -58,8 +57,6 @@ mat-sidenav {
 .mat-list-item {
   padding: 5px;
 }
-
-
 
 .label {
   display: inline-block;
@@ -78,7 +75,7 @@ mat-sidenav {
 }
 
 .toolbar-icons {
-  padding-right: 15px
+  padding-right: 15px;
 }
 
 .social-media {

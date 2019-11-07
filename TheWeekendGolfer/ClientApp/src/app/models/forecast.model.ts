@@ -1,5 +1,3 @@
-import { Course } from './course.model';
-import { Score } from './score.model';
 import { Player } from './player.model';
 
 export class Forecast {
