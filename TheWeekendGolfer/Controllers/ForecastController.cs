@@ -51,159 +51,23 @@ namespace TheWeekendGolfer.Web.Controllers
 
                 var course = _courseAccessLayer.GetCourse(CourseId);
                 var players = _playerAccessLayer.GetAllPlayers();
-                var rounds = _golfRoundAccessLayer.GetAllGolfRounds();
-                var scores = _scoreAccessLayer.GetAllScores();
-                var joinRoundScores = from round in rounds
-                                      join score in scores on round.Id equals score.GolfRoundId
-                                      where score.GolfRoundId.Equals(round.Id) && CourseId.Equals(round.CourseId)
-                                      select new { round.Id, round.Date, round.CourseId, score.PlayerId, score.Value };
+                var rounds = _golfRoundAccessLayer.GetAllGolfRounds().Where(r => r.CourseId.Equals(CourseId));
 
                 IList<Forecast> forecasts = new List<Forecast>();
 
                 foreach (var player in players)
                 {
-                    var numberOfRounds = scores.Where(s => s.PlayerId.Equals(player.Id)).Count();
-                    Decimal average = 0;
-                    Decimal pb = 0;
-                    Decimal hs = 0;
-              
-                        var playerScores = joinRoundScores.Where(s => s.PlayerId.Equals(player.Id));
-                    if (playerScores.Count() > 0)
+                    var playerScores = _scoreAccessLayer.GetAllPlayerScores(player.Id);
+                    IEnumerable<int> playerScoresForCourse = playerScores.Join(rounds,
+                        score => score.GolfRoundId,
+                        round => round.Id,
+                        (score, round) => score.Value);
+                    if (playerScoresForCourse.Count() == 0)
                     {
-                        average = (decimal)playerScores.Average(s => s.Value);
-                        pb = playerScores.Min(s => s.Value);
-                        hs = playerScores.Max(s => s.Value);
+                        playerScoresForCourse = playerScores.Select(s => s.Value);
                     }
-
-                    var highestPlayedTo = _handicapAccessLayer.GetHighestPlayedTo(player.Id).Value;
-
-                    var playedTosinHandicapSixty = _handicapAccessLayer.GetPlayedTos(player.Id);
-                    var playedTosinHandicapFiftyFive = _handicapAccessLayer.GetPlayedTos(player.Id);
-                    var playedTosinHandicapFifty = _handicapAccessLayer.GetPlayedTos(player.Id);
-                    var playedTosinHandicapFortyFive = _handicapAccessLayer.GetPlayedTos(player.Id);
-                    var playedTosinHandicapForty = _handicapAccessLayer.GetPlayedTos(player.Id);
-                    var playedTosinHandicapThirtyFive = _handicapAccessLayer.GetPlayedTos(player.Id);
-
-
-
-                    Decimal sixty = (120 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fiftyFive = (110 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fifty = (100 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal fortyFive = (90 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal forty = (80 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-                    Decimal thirtyFive = (70 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-
-  
-
-                    if (course.Holes.Contains("-"))
-                    {
-                        highestPlayedTo = highestPlayedTo / 2;
-                        sixty = sixty * 2;
-                        fiftyFive = fiftyFive * 2;
-                        fifty = fifty * 2;
-                        fortyFive = fortyFive * 2;
-                        forty = forty * 2;
-                        thirtyFive = thirtyFive * 2;
-                    }
-
-                    playedTosinHandicapSixty.Add(new Handicap { Value = sixty });
-                    playedTosinHandicapFiftyFive.Add(new Handicap { Value = fiftyFive });
-                    playedTosinHandicapFifty.Add(new Handicap { Value = fifty });
-                    playedTosinHandicapFortyFive.Add(new Handicap { Value = fortyFive });
-                    playedTosinHandicapForty.Add(new Handicap { Value = forty });
-                    playedTosinHandicapThirtyFive.Add(new Handicap { Value = thirtyFive });
-
-                    if (numberOfRounds < 6)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Min(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Min(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Min(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Min(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Min(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Min(h => h.Value);
-                    }
-                    else if(numberOfRounds < 8)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(2).Average(h => h.Value);
-                    }
-                    else if (numberOfRounds < 10)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(3).Average(h => h.Value);
-                    }
-                    else if (numberOfRounds < 12)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(4).Average(h => h.Value);
-                    }
-                    else if (numberOfRounds < 14)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(5).Average(h => h.Value);
-                    }
-                    else if (numberOfRounds < 16)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(6).Average(h => h.Value);
-                    }
-                    else if (numberOfRounds < 18)
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(7).Average(h => h.Value);
-                    }
-                    else
-                    {
-                        sixty = playedTosinHandicapSixty.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                        fiftyFive = playedTosinHandicapFiftyFive.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                        fifty = playedTosinHandicapFifty.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                        fortyFive = playedTosinHandicapFortyFive.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                        forty = playedTosinHandicapForty.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                        thirtyFive = playedTosinHandicapThirtyFive.OrderBy(h => h.Value).Take(8).Average(h => h.Value);
-                    }
-
-
-                    Decimal toLowerScore = (highestPlayedTo / (Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93"))) + course.ScratchRating;
-
-                    forecasts.Add(new Forecast
-                    {
-                        Player = player,
-                        Average = average,
-                        PB = pb,
-                        HS = hs,
-                        ToLowerHandicap = Math.Floor(toLowerScore),
-                        Sixty = sixty,
-                        FiftyFive = fiftyFive,
-                        Fifty = fifty,
-                        FortyFive = fortyFive,
-                        Forty = forty,
-                        ThirtyFive = thirtyFive
-
-                    });
+                    var playerForecast = forecast(player, playerScoresForCourse, course);
+                    forecasts.Add(playerForecast);
                 }
 
                 return Ok(forecasts);
@@ -214,7 +78,102 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
+        private Forecast forecast(Player player, IEnumerable<int> scores, Course course)
+        {
+            int numberofRoundsPlayed = scores.Count();
+            Decimal averageScore = 0;
+            Decimal personalBestScore = 0;
+            Decimal highestScore = 0;
 
+            if (numberofRoundsPlayed > 0)
+            {
+                averageScore = (decimal)scores.Average(s => s);
+                personalBestScore = scores.Min(s => s);
+                highestScore = scores.Max(s => s);
+            }
+
+            var highestPlayedTo = _handicapAccessLayer.GetHighestPlayedTo(player.Id).Value;
+
+            var playedToinHandicapsTargetScore = _handicapAccessLayer.GetPlayedTos(player.Id);
+
+
+
+            Decimal sixty = (120 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+            Decimal fiftyFive = (110 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+            Decimal fifty = (100 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+            Decimal fortyFive = (90 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+            Decimal forty = (80 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+            Decimal thirtyFive = (70 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+
+
+
+            if (course.Holes.Contains("-"))
+            {
+                highestPlayedTo = highestPlayedTo / 2;
+                sixty = sixty * 2;
+                fiftyFive = fiftyFive * 2;
+                fifty = fifty * 2;
+                fortyFive = fortyFive * 2;
+                forty = forty * 2;
+                thirtyFive = thirtyFive * 2;
+            }
+
+
+            int numberOfHandicapsConsidered = 8;
+
+            if (numberofRoundsPlayed < 6)
+            {
+                numberOfHandicapsConsidered = 1;
+            }
+            else if (numberofRoundsPlayed > 5 && numberofRoundsPlayed < 19)
+            {
+                numberOfHandicapsConsidered = (int)Math.Floor((double)(numberofRoundsPlayed / 2)) - 1;
+            }
+
+            Handicap handicap = new Handicap { Value = sixty };
+            playedToinHandicapsTargetScore.Add(handicap);
+            sixty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+            handicap.Value = fiftyFive;
+            playedToinHandicapsTargetScore.Add(handicap);
+            fiftyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+            handicap.Value = fifty;
+            playedToinHandicapsTargetScore.Add(handicap);
+            fifty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+            handicap.Value = fortyFive;
+            playedToinHandicapsTargetScore.Add(handicap);
+            fortyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+            handicap.Value = forty;
+            playedToinHandicapsTargetScore.Add(handicap);
+            forty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+            handicap.Value = thirtyFive;
+            playedToinHandicapsTargetScore.Add(handicap);
+            thirtyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
+            playedToinHandicapsTargetScore.Remove(handicap);
+
+
+            Decimal toLowerScore = (highestPlayedTo / (Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93"))) + course.ScratchRating;
+
+            return new Forecast
+            {
+                Player = player,
+                Average = averageScore,
+                PB = personalBestScore,
+                HS = highestScore,
+                ToLowerHandicap = Math.Floor(toLowerScore),
+                Sixty = sixty,
+                FiftyFive = fiftyFive,
+                Fifty = fifty,
+                FortyFive = fortyFive,
+                Forty = forty,
+                ThirtyFive = thirtyFive
+
+            };
+        }
 
 
 
