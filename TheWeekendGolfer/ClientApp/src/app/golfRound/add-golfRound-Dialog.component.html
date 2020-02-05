@@ -78,7 +78,6 @@
             <mat-form-field>
               <mat-select
                 matInput
-                (change)="addPlayer($event.value)"
                 [(ngModel)]="scores.at(i).value.playerId"
                 placeholder="Player"
                 name="player"

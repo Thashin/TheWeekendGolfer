@@ -1,12 +1,6 @@
 <div class="weekend-golfer-container">
   <div class="button-row">
-    <div class="button-container">
-      <button mat-raised-button color="primary" (click)="openForecastDialog()">
-        <img src="../../assets/icons/forecast.png" />
-        <span class='label'></span> Forecast
-      </button>
-    </div>
-    <div *ngIf="isLoggedIn">
+    <div class="buttons-logged-in" *ngIf="isLoggedIn">
       <div class="button-container">
         <button mat-raised-button color="primary" (click)="openPartnerDialog()">
           <img src="../../assets/icons/add.png" />
@@ -19,6 +13,12 @@
           <span class='label'></span> Add Golf Round
         </button>
       </div>
+    </div>
+    <div class="button-container">
+      <button mat-raised-button color="primary" (click)="openForecastDialog()">
+        <img src="../../assets/icons/forecast.png" />
+        <span class='label'></span> Forecast
+      </button>
     </div>
   </div>
   <div *ngIf="playerHandicapsCount>0">

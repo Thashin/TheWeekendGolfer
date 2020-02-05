@@ -69,7 +69,7 @@ export class AddGolfRoundDialogComponent {
     this._courseService.getCourses().subscribe(courses => {
       this.courses = courses;
       this.courseNames = _.map(
-        _.uniqBy(courses, 'name'),
+        _.uniqBy(courses, "name"),
         uniqueCourse => uniqueCourse.name
       );
     });
