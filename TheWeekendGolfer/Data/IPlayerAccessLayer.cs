@@ -11,6 +11,8 @@ namespace TheWeekendGolfer.Data
     {
         Player GetPlayer(Guid id);
 
+        Player GetPlayerByName(string playerName);
+
 
         Player GetPlayerByUserId(Guid id);
 

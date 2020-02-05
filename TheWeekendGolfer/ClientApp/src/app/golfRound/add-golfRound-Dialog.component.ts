@@ -13,6 +13,7 @@ import { Player } from "../models/player.model";
 import { AddGolfRound } from "../models/addGolfRound.model";
 import { UserService } from "../services/user.service";
 import { MatDialogRef } from "@angular/material/dialog";
+import * as _ from "lodash";
 
 @Component({
   templateUrl: "./add-golfRound-Dialog.component.html",
@@ -20,20 +21,20 @@ import { MatDialogRef } from "@angular/material/dialog";
 })
 export class AddGolfRoundDialogComponent {
   currentPlayers: Player[];
+  courses: Course[];
   courseNames: string[];
-  holesNames: Course[];
-  tees: string[];
+  holeNames: Course[];
+  tees: Course[];
   courseName: string;
   allPlayers: Player[];
   player: Player;
   numScores: number;
-  addGolfRound: AddGolfRound;
+  addGolfRound: AddGolfRound = new AddGolfRound();
   datePlayed: FormControl = new FormControl("", [Validators.required]);
   course = new FormControl("", [Validators.required]);
   tee = new FormControl("", [Validators.required]);
   holes = new FormControl("", [Validators.required]);
   scores = new FormArray([]);
-
 
   createScore(): FormGroup {
     return this.formBuilder.group({
@@ -65,22 +66,25 @@ export class AddGolfRoundDialogComponent {
   }
 
   getCourseNames() {
-    this._courseService
-      .getCourseNames()
-      .subscribe(data => (this.courseNames = data));
+    this._courseService.getCourses().subscribe(courses => {
+      this.courses = courses;
+      this.courseNames = _.map(
+        _.uniqBy(courses, 'name'),
+        uniqueCourse => uniqueCourse.name
+      );
+    });
   }
 
-  getCourseTees(courseName: string) {
-    this.courseName = courseName;
-    this._courseService
-      .getCourseTees(courseName)
-      .subscribe(data => (this.tees = data));
+  getTeeNames(selectedCourseName: string) {
+    this.tees = _.filter(this.courses, course => {
+      return course.name === selectedCourseName;
+    });
   }
 
-  getCourseHoles(teeName: string) {
-    this._courseService
-      .getCourseHoles(this.courseName, teeName)
-      .subscribe(data => (this.holesNames = data));
+  getHoles(selectedCourseTee: string) {
+    this.holeNames = _.filter(this.tees, course => {
+      return course.teeName === selectedCourseTee;
+    });
   }
 
   getPlayers() {

@@ -22,7 +22,7 @@
         <mat-select
           matInput
           class="form-control"
-          (selectionChange)="getCourseTees($event.value)"
+          (selectionChange)="getTeeNames($event.value)"
           [formControl]="course"
           placeholder="Course"
           name="course"
@@ -39,7 +39,7 @@
       <mat-form-field>
         <mat-select
           matInput
-          (selectionChange)="getCourseHoles($event.value)"
+          (selectionChange)="getHoles($event.value)"
           [formControl]="tee"
           placeholder="Tee"
           name="tee"
@@ -47,8 +47,8 @@
           id="tee"
         >
           <mat-option *ngIf="!tees"><em>Loading...</em></mat-option>
-          <mat-option [value]="tee" *ngFor="let tee of tees">{{
-            tee
+          <mat-option [value]="course.teeName" *ngFor="let course of tees">{{
+            course.teeName
           }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -64,9 +64,9 @@
           class="form-control"
           id="holes"
         >
-          <mat-option *ngIf="!holesNames"><em>Loading...</em></mat-option>
-          <mat-option [value]="holes.id" *ngFor="let holes of holesNames">{{
-            holes.holes
+          <mat-option *ngIf="!holeNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="course.id" *ngFor="let course of holeNames">{{
+            course.holes
           }}</mat-option>
         </mat-select>
       </mat-form-field>

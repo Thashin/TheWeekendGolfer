@@ -39,10 +39,15 @@ namespace TheWeekendGolfer.Data
         {
             try
             {
-                var partners = _context.Partners.Where(s => s.PlayerId.Equals(playerId));
-                var partnerIds = partners.Select(p => p.PartnerId);
-                return _context.Players.Where(p => !p.Id.Equals(playerId) && !partnerIds.Contains(p.Id)).ToList();
-
+                var player = _context.Players.Where(p => p.Id.Equals(playerId)).FirstOrDefault();
+                var potentialPartners = new List<Player>();
+                if (player != null)
+                {
+                    var partners = _context.Partners.Where(s => s.PlayerId.Equals(playerId));
+                    var partnerIds = partners.Select(p => p.PartnerId);
+                    potentialPartners = _context.Players.Where(p => !p.Id.Equals(playerId) && !partnerIds.Contains(p.Id)).ToList();
+                }
+                return potentialPartners;
             }
             catch
             {

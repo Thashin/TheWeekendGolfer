@@ -44,6 +44,19 @@ namespace TheWeekendGolfer.Data
             }
         }
 
+        public Player GetPlayerByName(string playerName)
+        {
+            try
+            {
+
+                return _context.Players.Where(p => playerName.Equals(p.FirstName + " " + p.LastName)).First();
+            }
+            catch
+            {
+                throw new Exception("Could not retrieve Player for " + playerName);
+            }
+        }
+
         public IEnumerable<Player> GetAllPlayers()
         {
             try

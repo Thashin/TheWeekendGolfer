@@ -40,6 +40,12 @@ export class PlayerService {
     );
   }
 
+  getPlayerByName(playerName: string) {
+    return this._http.get<Player>(
+      this.theWeekendGolferUrl + "api/Player/DetailsByPlayerName?PlayerName=" + playerName
+    );
+  }
+
   createPlayer(player: Player) {
     let options = {
       headers: new HttpHeaders({

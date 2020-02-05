@@ -1,16 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using TheWeekendGolfer.Controllers;
 using TheWeekendGolfer.Data;
-using TheWeekendGolfer.Web.Data;
 using TheWeekendGolfer.Models;
 
 namespace TheWeekendGolfer.Web.Controllers
@@ -50,6 +42,8 @@ namespace TheWeekendGolfer.Web.Controllers
             {
 
                 var course = _courseAccessLayer.GetCourse(CourseId);
+                var highestPossibleScore = course.Par + 50;
+                var lowestPossibleScore = course.Par - 10;
                 var players = _playerAccessLayer.GetAllPlayers();
                 var rounds = _golfRoundAccessLayer.GetAllGolfRounds().Where(r => r.CourseId.Equals(CourseId));
 
@@ -66,7 +60,7 @@ namespace TheWeekendGolfer.Web.Controllers
                     {
                         playerScoresForCourse = playerScores.Select(s => s.Value);
                     }
-                    var playerForecast = forecast(player, playerScoresForCourse, course);
+                    var playerForecast = forecast(player, playerScoresForCourse, course, lowestPossibleScore, highestPossibleScore);
                     forecasts.Add(playerForecast);
                 }
 
@@ -78,7 +72,7 @@ namespace TheWeekendGolfer.Web.Controllers
             }
         }
 
-        private Forecast forecast(Player player, IEnumerable<int> scores, Course course)
+        private Forecast forecast(Player player, IEnumerable<int> scores, Course course, int lowestPossibleScore, int highestPossibleScore)
         {
             int numberofRoundsPlayed = scores.Count();
             Decimal averageScore = 0;
@@ -91,34 +85,9 @@ namespace TheWeekendGolfer.Web.Controllers
                 personalBestScore = scores.Min(s => s);
                 highestScore = scores.Max(s => s);
             }
-
             var highestPlayedTo = _handicapAccessLayer.GetHighestPlayedTo(player.Id).Value;
-
+            Decimal toLowerScore = (highestPlayedTo / (Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93"))) + course.ScratchRating;
             var playedToinHandicapsTargetScore = _handicapAccessLayer.GetPlayedTos(player.Id);
-
-
-
-            Decimal sixty = (120 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-            Decimal fiftyFive = (110 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-            Decimal fifty = (100 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-            Decimal fortyFive = (90 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-            Decimal forty = (80 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-            Decimal thirtyFive = (70 - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
-
-
-
-            if (course.Holes.Contains("-"))
-            {
-                highestPlayedTo = highestPlayedTo / 2;
-                sixty = sixty * 2;
-                fiftyFive = fiftyFive * 2;
-                fifty = fifty * 2;
-                fortyFive = fortyFive * 2;
-                forty = forty * 2;
-                thirtyFive = thirtyFive * 2;
-            }
-
-
             int numberOfHandicapsConsidered = 8;
 
             if (numberofRoundsPlayed < 6)
@@ -129,34 +98,17 @@ namespace TheWeekendGolfer.Web.Controllers
             {
                 numberOfHandicapsConsidered = (int)Math.Floor((double)(numberofRoundsPlayed / 2)) - 1;
             }
+            Dictionary<int, Decimal> rangeOfPredictedHandicaps = new Dictionary<int, Decimal>();
+            for (int expectedScore = lowestPossibleScore; expectedScore < highestPossibleScore; expectedScore++)
+            {
+                var expectedPlayedTo = (expectedScore - course.ScratchRating) * Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93");
+                Handicap handicap = new Handicap { Value = expectedPlayedTo };
+                playedToinHandicapsTargetScore.Add(handicap);
+                var expectedHandicap = Math.Round(playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value),2);
+                playedToinHandicapsTargetScore.Remove(handicap);
+                rangeOfPredictedHandicaps.Add(expectedScore, expectedHandicap);
+            }
 
-            Handicap handicap = new Handicap { Value = sixty };
-            playedToinHandicapsTargetScore.Add(handicap);
-            sixty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-            handicap.Value = fiftyFive;
-            playedToinHandicapsTargetScore.Add(handicap);
-            fiftyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-            handicap.Value = fifty;
-            playedToinHandicapsTargetScore.Add(handicap);
-            fifty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-            handicap.Value = fortyFive;
-            playedToinHandicapsTargetScore.Add(handicap);
-            fortyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-            handicap.Value = forty;
-            playedToinHandicapsTargetScore.Add(handicap);
-            forty = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-            handicap.Value = thirtyFive;
-            playedToinHandicapsTargetScore.Add(handicap);
-            thirtyFive = playedToinHandicapsTargetScore.OrderBy(h => h.Value).Take(numberOfHandicapsConsidered).Average(h => h.Value);
-            playedToinHandicapsTargetScore.Remove(handicap);
-
-
-            Decimal toLowerScore = (highestPlayedTo / (Decimal.Parse("113") / course.Slope * Decimal.Parse("0.93"))) + course.ScratchRating;
 
             return new Forecast
             {
@@ -165,12 +117,7 @@ namespace TheWeekendGolfer.Web.Controllers
                 PB = personalBestScore,
                 HS = highestScore,
                 ToLowerHandicap = Math.Floor(toLowerScore),
-                Sixty = sixty,
-                FiftyFive = fiftyFive,
-                Fifty = fifty,
-                FortyFive = fortyFive,
-                Forty = forty,
-                ThirtyFive = thirtyFive
+                RangeOfPredictedHandicaps = rangeOfPredictedHandicaps,
 
             };
         }

@@ -89,6 +89,24 @@ namespace TheWeekendGolfer.Web.Controllers
         }
 
         /// <summary>
+        /// Retrieves current handicap details for a player by player name
+        /// </summary>
+        /// <param name="PlayerName"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult DetailsByPlayerName(String PlayerName)
+        {
+            try
+            {
+                return Ok(_playerAccessLayer.GetPlayerByName(PlayerName));
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        /// <summary>
         /// Creates a player
         /// </summary>
         /// <param name="player"></param>

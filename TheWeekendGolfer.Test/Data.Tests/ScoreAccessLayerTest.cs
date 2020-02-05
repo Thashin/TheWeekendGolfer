@@ -151,11 +151,11 @@ namespace TheWeekendGolfer.Tests
         }
 
         [TestCase("00000000-0000-0000-0000-000000000005")]
-        public void TestGetAllPlayerScoresException(string id)
+        public void TestGetAllPlayerScoresNonPlayer(string id)
         {
-            Action action = () => _sut.GetAllPlayerScores(new Guid(id));
+            var actual = _sut.GetAllPlayerScores(new Guid(id));
 
-            action.Should().Throw<Exception>();
+            actual.Count().Should().Equals(0);
         }
 
 

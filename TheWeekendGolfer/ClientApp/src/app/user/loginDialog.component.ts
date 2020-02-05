@@ -9,7 +9,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 export class LoginDialogComponent {
   email = new FormControl("", [Validators.required, Validators.email]);
   password = new FormControl("", [Validators.required]);
-  user: User;
+  user: User = new User;
 
   constructor(private dialogRef: MatDialogRef<LoginDialogComponent>) {}
 

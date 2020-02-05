@@ -40,21 +40,7 @@ export class HomeComponent implements OnInit {
   autoScale = true;
   colorScheme = {
     domain: [
-      "#4e31a5",
-      "#9c25a7",
-      "#3065ab",
-      "#57468b",
-      "#904497",
-      "#46648b",
-      "#32118d",
-      "#a00fb3",
-      "#1052a2",
-      "#6e51bd",
-      "#b63cc3",
-      "#6c97cb",
-      "#8671c1",
-      "#b455be",
-      "#7496c3"
+      '#bf9d76', '#e99450', '#d89f59', '#f2dfa7', '#a5d7c6', '#7794b1', '#afafaf', '#707160', '#ba9383', '#d9d5c3'
     ]
   };
 
@@ -96,6 +82,7 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
   resetStats(): void {
     this.lineChartData = [];
     this.currentHandicaps = [];
@@ -241,9 +228,10 @@ export class HomeComponent implements OnInit {
         this.getCourseStats();
         this.getPlayerHandicaps(player);
         this.getPartnerHandicaps();
+        console.log(this.lineChartData)
       } else {
-        this.playerId = "22d41b0f-ca44-4cd6-6bde-08d6b051fb97";
-        this._playerService.getPlayerById(this.playerId).subscribe(thashin => {
+        this._playerService.getPlayerByName("Thashin Naidoo").subscribe(thashin => {
+          this.playerId = thashin.id;
           this.getCourseStats();
           this.getPlayerHandicaps(thashin);
           this.getPartnerHandicaps();
