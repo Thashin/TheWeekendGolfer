@@ -8,11 +8,11 @@ import { MatDialogRef } from "@angular/material/dialog";
   templateUrl: "./signUpDialog.component.html"
 })
 export class SignUpDialogComponent {
-  player: Player;
-  user: User;
+  player = new Player;
+  user = new User;
   firstName: FormControl = new FormControl("", [Validators.required]);
   lastName: FormControl = new FormControl("", [Validators.required]);
-  handicap: FormControl = new FormControl("", [Validators.required]);
+  handicap: FormControl = new FormControl("", []);
   email: FormControl = new FormControl("", [
     Validators.required,
     Validators.email

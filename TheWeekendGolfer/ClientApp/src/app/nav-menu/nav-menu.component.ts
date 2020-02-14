@@ -87,29 +87,34 @@ export class NavMenuComponent implements OnInit, OnDestroy {
           password: result.user.password,
           player: result.player
         };
-        this._userService.createUser(user).subscribe(data => {
-          if (data == true) {
-            this._userService.loginUser(user).subscribe(login => {
-              if (login["Result"] == "Login Successful") {
-                this._userService.setIsLoggedIn(true);
-                this._playerService
-                  .createPlayer(user.player)
-                  .subscribe(data => {
-                    if (data) {
-                      this.router.navigate(["/"]);
-                      this.openSnackBar("Signup Successful");
-                    }
-                  });
-              } else {
-                this.openLoginDialog();
-                this.openSnackBar("Unable to Login");
-              }
-            });
-          } else {
-            this.openSignUpDialog();
-            this.openSnackBar(data.toString());
-          }
-        });
+        this._userService
+          .createUser(user)
+          .subscribe(createdUserSuccessfully => {
+            if (createdUserSuccessfully) {
+              this._userService.loginUser(user).subscribe(login => {
+                if (login["Result"] == "Login Successful") {
+                  this._playerService
+                    .createPlayer(user.player)
+                    .subscribe(createdPlayerSuccessfully => {
+                      if (createdPlayerSuccessfully) {
+                        this._userService.setIsLoggedIn(true);
+                        this.router.navigate(["/"]);
+                        this.openSnackBar("Signup Successful");
+                      } else {
+                        this.openSignUpDialog();
+                        this.openSnackBar("Unable to Signup");
+                      }
+                    });
+                } else {
+                  this.openLoginDialog();
+                  this.openSnackBar("Unable to Login");
+                }
+              });
+            } else {
+              this.openSignUpDialog();
+              this.openSnackBar("Unable to Signup");
+            }
+          });
       }
     });
   }

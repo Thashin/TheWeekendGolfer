@@ -2,9 +2,15 @@
   padding: 10px;
 }
 
-.buttons-logged-in, .button-row {
+.buttons-logged-in,
+.button-row {
   display: flex;
   padding-bottom: 5px;
+}
+
+img {
+  padding-right: 5px;
+  margin-left: -5px;
 }
 
 mat-card {
@@ -15,8 +21,7 @@ mat-card {
 
 .handicap-cards,
 .historical-handicaps,
-.course-stats
-{
+.course-stats {
   padding: 8px 0px 8px 0px;
 }
 

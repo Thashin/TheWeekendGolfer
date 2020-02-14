@@ -159,11 +159,5 @@ namespace TheWeekendGolfer.Web.Controllers
             return Ok(_courseAccessLayer.GetCourseStats(courses.ToList()));
         }
 
-
-
-
-
-
-
     }
 }
