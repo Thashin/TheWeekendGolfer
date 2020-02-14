@@ -9,7 +9,15 @@
 
 mat-card {
   display: flex;
+  flex-direction: column;
   padding: 5px;
+}
+
+.handicap-cards,
+.historical-handicaps,
+.course-stats
+{
+  padding: 8px 0px 8px 0px;
 }
 
 .footer {

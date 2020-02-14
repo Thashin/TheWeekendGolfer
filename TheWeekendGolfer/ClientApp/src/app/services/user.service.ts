@@ -82,7 +82,6 @@ export class UserService {
   }
 
   errorHandler(error: Response) {
-    console.log(error);
     return observableThrowError(error);
   }
 }

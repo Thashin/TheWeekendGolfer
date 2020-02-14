@@ -8,6 +8,7 @@ html, body {
 
 body {
   font-family: Roboto, Arial, sans-serif;
+  font-size: 12px;
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -16,6 +17,10 @@ body {
 .weekend-golfer-container {
   padding: 10px 15px 20px 20px;
   flex: 1 0 auto;
+}
+
+mat-table {
+  padding: 8px;
 }
 
 table {
@@ -28,8 +33,8 @@ th {
 
 td, th {
   vertical-align: middle;
+  padding-right: 8px!important;
 }
-
 
 .mat-column {
   flex: 0 0 200px;

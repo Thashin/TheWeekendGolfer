@@ -4,49 +4,56 @@
       <div class="button-container">
         <button mat-raised-button color="primary" (click)="openPartnerDialog()">
           <img src="../../assets/icons/add.png" />
-          <span class='label'></span> Add Partner
+          <span class="label"></span> Add Partner
         </button>
       </div>
       <div class="button-container">
-        <button mat-raised-button color="primary" (click)="openGolfRoundDialog()">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="openGolfRoundDialog()"
+        >
           <img src="../../assets/icons/add.png" />
-          <span class='label'></span> Add Golf Round
+          <span class="label"></span> Add Golf Round
         </button>
       </div>
     </div>
-    <div class="button-container">
-      <button mat-raised-button color="primary" (click)="openForecastDialog()">
-        <img src="../../assets/icons/forecast.png" />
-        <span class='label'></span> Forecast
-      </button>
-    </div>
   </div>
-  <div *ngIf="playerHandicapsCount>0">
-    <mat-card>
-      <ngx-charts-number-card [scheme]="colorScheme"
-                              [results]="currentHandicaps">
+  <mat-card>
+    <div class="handicap-cards" *ngIf="playerHandicapsCount > 0">
+      <ngx-charts-number-card
+        [scheme]="colorScheme"
+        [results]="currentHandicaps"
+      >
       </ngx-charts-number-card>
-    </mat-card>
-  </div>
-  <mat-card *ngIf="lineChartData&&(playerHandicapsCount>1)">
-    <ngx-charts-line-chart [results]="lineChartData"
-                           [scheme]="colorScheme"
-                           [autoScale]="autoScale"
-                           [gradient]="gradient"
-                           [xAxis]="showXAxis"
-                           [yAxis]="showYAxis"
-                           [legend]="showLegend"
-                           [showXAxisLabel]="showXAxisLabel"
-                           [showYAxisLabel]="showYAxisLabel"
-                           [xAxisLabel]="xAxisLabel"
-                           [yAxisLabel]="yAxisLabel"
-                           [timeline]="timeline"
-                           class="ngx-charts">
-    </ngx-charts-line-chart>
-  </mat-card>
-  <mat-card *ngIf="courseStats.length>0">
-    <ngx-charts-pie-grid [scheme]="colorScheme"
-                         [results]="courseStats">
-    </ngx-charts-pie-grid>
+    </div>
+    <div *ngIf="playerHandicapsCount == 0">
+      <h4>Please add a golf round to view handicap cards</h4>
+    </div>
+    <div class="historical-handicaps" *ngIf="lineChartData && playerHandicapsCount > 1">
+      <ngx-charts-line-chart
+        [results]="lineChartData"
+        [scheme]="colorScheme"
+        [autoScale]="autoScale"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline"
+        class="ngx-charts"
+      >
+      </ngx-charts-line-chart>
+    </div>
+    <div *ngIf="playerHandicapsCount == 1">
+        <h4>Please add a golf round to view historical handicaps</h4>
+      </div>
+    <div class="course-stats" *ngIf="courseStats.length > 0">
+      <ngx-charts-pie-grid [scheme]="colorScheme" [results]="courseStats">
+      </ngx-charts-pie-grid>
+    </div>
   </mat-card>
 </div>

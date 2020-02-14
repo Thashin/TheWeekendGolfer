@@ -12,7 +12,6 @@ import {
   SimpleSnackBar
 } from "@angular/material/snack-bar";
 import { AddGolfRoundDialogComponent } from "../golfRound/add-golfRound-Dialog.component";
-import { ForecastDialogComponent } from "../forecast/forecast-Dialog.component";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -40,7 +39,16 @@ export class HomeComponent implements OnInit {
   autoScale = true;
   colorScheme = {
     domain: [
-      '#bf9d76', '#e99450', '#d89f59', '#f2dfa7', '#a5d7c6', '#7794b1', '#afafaf', '#707160', '#ba9383', '#d9d5c3'
+      "#bf9d76",
+      "#e99450",
+      "#d89f59",
+      "#f2dfa7",
+      "#a5d7c6",
+      "#7794b1",
+      "#afafaf",
+      "#707160",
+      "#ba9383",
+      "#d9d5c3"
     ]
   };
 
@@ -95,27 +103,7 @@ export class HomeComponent implements OnInit {
 
   openGolfRoundDialog(): void {
     const dialogRef = this.dialog.open(AddGolfRoundDialogComponent, {
-      minWidth: "1000px"
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != null) {
-        this._golfRoundService.createGolfRound(result).subscribe(data => {
-          if (data) {
-            this.openSnackBar("Golf Round Created Successfully");
-            this.getHistoricalHandicaps();
-          } else {
-            this.openGolfRoundDialog();
-            this.openSnackBar("Unable to create Golf Round");
-          }
-        });
-      }
-    });
-  }
-
-  openForecastDialog(): void {
-    const dialogRef = this.dialog.open(ForecastDialogComponent, {
-      minWidth: "1000px"
+      minWidth: "600px"
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -146,21 +134,21 @@ export class HomeComponent implements OnInit {
         value: Math.round(player.handicap * 10) / 10
       });
       this.currentHandicaps = [...this.currentHandicaps];
+      this.partners.forEach(partner =>
+        this._playerService.getPlayerById(partner.id).subscribe(playera => {
+          this.currentHandicaps.push({
+            name: playera.firstName + " " + playera.lastName,
+            value: Math.round(playera.handicap * 10) / 10
+          });
+          this.currentHandicaps = this.currentHandicaps.sort((a, b) => {
+            if (a.value < b.value) return -1;
+            else if (a.value > b.value) return 1;
+            else return 0;
+          });
+          this.currentHandicaps = [...this.currentHandicaps];
+        })
+      );
     });
-    this.partners.forEach(partner =>
-      this._playerService.getPlayerById(partner.id).subscribe(player => {
-        this.currentHandicaps.push({
-          name: player.firstName + " " + player.lastName,
-          value: Math.round(player.handicap * 10) / 10
-        });
-        this.currentHandicaps = this.currentHandicaps.sort((a, b) => {
-          if (a.value < b.value) return -1;
-          else if (a.value > b.value) return 1;
-          else return 0;
-        });
-        this.currentHandicaps = [...this.currentHandicaps];
-      })
-    );
   }
 
   getCourseStats() {
@@ -228,14 +216,15 @@ export class HomeComponent implements OnInit {
         this.getCourseStats();
         this.getPlayerHandicaps(player);
         this.getPartnerHandicaps();
-        console.log(this.lineChartData)
       } else {
-        this._playerService.getPlayerByName("Thashin Naidoo").subscribe(thashin => {
-          this.playerId = thashin.id;
-          this.getCourseStats();
-          this.getPlayerHandicaps(thashin);
-          this.getPartnerHandicaps();
-        });
+        this._playerService
+          .getPlayerByName("Thashin Naidoo")
+          .subscribe(thashin => {
+            this.playerId = thashin.id;
+            this.getCourseStats();
+            this.getPlayerHandicaps(thashin);
+            this.getPartnerHandicaps();
+          });
       }
     });
   }

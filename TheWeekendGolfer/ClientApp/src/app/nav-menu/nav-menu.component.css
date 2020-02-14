@@ -48,6 +48,7 @@ mat-sidenav {
 }
 
 .navigation-items {
+  flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -75,6 +76,7 @@ mat-sidenav {
 }
 
 .toolbar-icons {
+  display: flex;
   padding-right: 15px;
 }
 

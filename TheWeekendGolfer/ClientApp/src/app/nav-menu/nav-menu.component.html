@@ -30,7 +30,10 @@
           <img src="../../assets/icons/home.png" />
           <span class="label">Home</span>
         </a>
-
+        <a mat-list-item [routerLink]='["/forecast"]' (click)='snav.toggle()'>
+          <img src="../../assets/icons/forecast.png" />
+          <span class="label">Forecast</span>
+        </a>
         <a mat-list-item [routerLink]='["/golf-rounds"]' (click)='snav.toggle()'>
           <img src="../../assets/icons/rounds.png" />
           <span class="label">Golf Rounds</span>

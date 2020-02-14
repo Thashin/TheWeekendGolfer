@@ -1,0 +1,84 @@
+<div class="weekend-golfer-container">
+  <h1>Forecast</h1>
+  <p>Show predicted handicaps for a given course configuration given past performance.</p>
+  <div class="forecast mat-elevation-z8">
+    <div class="row">
+      <mat-form-field>
+        <mat-select
+          matInput
+          class="form-control"
+          (selectionChange)="getTeeNames($event.value)"
+          [formControl]="course"
+          placeholder="Course"
+          name="course"
+          id="course"
+        >
+          <mat-option *ngIf="!courseNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="course" *ngFor="let course of courseNames">{{
+            course
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-select
+          matInput
+          (selectionChange)="getHoles($event.value)"
+          [formControl]="tee"
+          placeholder="Tee"
+          name="tee"
+          class="form-control"
+          id="tee"
+        >
+          <mat-option *ngIf="!teeNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="teeName" *ngFor="let teeName of teeNames">{{
+            teeName
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field>
+        <mat-select
+          matInput
+          (selectionChange)="getForecasts($event.value)"
+          [formControl]="holes"
+          placeholder="Holes"
+          name="holes"
+          class="form-control"
+          id="holes"
+        >
+          <mat-option *ngIf="!holeNames"><em>Loading...</em></mat-option>
+          <mat-option [value]="course.id" *ngFor="let course of holeNames">{{
+            course.holes
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="row line-chart">
+        <ngx-charts-line-chart
+          *ngIf="lineChartData.length"
+          [results]="lineChartData"
+          [scheme]="colorScheme"
+          [autoScale]="autoScale"
+          [gradient]="gradient"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [timeline]="timeline"
+          class="ngx-charts"
+        >
+        </ngx-charts-line-chart>
+        <h4 *ngIf="lineChartData.length == 0">
+          Please select a course configuration to view your forecasted handicap.
+        </h4>
+      </div>
+    </div>
+  </div>
+</div>

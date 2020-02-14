@@ -9,15 +9,16 @@ import { Forecast } from "../models/forecast.model";
 import { ForecastService } from "../services/forecast.service";
 
 @Component({
-  templateUrl: "./forecast-Dialog.component.html",
-  styleUrls: ["./forecast-Dialog.component.css"]
+  templateUrl: "./forecast.component.html",
+  styleUrls: ["./forecast.component.css"]
 })
-export class ForecastDialogComponent {
+export class ForecastComponent {
   currentPlayers: Player[];
+  courses: Course[];
   courseNames: string[];
-  holesNames: Course[];
-  tees: string[];
-  courseName: string;
+  holeNames: Course[];
+  teeNames: string[];
+  selectedCourseName: string;
   numScores: number;
   forecast: Forecast;
 
@@ -34,7 +35,16 @@ export class ForecastDialogComponent {
   autoScale = true;
   colorScheme = {
     domain: [
-      '#bf9d76', '#e99450', '#d89f59', '#f2dfa7', '#a5d7c6', '#7794b1', '#afafaf', '#707160', '#ba9383', '#d9d5c3'
+      "#bf9d76",
+      "#e99450",
+      "#d89f59",
+      "#f2dfa7",
+      "#a5d7c6",
+      "#7794b1",
+      "#afafaf",
+      "#707160",
+      "#ba9383",
+      "#d9d5c3"
     ]
   };
 
@@ -47,33 +57,43 @@ export class ForecastDialogComponent {
   constructor(
     private _courseService: CourseService,
     private _forecastService: ForecastService,
-    private dialog: MatDialogRef<ForecastDialogComponent>
   ) {
     this.getCourseNames();
   }
 
   getCourseNames() {
-    this._courseService
-      .getCourseNames()
-      .subscribe(data => (this.courseNames = data));
+    this._courseService.getCourses().subscribe(courses => {
+      this.courses = courses;
+      this.courseNames = _.map(
+        _.uniqBy(courses, "name"),
+        uniqueCourse => uniqueCourse.name
+      );
+    });
   }
 
-  getCourseTees(courseName: string) {
-    this.courseName = courseName;
-    this._courseService
-      .getCourseTees(courseName)
-      .subscribe(data => (this.tees = data));
+  getTeeNames(selectedCourseName: string) {
+    this.selectedCourseName = selectedCourseName;
+    const fitleredCourses = _.filter(this.courses, course => {
+      return course.name === selectedCourseName;
+    });
+    this.teeNames = _.map(
+      _.uniqBy(fitleredCourses, "teeName"),
+      uniqueTeeName => uniqueTeeName.teeName
+    );
   }
 
-  getCourseHoles(teeName: string) {
-    this._courseService
-      .getCourseHoles(this.courseName, teeName)
-      .subscribe(data => (this.holesNames = data));
+  getHoles(selectedCourseTee: string) {
+    this.holeNames = _.filter(this.courses, course => {
+      return (
+        course.name === this.selectedCourseName &&
+        course.teeName === selectedCourseTee
+      );
+    });
   }
 
   getForecasts(courseId: string) {
     this._forecastService.getForecasts(courseId).subscribe(forecasts => {
-     _.forEach(forecasts, forecast => {
+      _.forEach(forecasts, forecast => {
         this.lineChartData.push({
           name: forecast.player.firstName + " " + forecast.player.lastName,
           series: _.map(
@@ -87,11 +107,6 @@ export class ForecastDialogComponent {
           )
         });
       });
-      console.log(this.lineChartData.length);
     });
-  }
-
-  onNoClick(): void {
-    this.dialog.close();
   }
 }

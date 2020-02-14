@@ -43,7 +43,7 @@ import { AboutComponent } from "./about/about.component";
 import { LoginDialogComponent } from "./user/loginDialog.component";
 import { SignUpDialogComponent } from "./user/signUpDialog.component";
 import { AddGolfRoundDialogComponent } from "./golfRound/add-golfRound-Dialog.component";
-import { ForecastDialogComponent } from "./forecast/forecast-Dialog.component";
+import { ForecastComponent } from "./forecast/forecast.component";
 import { ForecastService } from "./services/forecast.service";
 
 @NgModule({
@@ -60,12 +60,12 @@ import { ForecastService } from "./services/forecast.service";
     SignUpDialogComponent,
     LoginDialogComponent,
     AddPartnerDialogComponent,
-    ForecastDialogComponent,
+    ForecastComponent,
     AboutComponent
   ],
   entryComponents: [
     LoginDialogComponent,
-    ForecastDialogComponent,
+    ForecastComponent,
     SignUpDialogComponent,
     AddGolfRoundDialogComponent,
     AddPartnerDialogComponent
@@ -113,7 +113,7 @@ import { ForecastService } from "./services/forecast.service";
       { path: "add-partner", component: AddPartnerDialogComponent },
       { path: "about", component: AboutComponent },
       { path: "partners", component: PartnerComponent },
-      { path: "forecast", component: ForecastDialogComponent }
+      { path: "forecast", component: ForecastComponent }
     ])
   ],
   providers: [
