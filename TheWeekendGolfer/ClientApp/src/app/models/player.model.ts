@@ -4,3 +4,8 @@ export class Player {
   lastName: string;
   handicap: number;
 }
+
+export class CurrentHandicap {
+  name: string;
+  value: number;
+}
