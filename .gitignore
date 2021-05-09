@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 TheWeekendGolfer/appsettings.json
 site
+TheWeekendGolfer/ClientApp/package-lock.json
