@@ -180,12 +180,16 @@ namespace TheWeekendGolfer.Web.Controllers
                 Date = date,
                 PlayerId = score.PlayerId
             };
-            handicap.Value = (score.Value - course.ScratchRating) * Decimal.Parse("113")
-                        / course.Slope * Decimal.Parse("0.93");
-            if (course.Holes.Contains("-"))
-            {
-                handicap.Value = handicap.Value * 2;
-            }
+
+            int holesMultiplier = course.Holes.Contains("-") ? 2 : 1;
+            Decimal currentHandicap = _handicapAccessLayer.GetLatestHandicap(score.PlayerId).CurrentHandicap;
+
+            decimal dailyHandicap = Math.Floor(currentHandicap * course.Slope / Decimal.Parse("113")
+                + (course.ScratchRating - course.Par) * (decimal)(holesMultiplier * 0.93));
+
+            handicap.Value = (36 - score.Value + dailyHandicap + course.Par - course.ScratchRating) *
+                (Decimal.Parse("113") / course.Slope);
+
             return await RecalculateHandicap(handicap);
         }
 

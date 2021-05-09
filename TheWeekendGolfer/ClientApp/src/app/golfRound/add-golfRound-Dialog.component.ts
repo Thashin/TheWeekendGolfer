@@ -76,14 +76,16 @@ export class AddGolfRoundDialogComponent {
   }
 
   getTeeNames(selectedCourseName: string) {
+    this.courseName = selectedCourseName;
     this.tees = _.filter(this.courses, course => {
       return course.name === selectedCourseName;
     });
+    this.tees = _.uniqBy(this.tees, "teeName");
   }
 
   getHoles(selectedCourseTee: string) {
-    this.holeNames = _.filter(this.tees, course => {
-      return course.teeName === selectedCourseTee;
+    this.holeNames = _.filter(this.courses, course => {
+      return this.courseName === course.name && course.teeName === selectedCourseTee;
     });
   }
 
